@@ -2,7 +2,8 @@
 
 Este documento registra cada decisión de diseño tomada durante el preprocesamiento,
 con su justificación y evidencia. Alimenta directamente la Sección 2.3 del protocolo
-(Variables de entrada y preprocesamiento) y la Sección 2.11 (Reproducibilidad).
+(Variables de entrada y preprocesamiento), la Sección 2.4 (Partición temporal) y la
+Sección 2.11 (Reproducibilidad).
 
 ---
 
@@ -10,7 +11,7 @@ con su justificación y evidencia. Alimenta directamente la Sección 2.3 del pro
 **Semana 1 (7–13 sep. 2026)**
 
 - Fuente: `github.com/Davidham3/ASTGCN/blob/master/data/PEMS04/pems04.npz`
-- Hash SHA-256 verificado (dos veces, entornos independientes):
+- Hash SHA-256 verificado (múltiples veces, entornos independientes):
   `95a3c9b720fffdb85f0330d09bfab41b0b3cad0ca86c0d7d5f3accacb4ac999a`
 - Forma confirmada: `(16992, 307, 3)` — coincide con lo especificado en el Cuadro 4 del protocolo.
 - **Estado: cerrada.**
@@ -20,15 +21,9 @@ con su justificación y evidencia. Alimenta directamente la Sección 2.3 del pro
 ## Decisión 2 — Valores faltantes: no existen como NaN en el archivo crudo
 **Semana 1–2**
 
-- Verificación directa: `np.isnan(raw).sum() == 0` y `np.isinf(raw).sum() == 0` sobre
-  la totalidad del arreglo.
-- **Implicación:** el paso 2 del protocolo ("identificación de valores faltantes y
-  tratamiento mediante interpolación temporal") no aplica en el sentido literal de
-  valores NaN, porque el archivo ya no los contiene (posible imputación previa por
-  parte de Song et al. al construir PEMS04, no documentada por ellos).
-- El problema real de calidad detectado no son NaN, sino **valores congelados o en
-  cero de forma sostenida**, que se trata como problema de calidad de sensor
-  (Decisión 3), no como hueco a interpolar.
+- Verificación directa: `np.isnan(raw).sum() == 0` y `np.isinf(raw).sum() == 0`.
+- El problema real de calidad detectado no son NaN, sino valores congelados o en
+  cero de forma sostenida (ver Decisión 3).
 - **Estado: cerrada.**
 
 ---
@@ -36,71 +31,103 @@ con su justificación y evidencia. Alimenta directamente la Sección 2.3 del pro
 ## Decisión 3 — Exclusión de sensores de baja calidad
 **Semana 1–2**
 
-Se detectaron dos patrones de falla de sensor mediante EDA:
-- 24 sensores con más del 5% de observaciones de flujo en cero (9 de ellos, más del 20%).
-- 58 sensores con al menos una racha de 2+ horas de flujo exactamente congelado
-  (mismo valor sin variación).
+**Criterio adoptado:** se excluye una estación si tiene más del 20% de observaciones
+de flujo en cero, o al menos una racha de 24 horas consecutivas con el mismo valor
+exacto de flujo.
 
-**Criterio de exclusión adoptado** (documentado y fijo para todo el pipeline):
-> Se excluye una estación si cumple **al menos una** de las siguientes condiciones:
-> 1. Más del 20% de sus observaciones de flujo son exactamente cero.
-> 2. Presenta al menos una racha de 24 horas consecutivas (288 pasos) con el
->    mismo valor de flujo exacto.
+**Resultado:** 16 de 307 sensores excluidos (5.2%). 291 retenidos. Sin traslape
+entre ambos criterios.
 
-**Resultado de aplicar el criterio:**
-- Sensores excluidos: **16 de 307 (5.2%)**
-- Sensores retenidos: **291 de 307 (94.8%)**
-
-**Justificación del umbral de 24h** (en vez del umbral inicial de exploración de 2h):
-un umbral de 2h excluiría 58 sensores (~19% del dataset), una pérdida excesiva para
-un problema que en la mayoría de esos casos puede ser tráfico real de madrugada.
-El umbral de 24h aísla los casos donde no cabe otra explicación razonable que una
-falla de sensor, manteniendo una pérdida de datos mínima y defendible.
-
-**Por qué exclusión y no interpolación:** interpolar una racha de 24–38 horas
-significaría inventar casi un día completo de tráfico sintético dentro de una serie
-que se presenta como real — contradice el propósito del estudio. La exclusión
-documentada es la decisión metodológicamente honesta.
-
-- **Estado: cerrada.** Ver `config_preprocesamiento.json` para el criterio en
-  formato máquina, y `results/eda/sensores_excluidos.csv` para el listado completo.
-
----
-
-## Decisión 4 — Regla de hora pico
-**Semana 2 (14–20 sep. 2026)**
-
-**Método:** se calculó el perfil horario promedio de flujo (agregando los 291
-sensores retenidos), y se definió como "hora pico" toda hora cuyo flujo promedio
-supere el percentil 75 del perfil de 24 horas.
-
-**Resultado empírico:**
-```
-Hora  Flujo promedio
-15    326.9   <- máximo
-16    325.7
-14    322.5
-17    320.6
-13    303.7
-12    292.5   <- percentil 75 = 292.3
-```
-**Regla adoptada:** `is_peak_hour = 1` si la hora está en `{12, 13, 14, 15, 16, 17}`,
-`0` en cualquier otro caso. Regla fija, aplicada de forma idéntica a los 291
-sensores, los 3 pliegues y el conjunto de prueba.
-
-**Limitación reconocida y documentada (no oculta):** el perfil resultante es una
-meseta amplia de mediodía-tarde, no el patrón bimodal clásico de hora punta
-mañana/tarde. La causa más probable es que el promedio mezcla sensores de ambos
-sentidos de circulación (uno pica en la mañana, el otro en la tarde), y al
-promediarlos el patrón se aplana. Se documenta esta limitación en la Sección 2.3
-del protocolo en vez de ocultarla; una regla por sentido de circulación queda
-como posible refinamiento futuro, no incluido en el alcance actual por razones
-de cronograma.
+**Por qué exclusión y no interpolación:** interpolar una racha de 24+ horas
+equivaldría a inventar casi un día completo de tráfico sintético.
 
 - **Estado: cerrada.**
 
 ---
 
-## Próximas decisiones pendientes (Semana 3)
-- [ ] Parámetros exactos de la partición walk-forward (tamaño de cada pliegue)
-- [ ] Verificación de que la normalización z-score no usa información de validación/prueba
+## Decisión 4 — Regla de hora pico
+**Semana 2**
+
+**Regla adoptada:** `is_peak_hour = 1` si la hora está en `{12, 13, 14, 15, 16, 17}`
+(percentil 75 del perfil horario agregado), respaldada por el criterio de
+percentiles del Highway Capacity Manual.
+
+**Limitación reconocida:** meseta de mediodía-tarde en vez de patrón bimodal
+clásico, probablemente por mezcla de sensores de ambos sentidos de circulación.
+
+- **Estado: cerrada.**
+
+---
+
+## Decisión 5 — Partición temporal walk-forward
+**Semana 3 (21–27 sep. 2026)**
+
+**Regla aplicada** (Sección 2.4 del protocolo): último 20% cronológico como
+conjunto de prueba final; el 80% restante dividido en 4 bloques iguales, que
+forman 3 pliegues expansivos (el entrenamiento de cada pliegue siempre inicia
+en el paso 0 y crece; la validación es el bloque inmediatamente siguiente).
+
+**Resultado, verificado en máquina local:**
+- Conjunto de prueba final: pasos `[13593, 16992)` → 17 feb – 28 feb 2018 (3399 pasos, 20.0%)
+- Bloques pre-prueba: ~3398 pasos cada uno
+- Pliegue 1: train `[0, 3398)` / val `[3398, 6796)`
+- Pliegue 2: train `[0, 6796)` / val `[6796, 10194)`
+- Pliegue 3: train `[0, 10194)` / val `[10194, 13593)`
+
+**Verificación automática:** control por `assert` confirmó que ningún pliegue
+traslapa su entrenamiento con su validación, y que ninguno toca el conjunto de
+prueba final.
+
+- **Estado: cerrada.** Ver `configs/particion_temporal.json`.
+
+---
+
+## Decisión 6 — Normalización z-score por pliegue
+**Semana 3**
+
+**Regla aplicada** (Sección 2.3): `z = (x - μ_train) / σ_train`, con μ y σ
+estimados **únicamente** con el rango de entrenamiento de cada pliegue —
+nunca con validación ni prueba. Se normalizan las 3 variables crudas (flujo,
+ocupación, velocidad); las variables temporales cíclicas no se normalizan,
+ya están acotadas por construcción.
+
+**Resultado, verificado en máquina local** (media de flujo por pliegue):
+| Pliegue | Media de flujo (train) |
+|---|---|
+| 1 | 209.97 |
+| 2 | 210.40 |
+| 3 | 211.83 |
+
+Las medias difieren progresivamente entre pliegues (verificado por `assert`),
+confirmando que cada uno usa su propio rango de entrenamiento y no el dataset
+completo por error.
+
+- **Estado: cerrada.** Ver `configs/normalizacion_zscore.json`.
+
+---
+
+## Decisión 7 — Construcción de ventanas temporales
+**Semana 3**
+
+**Decisión de ingeniería:** no se materializan ni se guardan en disco las
+ventanas completas de los 3 pliegues (representarían varios GB para modelos
+que aún no existen, cuyo entrenamiento inicia recién en la Semana 7). En su
+lugar, se implementó y verificó una función reutilizable
+(`src/ventanas.py::construir_ventanas`), que los scripts de entrenamiento de
+G0–G7 importarán directamente.
+
+**Verificación realizada sobre el Pliegue 1** (train + validación):
+- Ventanas de entrenamiento: `(985617, 12, 8)`
+- Ventanas de validación: `(988818, 12, 8)`
+- Conteo exacto según fórmula esperada (verificado por `assert`)
+- Sin valores NaN ni Inf
+- Primera ventana coincide exactamente con corte manual de control
+- Todas las ventanas de validación tienen su instante final dentro del rango correcto
+
+- **Estado: cerrada.**
+
+---
+
+## Próximas decisiones pendientes (Semana 4, 28 sep. – 4 oct.)
+- [ ] Parámetros exactos del Esquema A: tamaño de ventana histórica y umbral de desviación
+- [ ] Semillas y parámetros del generador de anomalías del Esquema B
