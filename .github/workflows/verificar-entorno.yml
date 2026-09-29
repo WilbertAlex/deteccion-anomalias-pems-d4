@@ -24,9 +24,7 @@ jobs:
 
       - name: Verificar que los scripts no tengan errores de sintaxis
         run: |
-          python -m py_compile eda_pems04.py
-          python -m py_compile semana2_preprocesamiento.py
-          python -m py_compile semana3_particion.py
+          python -m py_compile *.py
 
       - name: Verificar configuraciones versionadas (JSON valido)
         run: |
