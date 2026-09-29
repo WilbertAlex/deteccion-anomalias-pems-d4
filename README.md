@@ -2,7 +2,7 @@
 
 Proyecto de Investigación IV — Escuela Profesional de Ingeniería de Sistemas, Universidad Peruana Unión (UPeU), filial Juliaca.
 
-**Estado actual:** Semana 3 de 12 en curso (partición temporal, normalización y ventanas) — ver [`docs/cronograma`](docs/cronograma_ppi_fechas.png).
+**Estado actual:** Semana 3 de 12 cerrada (partición temporal, normalización y ventanas verificadas) — ver [cronograma completo](docs/imagenes/cronograma_ppi_fechas.png).
 
 ## Qué es este proyecto
 
@@ -35,12 +35,16 @@ El protocolo evalúa las 8 condiciones bajo **dos esquemas independientes de eti
 ├── results/
 │   └── eda/               (estadisticas y graficos generados)
 ├── docs/
-│   └── imagenes/          (diagramas y cronograma)
-├── src/                   (modulos compartidos, en construccion)
+│   ├── imagenes/          (diagramas y cronograma)
+│   ├── informes/          (cierres semanales por integrante, en PDF)
+│   └── justificacion_dataset_pems04.pdf
+├── src/                   (modulos compartidos: ventanas.py)
 ├── notebooks/             (exploracion, en construccion)
 ├── eda_pems04.py
 ├── semana2_preprocesamiento.py
 ├── semana3_particion.py
+├── semana3_normalizacion.py
+├── semana3_ventanas.py
 ├── requirements.txt
 └── README.md
 ```
