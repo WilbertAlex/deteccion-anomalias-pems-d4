@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "Si utiliza este repositorio o su metodología, por favor cítelo de la siguiente manera:"
+type: software
+title: "Evaluación comparativa de arquitecturas de Deep Learning frente a una línea base no paramétrica para la detección de anomalías en series de flujo vehicular en autopistas (PeMS-D4)"
+authors:
+  - family-names: "Mayta Arotaype"
+    given-names: "Wilbert Alex"
+  - family-names: "Prieto Quispe"
+    given-names: "Juan Enders"
+  - family-names: "Choquechambi Luque"
+    given-names: "Wrangler"
+date-released: 2026-09-07
+url: "https://github.com/TU-USUARIO/deteccion-anomalias-pems-d4"
+license: MIT
+institution:
+  name: "Universidad Peruana Unión, Facultad de Ingeniería y Arquitectura"
+version: "0.1.0"
+keywords:
+  - "detección de anomalías"
+  - "series temporales"
+  - "deep learning"
+  - "flujo vehicular"
+  - "PeMS"
+references:
+  - type: conference-paper
+    title: "Spatial-Temporal Synchronous Graph Convolutional Networks: A New Framework for Spatial-Temporal Network Data Forecasting"
+    authors:
+      - family-names: "Song"
+        given-names: "Chao"
+      - family-names: "Lin"
+        given-names: "Youfang"
+      - family-names: "Guo"
+        given-names: "Shengnan"
+      - family-names: "Wan"
+        given-names: "Huaiyu"
+    year: 2020
+    notes: "Fuente original del dataset PeMS-D4 utilizado (publicado en AAAI 2020)"

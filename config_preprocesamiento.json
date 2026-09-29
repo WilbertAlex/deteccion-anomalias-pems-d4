@@ -1,0 +1,39 @@
+{
+  "version": "1.0",
+  "fecha_definicion": "2026-09-22",
+  "criterio_exclusion_sensores": {
+    "regla": "se excluye si cumple AL MENOS UNA condicion",
+    "condiciones": [
+      {
+        "nombre": "exceso_de_ceros",
+        "campo": "flow",
+        "umbral_pct": 20,
+        "descripcion": "mas del 20% de observaciones de flujo son exactamente cero"
+      },
+      {
+        "nombre": "racha_congelada",
+        "campo": "flow",
+        "umbral_pasos": 288,
+        "umbral_horas": 24,
+        "descripcion": "al menos una racha de 288 pasos (24h) con el mismo valor exacto"
+      }
+    ],
+    "resultado": {
+      "sensores_totales": 307,
+      "sensores_excluidos": 16,
+      "sensores_retenidos": 291,
+      "pct_excluido": 5.2
+    }
+  },
+  "regla_hora_pico": {
+    "metodo": "percentil_75_perfil_horario_agregado",
+    "horas_pico": [12, 13, 14, 15, 16, 17],
+    "flujo_promedio_umbral": 292.3,
+    "limitacion_documentada": "perfil agregado mezcla sensores de ambos sentidos de circulacion, produce meseta en vez de patron bimodal clasico"
+  },
+  "valores_faltantes": {
+    "nan_en_archivo_crudo": 0,
+    "inf_en_archivo_crudo": 0,
+    "tratamiento": "no aplica interpolacion por NaN; calidad de sensor tratada via exclusion (ver criterio_exclusion_sensores)"
+  }
+}
