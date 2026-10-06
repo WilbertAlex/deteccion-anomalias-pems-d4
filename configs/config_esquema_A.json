@@ -1,0 +1,28 @@
+{
+  "esquema": "A",
+  "tipo": "proxy_causal",
+  "variable_base": "flow",
+  "normalizacion_previa": false,
+  "ventana_movil_pasos": 288,
+  "umbral_z": 3.0,
+  "regla": "abs(z) > 3",
+  "primeros_pasos_sin_etiqueta": 288,
+  "tratamiento_pasos_sin_etiqueta": "excluidos_de_evaluacion",
+  "granularidad": "por_sensor_y_por_particion",
+  "referencia_protocolo": "PPI 2.5.1",
+  "decision_bitacora": "Decision 8",
+  "justificacion": "Ventana causal sin fuga temporal; etiquetas identicas en los 3 pliegues y en prueba.",
+  "fecha_sellado": "2026-10-06",
+  "prevalencia_observada_global": 0.001002,
+  "prevalencia_observada_por_particion": {
+    "test": 0.000989,
+    "pliegue1_train": 0.001250,
+    "pliegue1_val": 0.000947,
+    "pliegue2_train": 0.001091,
+    "pliegue2_val": 0.000988,
+    "pliegue3_train": 0.001056,
+    "pliegue3_val": 0.000860
+  },
+  "nota_prevalencia": "Prevalencia real observada por debajo del rango esperado (0.3%-2%): 0.10%. La distribucion z del flujo en PeMS-D4 tiene colas mas delgadas que una normal estandar. Se reporta como hallazgo empirico en la discusion.",
+  "estado": "ejecutado"
+}

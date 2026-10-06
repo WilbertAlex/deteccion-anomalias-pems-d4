@@ -1,0 +1,42 @@
+{
+  "esquema": "B",
+  "tipo": "inyeccion_controlada",
+  "prevalencia_objetivo": 0.03,
+  "granularidad_prevalencia": "por_bloque_sensor_x_pliegue",
+  "prevalencia_por_split": {
+    "train": 0.03,
+    "validacion": 0.03,
+    "prueba": 0.03
+  },
+  "distribucion_tipos": {
+    "puntual": 0.40,
+    "contextual": 0.30,
+    "colectiva": 0.30
+  },
+  "tipos_anomalia": {
+    "puntual": {
+      "duracion_pasos": 1,
+      "magnitud_sigma": [4, 5, 6]
+    },
+    "contextual": {
+      "percentiles": [5, 95],
+      "perfil": "hora_x_dia_estimado_con_train_del_pliegue",
+      "restriccion_fisica": "flow >= 0, occupancy en [0,1], speed >= 0"
+    },
+    "colectiva": {
+      "duraciones_pasos": [3, 6, 12],
+      "factor_reduccion": [0.2, 0.4]
+    }
+  },
+  "semilla_inyeccion": 42,
+  "features_alteradas": ["flow", "occupancy", "speed"],
+  "autoencoder_G4": {
+    "entrenamiento": "solo_ventanas_normales_del_train",
+    "label_usada": "label_injected == 0"
+  },
+  "referencia_protocolo": "PPI 2.5.2",
+  "decision_bitacora": "Decision 9",
+  "justificacion": "Supervisados requieren anomalias en train; inyeccion modifica features, no solo etiquetas.",
+  "fecha_sellado": "2026-10-06",
+  "estado": "listo_para_ejecucion"
+}
