@@ -1,0 +1,19 @@
+{
+  "fecha_registro": "2026-10-06",
+  "maquina": "desarrollo-local-mayta",
+  "os": "Windows 11 Home",
+  "os_version": "10.0.26200",
+  "cpu": "AMD Ryzen 7 7445HS w/ Radeon 740M Graphics",
+  "cpu_cores": 6,
+  "cpu_threads": 12,
+  "ram_gb": 15.2,
+  "gpu": "NVIDIA GeForce RTX 4050 Laptop",
+  "gpu_vram_mb": 6141,
+  "cuda_version": "13.1",
+  "driver_version": "592.82",
+  "python_version": "3.11.9",
+  "tensorflow_version": "2.16.2",
+  "torch_version": "2.5.1+cpu",
+  "sklearn_version": "1.9.1",
+  "notas": "Maquina de desarrollo y benchmark preliminar. PyTorch instalado en CPU-only para smoke-test G7 (semana 7). RAM reportada como 15973788 KB / 1048576 = 15.23 GB utiles. Seccion 2.8 y 2.11 del PPI."
+}
