@@ -29,3 +29,27 @@
 - Esquema A: 692 bloques
 - Esquema B: 2037 bloques
 - Total evaluables: 2037
+
+
+## Análisis del solapamiento
+
+Los coeficientes de Jaccard entre los Esquemas A y B son **extremadamente bajos** en todas las particiones evaluadas (rango: 0.0004–0.0015, mediana 0.0010). Esto significa que menos del 0.15% de las anomalías detectadas por un esquema coinciden con el otro.
+
+**Interpretación:**
+
+- A pesar de que ambos esquemas declaran anomalías sobre la misma serie, **las anomalías que cada uno marca son casi disjuntas**.
+- El Esquema A (proxy causal `|z|>3` sobre ventana móvil) detecta desviaciones estadísticas respecto al patrón reciente de cada sensor.
+- El Esquema B (inyección controlada estratificada) introduce perturbaciones artificiales de tres tipos (puntual, contextual, colectiva) que no siempre coinciden con los extremos estadísticos locales.
+- La razón B/A de prevalencia es ~30x, lo que confirma que los esquemas operan a escalas de sensibilidad muy distintas.
+
+**Implicación para H3:**
+
+Este resultado constituye evidencia empírica preliminar de que **el ranking de arquitecturas puede diferir entre esquemas**, porque las anomalías que cada uno define son prácticamente independientes. El análisis formal de H3 (τ de Kendall con IC bootstrap) se ejecutará en la Semana 11 con los resultados de la batería completa.
+
+**Implicación para el contraste estadístico:**
+
+El número de bloques sensor × pliegue con ambas clases es **692 bajo el Esquema A** y **2037 bajo el Esquema B** (de 2037 totales). Esto implica:
+
+- Bajo el Esquema B, prácticamente todos los bloques son evaluables (99.99%).
+- Bajo el Esquema A, el 34% de los bloques tienen solo una clase (habitualmente todos normales), lo que reduce el poder estadístico del contraste principal.
+- Esta asimetría es inherente a la diferencia de prevalencia (0.10% vs 3.03%) y debe considerarse en la interpretación de H1 y H3.
