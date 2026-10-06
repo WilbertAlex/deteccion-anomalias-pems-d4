@@ -1,0 +1,74 @@
+{
+  "regla": "inyeccion controlada 3% por bloque sensor x pliegue, semilla fija",
+  "semilla_inyeccion": 42,
+  "particiones": {
+    "pliegue1_train": {
+      "rango_idx": [
+        0,
+        3398
+      ],
+      "prevalencia": 0.030502074193633207,
+      "n_anomalos": 30161,
+      "n_instantes": 988818
+    },
+    "pliegue1_val": {
+      "rango_idx": [
+        3398,
+        6796
+      ],
+      "prevalencia": 0.030502074193633207,
+      "n_anomalos": 30161,
+      "n_instantes": 988818
+    },
+    "pliegue2_train": {
+      "rango_idx": [
+        0,
+        6796
+      ],
+      "prevalencia": 0.03032256694356292,
+      "n_anomalos": 59967,
+      "n_instantes": 1977636
+    },
+    "pliegue2_val": {
+      "rango_idx": [
+        6796,
+        10194
+      ],
+      "prevalencia": 0.030502074193633207,
+      "n_anomalos": 30161,
+      "n_instantes": 988818
+    },
+    "pliegue3_train": {
+      "rango_idx": [
+        0,
+        10194
+      ],
+      "prevalencia": 0.030216211004788884,
+      "n_anomalos": 89635,
+      "n_instantes": 2966454
+    },
+    "pliegue3_val": {
+      "rango_idx": [
+        10194,
+        13593
+      ],
+      "prevalencia": 0.03056184909853211,
+      "n_anomalos": 30229,
+      "n_instantes": 989109
+    },
+    "test": {
+      "rango_idx": [
+        13593,
+        16992
+      ],
+      "prevalencia": 0.03054870595657304,
+      "n_anomalos": 30216,
+      "n_instantes": 989109
+    }
+  },
+  "prevalencia_global": {
+    "n_instantes": 4944672,
+    "n_anomalos": 150080,
+    "prevalencia": 0.03035186155927026
+  }
+}

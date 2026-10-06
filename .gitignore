@@ -21,10 +21,10 @@ data/processed/*.npz
 data/processed/*.h5
 data/processed/*.npy
 
-# Resultados de EDA (se regeneran con los scripts)
+# Resultados de EDA: graficos y tablas grandes (se regeneran con los scripts)
 results/eda/*.png
 results/eda/*.csv
-results/eda/*.json
+# Los .json y .md de results/eda/ SI se versionan como evidencia metodologica.
 
 # Salidas de modelos (Semanas 4+)
 results/models/
@@ -52,3 +52,7 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Salidas pesadas de modelos y arrays (Semanas 5+)
+data/processed/*.npz
+data/processed/*.npy

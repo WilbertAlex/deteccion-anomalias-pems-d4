@@ -1,0 +1,269 @@
+{
+  "descripcion": "Comparacion de los esquemas A y B para PE1",
+  "prevalencia": {
+    "test": {
+      "A": {
+        "nombre": "test",
+        "rango_idx": [
+          13593,
+          16992
+        ],
+        "n_instantes_validos": 989109,
+        "n_anomalos": 978,
+        "prevalencia": 0.0009887686796905093
+      },
+      "B": {
+        "nombre": "test",
+        "rango_idx": [
+          13593,
+          16992
+        ],
+        "n_instantes_validos": 989109,
+        "n_anomalos": 30216,
+        "prevalencia": 0.03054870595657304
+      }
+    },
+    "pliegue1_train": {
+      "A": {
+        "nombre": "pliegue1_train",
+        "rango_idx": [
+          0,
+          3398
+        ],
+        "n_instantes_validos": 905010,
+        "n_anomalos": 1131,
+        "prevalencia": 0.0012497099479563763
+      },
+      "B": {
+        "nombre": "pliegue1_train",
+        "rango_idx": [
+          0,
+          3398
+        ],
+        "n_instantes_validos": 988818,
+        "n_anomalos": 30186,
+        "prevalencia": 0.03052735690491071
+      }
+    },
+    "pliegue1_val": {
+      "A": {
+        "nombre": "pliegue1_val",
+        "rango_idx": [
+          3398,
+          6796
+        ],
+        "n_instantes_validos": 988818,
+        "n_anomalos": 936,
+        "prevalencia": 0.0009465847102297895
+      },
+      "B": {
+        "nombre": "pliegue1_val",
+        "rango_idx": [
+          3398,
+          6796
+        ],
+        "n_instantes_validos": 988818,
+        "n_anomalos": 29546,
+        "prevalencia": 0.029880119496206583
+      }
+    },
+    "pliegue2_train": {
+      "A": {
+        "nombre": "pliegue2_train",
+        "rango_idx": [
+          0,
+          6796
+        ],
+        "n_instantes_validos": 1893828,
+        "n_anomalos": 2067,
+        "prevalencia": 0.0010914401941464588
+      },
+      "B": {
+        "nombre": "pliegue2_train",
+        "rango_idx": [
+          0,
+          6796
+        ],
+        "n_instantes_validos": 1977636,
+        "n_anomalos": 59732,
+        "prevalencia": 0.030203738200558647
+      }
+    },
+    "pliegue2_val": {
+      "A": {
+        "nombre": "pliegue2_val",
+        "rango_idx": [
+          6796,
+          10194
+        ],
+        "n_instantes_validos": 988818,
+        "n_anomalos": 977,
+        "prevalencia": 0.0009880483567248977
+      },
+      "B": {
+        "nombre": "pliegue2_val",
+        "rango_idx": [
+          6796,
+          10194
+        ],
+        "n_instantes_validos": 988818,
+        "n_anomalos": 29903,
+        "prevalencia": 0.030241156613249356
+      }
+    },
+    "pliegue3_train": {
+      "A": {
+        "nombre": "pliegue3_train",
+        "rango_idx": [
+          0,
+          10194
+        ],
+        "n_instantes_validos": 2882646,
+        "n_anomalos": 3044,
+        "prevalencia": 0.0010559742680856408
+      },
+      "B": {
+        "nombre": "pliegue3_train",
+        "rango_idx": [
+          0,
+          10194
+        ],
+        "n_instantes_validos": 2966454,
+        "n_anomalos": 89635,
+        "prevalencia": 0.030216211004788884
+      }
+    },
+    "pliegue3_val": {
+      "A": {
+        "nombre": "pliegue3_val",
+        "rango_idx": [
+          10194,
+          13593
+        ],
+        "n_instantes_validos": 989109,
+        "n_anomalos": 851,
+        "prevalencia": 0.0008603702928595331
+      },
+      "B": {
+        "nombre": "pliegue3_val",
+        "rango_idx": [
+          10194,
+          13593
+        ],
+        "n_instantes_validos": 989109,
+        "n_anomalos": 30229,
+        "prevalencia": 0.03056184909853211
+      }
+    }
+  },
+  "solapamiento": {
+    "test": {
+      "jaccard": 0.0009947694381157142,
+      "n_instantes_comparables": 989109,
+      "n_anomalos_A": 978,
+      "n_anomalos_B": 30216,
+      "n_en_ambos": 31
+    },
+    "pliegue1_train": {
+      "jaccard": 0.001180801555879697,
+      "n_instantes_comparables": 905010,
+      "n_anomalos_A": 1131,
+      "n_anomalos_B": 27697,
+      "n_en_ambos": 34
+    },
+    "pliegue1_val": {
+      "jaccard": 0.00039382999671808334,
+      "n_instantes_comparables": 988818,
+      "n_anomalos_A": 936,
+      "n_anomalos_B": 29546,
+      "n_en_ambos": 12
+    },
+    "pliegue2_train": {
+      "jaccard": 0.0007761879049676026,
+      "n_instantes_comparables": 1893828,
+      "n_anomalos_A": 2067,
+      "n_anomalos_B": 57243,
+      "n_en_ambos": 46
+    },
+    "pliegue2_val": {
+      "jaccard": 0.0014593805740230259,
+      "n_instantes_comparables": 988818,
+      "n_anomalos_A": 977,
+      "n_anomalos_B": 29903,
+      "n_en_ambos": 45
+    },
+    "pliegue3_train": {
+      "jaccard": 0.0010100001109890231,
+      "n_instantes_comparables": 2882646,
+      "n_anomalos_A": 3044,
+      "n_anomalos_B": 87146,
+      "n_en_ambos": 91
+    },
+    "pliegue3_val": {
+      "jaccard": 0.000643915003219575,
+      "n_instantes_comparables": 989109,
+      "n_anomalos_A": 851,
+      "n_anomalos_B": 30229,
+      "n_en_ambos": 20
+    }
+  },
+  "distribucion_temporal_anomalias_por_sensor": {
+    "A_por_hora": [
+      81,
+      47,
+      23,
+      20,
+      213,
+      749,
+      920,
+      1049,
+      437,
+      143,
+      70,
+      37,
+      31,
+      34,
+      319,
+      354,
+      245,
+      92,
+      4,
+      2,
+      0,
+      1,
+      1,
+      1
+    ],
+    "B_por_hora": [
+      6091,
+      6389,
+      6376,
+      6233,
+      6076,
+      6187,
+      6314,
+      6203,
+      6219,
+      6044,
+      6159,
+      6338,
+      6262,
+      6598,
+      6330,
+      6459,
+      6481,
+      6074,
+      6227,
+      6525,
+      6129,
+      6411,
+      5999,
+      5956
+    ]
+  },
+  "bloques_con_ambas_clases": {
+    "A": 692,
+    "B": 2037,
+    "total_bloques_evaluables": 2037
+  }
+}

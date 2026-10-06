@@ -1,0 +1,1836 @@
+{
+  "regla": "abs(z) > 3 sobre ventana movil causal de 288 pasos de flujo raw",
+  "primeros_pasos_sin_etiqueta": 288,
+  "particiones": {
+    "test": {
+      "nombre": "test",
+      "rango_idx": [
+        13593,
+        16992
+      ],
+      "n_instantes_validos": 989109,
+      "n_anomalos": 978,
+      "n_normales": 988131,
+      "prevalencia": 0.0009887686796905093
+    },
+    "pliegue1_train": {
+      "nombre": "pliegue1_train",
+      "rango_idx": [
+        0,
+        3398
+      ],
+      "n_instantes_validos": 905010,
+      "n_anomalos": 1131,
+      "n_normales": 903879,
+      "prevalencia": 0.0012497099479563763
+    },
+    "pliegue1_val": {
+      "nombre": "pliegue1_val",
+      "rango_idx": [
+        3398,
+        6796
+      ],
+      "n_instantes_validos": 988818,
+      "n_anomalos": 936,
+      "n_normales": 987882,
+      "prevalencia": 0.0009465847102297895
+    },
+    "pliegue2_train": {
+      "nombre": "pliegue2_train",
+      "rango_idx": [
+        0,
+        6796
+      ],
+      "n_instantes_validos": 1893828,
+      "n_anomalos": 2067,
+      "n_normales": 1891761,
+      "prevalencia": 0.0010914401941464588
+    },
+    "pliegue2_val": {
+      "nombre": "pliegue2_val",
+      "rango_idx": [
+        6796,
+        10194
+      ],
+      "n_instantes_validos": 988818,
+      "n_anomalos": 977,
+      "n_normales": 987841,
+      "prevalencia": 0.0009880483567248977
+    },
+    "pliegue3_train": {
+      "nombre": "pliegue3_train",
+      "rango_idx": [
+        0,
+        10194
+      ],
+      "n_instantes_validos": 2882646,
+      "n_anomalos": 3044,
+      "n_normales": 2879602,
+      "prevalencia": 0.0010559742680856408
+    },
+    "pliegue3_val": {
+      "nombre": "pliegue3_val",
+      "rango_idx": [
+        10194,
+        13593
+      ],
+      "n_instantes_validos": 989109,
+      "n_anomalos": 851,
+      "n_normales": 988258,
+      "prevalencia": 0.0008603702928595331
+    }
+  },
+  "prevalencia_por_sensor": [
+    {
+      "sensor_idx": 0,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 11,
+      "prevalencia": 0.0006585249042145594
+    },
+    {
+      "sensor_idx": 1,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 61,
+      "prevalencia": 0.0036518199233716475
+    },
+    {
+      "sensor_idx": 2,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 43,
+      "prevalencia": 0.002574233716475096
+    },
+    {
+      "sensor_idx": 3,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 57,
+      "prevalencia": 0.0034123563218390806
+    },
+    {
+      "sensor_idx": 4,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 10,
+      "prevalencia": 0.0005986590038314176
+    },
+    {
+      "sensor_idx": 5,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 6,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 270,
+      "prevalencia": 0.016163793103448277
+    },
+    {
+      "sensor_idx": 7,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 281,
+      "prevalencia": 0.016822318007662835
+    },
+    {
+      "sensor_idx": 8,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 9,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 5,
+      "prevalencia": 0.0002993295019157088
+    },
+    {
+      "sensor_idx": 10,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 11,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 12,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 45,
+      "prevalencia": 0.0026939655172413795
+    },
+    {
+      "sensor_idx": 13,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 8,
+      "prevalencia": 0.0004789272030651341
+    },
+    {
+      "sensor_idx": 14,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 120,
+      "prevalencia": 0.007183908045977011
+    },
+    {
+      "sensor_idx": 15,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 16,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 17,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 18,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 19,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 20,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 21,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 22,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 27,
+      "prevalencia": 0.0016163793103448276
+    },
+    {
+      "sensor_idx": 23,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 6,
+      "prevalencia": 0.00035919540229885057
+    },
+    {
+      "sensor_idx": 24,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 25,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 72,
+      "prevalencia": 0.004310344827586207
+    },
+    {
+      "sensor_idx": 26,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 27,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 74,
+      "prevalencia": 0.0044300766283524905
+    },
+    {
+      "sensor_idx": 28,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 7,
+      "prevalencia": 0.00041906130268199235
+    },
+    {
+      "sensor_idx": 29,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 30,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 15,
+      "prevalencia": 0.0008979885057471264
+    },
+    {
+      "sensor_idx": 31,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 32,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 4,
+      "prevalencia": 0.00023946360153256704
+    },
+    {
+      "sensor_idx": 33,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 34,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 25,
+      "prevalencia": 0.0014966475095785441
+    },
+    {
+      "sensor_idx": 35,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 36,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 37,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 38,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 39,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 40,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 41,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 42,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 43,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 138,
+      "prevalencia": 0.008261494252873564
+    },
+    {
+      "sensor_idx": 44,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 45,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 31,
+      "prevalencia": 0.0018558429118773947
+    },
+    {
+      "sensor_idx": 46,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 58,
+      "prevalencia": 0.003472222222222222
+    },
+    {
+      "sensor_idx": 47,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 9,
+      "prevalencia": 0.0005387931034482759
+    },
+    {
+      "sensor_idx": 48,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 36,
+      "prevalencia": 0.0021551724137931034
+    },
+    {
+      "sensor_idx": 49,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 4,
+      "prevalencia": 0.00023946360153256704
+    },
+    {
+      "sensor_idx": 50,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 51,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 49,
+      "prevalencia": 0.0029334291187739464
+    },
+    {
+      "sensor_idx": 52,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 5,
+      "prevalencia": 0.0002993295019157088
+    },
+    {
+      "sensor_idx": 53,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 44,
+      "prevalencia": 0.0026340996168582377
+    },
+    {
+      "sensor_idx": 54,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 20,
+      "prevalencia": 0.0011973180076628352
+    },
+    {
+      "sensor_idx": 55,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 56,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 40,
+      "prevalencia": 0.0023946360153256703
+    },
+    {
+      "sensor_idx": 57,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 26,
+      "prevalencia": 0.0015565134099616857
+    },
+    {
+      "sensor_idx": 58,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 59,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 60,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 61,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 62,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 63,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 64,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 65,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 66,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 67,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 68,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 69,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 70,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 71,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 72,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 73,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 74,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 37,
+      "prevalencia": 0.0022150383141762453
+    },
+    {
+      "sensor_idx": 75,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 76,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 77,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 78,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 79,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 23,
+      "prevalencia": 0.0013769157088122604
+    },
+    {
+      "sensor_idx": 80,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 153,
+      "prevalencia": 0.009159482758620689
+    },
+    {
+      "sensor_idx": 81,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 82,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 83,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 84,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 47,
+      "prevalencia": 0.0028136973180076627
+    },
+    {
+      "sensor_idx": 85,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 12,
+      "prevalencia": 0.0007183908045977011
+    },
+    {
+      "sensor_idx": 86,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 87,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 15,
+      "prevalencia": 0.0008979885057471264
+    },
+    {
+      "sensor_idx": 88,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 89,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 90,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 91,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 92,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 93,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 4,
+      "prevalencia": 0.00023946360153256704
+    },
+    {
+      "sensor_idx": 94,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 95,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 13,
+      "prevalencia": 0.0007782567049808429
+    },
+    {
+      "sensor_idx": 96,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 36,
+      "prevalencia": 0.0021551724137931034
+    },
+    {
+      "sensor_idx": 97,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 6,
+      "prevalencia": 0.00035919540229885057
+    },
+    {
+      "sensor_idx": 98,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 99,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 100,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 101,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 102,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 6,
+      "prevalencia": 0.00035919540229885057
+    },
+    {
+      "sensor_idx": 103,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 104,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 105,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 106,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 107,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 108,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 109,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 110,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 111,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 51,
+      "prevalencia": 0.00305316091954023
+    },
+    {
+      "sensor_idx": 112,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 189,
+      "prevalencia": 0.011314655172413793
+    },
+    {
+      "sensor_idx": 113,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 43,
+      "prevalencia": 0.002574233716475096
+    },
+    {
+      "sensor_idx": 114,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 26,
+      "prevalencia": 0.0015565134099616857
+    },
+    {
+      "sensor_idx": 115,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 116,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 117,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 118,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 119,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 120,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 121,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 122,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 69,
+      "prevalencia": 0.004130747126436782
+    },
+    {
+      "sensor_idx": 123,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 124,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 11,
+      "prevalencia": 0.0006585249042145594
+    },
+    {
+      "sensor_idx": 125,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 126,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 127,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 128,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 129,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 130,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 131,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 18,
+      "prevalencia": 0.0010775862068965517
+    },
+    {
+      "sensor_idx": 132,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 33,
+      "prevalencia": 0.0019755747126436784
+    },
+    {
+      "sensor_idx": 133,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 134,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 135,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 5,
+      "prevalencia": 0.0002993295019157088
+    },
+    {
+      "sensor_idx": 136,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 137,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 138,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 139,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 17,
+      "prevalencia": 0.0010177203065134099
+    },
+    {
+      "sensor_idx": 140,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 141,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 142,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 45,
+      "prevalencia": 0.0026939655172413795
+    },
+    {
+      "sensor_idx": 143,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 28,
+      "prevalencia": 0.0016762452107279694
+    },
+    {
+      "sensor_idx": 144,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 145,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 16,
+      "prevalencia": 0.0009578544061302681
+    },
+    {
+      "sensor_idx": 146,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 147,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 7,
+      "prevalencia": 0.00041906130268199235
+    },
+    {
+      "sensor_idx": 148,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 149,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 150,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 151,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 152,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 4,
+      "prevalencia": 0.00023946360153256704
+    },
+    {
+      "sensor_idx": 153,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 154,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 112,
+      "prevalencia": 0.006704980842911878
+    },
+    {
+      "sensor_idx": 155,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 156,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 157,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 158,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 62,
+      "prevalencia": 0.0037116858237547894
+    },
+    {
+      "sensor_idx": 159,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 160,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 161,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 162,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 163,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 5,
+      "prevalencia": 0.0002993295019157088
+    },
+    {
+      "sensor_idx": 164,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 165,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 166,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 99,
+      "prevalencia": 0.005926724137931034
+    },
+    {
+      "sensor_idx": 167,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 168,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 169,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 170,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 171,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 172,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 173,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 174,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 175,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 176,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 177,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 15,
+      "prevalencia": 0.0008979885057471264
+    },
+    {
+      "sensor_idx": 178,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 12,
+      "prevalencia": 0.0007183908045977011
+    },
+    {
+      "sensor_idx": 179,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 180,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 181,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 182,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 183,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 184,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 185,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 186,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 187,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 188,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 189,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 190,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 191,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 192,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 4,
+      "prevalencia": 0.00023946360153256704
+    },
+    {
+      "sensor_idx": 193,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 194,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 195,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 196,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 197,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 198,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 199,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 200,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 201,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 17,
+      "prevalencia": 0.0010177203065134099
+    },
+    {
+      "sensor_idx": 202,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 203,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 170,
+      "prevalencia": 0.010177203065134099
+    },
+    {
+      "sensor_idx": 204,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 27,
+      "prevalencia": 0.0016163793103448276
+    },
+    {
+      "sensor_idx": 205,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 87,
+      "prevalencia": 0.005208333333333333
+    },
+    {
+      "sensor_idx": 206,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 156,
+      "prevalencia": 0.009339080459770116
+    },
+    {
+      "sensor_idx": 207,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 88,
+      "prevalencia": 0.005268199233716475
+    },
+    {
+      "sensor_idx": 208,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 114,
+      "prevalencia": 0.006824712643678161
+    },
+    {
+      "sensor_idx": 209,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 210,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 211,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 53,
+      "prevalencia": 0.0031728927203065133
+    },
+    {
+      "sensor_idx": 212,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 6,
+      "prevalencia": 0.00035919540229885057
+    },
+    {
+      "sensor_idx": 213,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 25,
+      "prevalencia": 0.0014966475095785441
+    },
+    {
+      "sensor_idx": 214,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 16,
+      "prevalencia": 0.0009578544061302681
+    },
+    {
+      "sensor_idx": 215,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 190,
+      "prevalencia": 0.011374521072796935
+    },
+    {
+      "sensor_idx": 216,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 217,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 68,
+      "prevalencia": 0.0040708812260536395
+    },
+    {
+      "sensor_idx": 218,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 219,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 220,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 78,
+      "prevalencia": 0.004669540229885058
+    },
+    {
+      "sensor_idx": 221,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 11,
+      "prevalencia": 0.0006585249042145594
+    },
+    {
+      "sensor_idx": 222,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 223,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 5,
+      "prevalencia": 0.0002993295019157088
+    },
+    {
+      "sensor_idx": 224,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 12,
+      "prevalencia": 0.0007183908045977011
+    },
+    {
+      "sensor_idx": 225,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 4,
+      "prevalencia": 0.00023946360153256704
+    },
+    {
+      "sensor_idx": 226,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 227,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 228,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 4,
+      "prevalencia": 0.00023946360153256704
+    },
+    {
+      "sensor_idx": 229,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 230,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 231,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 232,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 6,
+      "prevalencia": 0.00035919540229885057
+    },
+    {
+      "sensor_idx": 233,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 28,
+      "prevalencia": 0.0016762452107279694
+    },
+    {
+      "sensor_idx": 234,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 235,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 17,
+      "prevalencia": 0.0010177203065134099
+    },
+    {
+      "sensor_idx": 236,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 46,
+      "prevalencia": 0.002753831417624521
+    },
+    {
+      "sensor_idx": 237,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 238,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 239,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 240,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 5,
+      "prevalencia": 0.0002993295019157088
+    },
+    {
+      "sensor_idx": 241,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 242,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 50,
+      "prevalencia": 0.0029932950191570882
+    },
+    {
+      "sensor_idx": 243,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 84,
+      "prevalencia": 0.005028735632183908
+    },
+    {
+      "sensor_idx": 244,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 9,
+      "prevalencia": 0.0005387931034482759
+    },
+    {
+      "sensor_idx": 245,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 6,
+      "prevalencia": 0.00035919540229885057
+    },
+    {
+      "sensor_idx": 246,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 8,
+      "prevalencia": 0.0004789272030651341
+    },
+    {
+      "sensor_idx": 247,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 4,
+      "prevalencia": 0.00023946360153256704
+    },
+    {
+      "sensor_idx": 248,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 249,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 250,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 4,
+      "prevalencia": 0.00023946360153256704
+    },
+    {
+      "sensor_idx": 251,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 16,
+      "prevalencia": 0.0009578544061302681
+    },
+    {
+      "sensor_idx": 252,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 7,
+      "prevalencia": 0.00041906130268199235
+    },
+    {
+      "sensor_idx": 253,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 254,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 20,
+      "prevalencia": 0.0011973180076628352
+    },
+    {
+      "sensor_idx": 255,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 256,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 257,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 258,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 259,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 260,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 104,
+      "prevalencia": 0.006226053639846743
+    },
+    {
+      "sensor_idx": 261,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 7,
+      "prevalencia": 0.00041906130268199235
+    },
+    {
+      "sensor_idx": 262,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 132,
+      "prevalencia": 0.007902298850574713
+    },
+    {
+      "sensor_idx": 263,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 5,
+      "prevalencia": 0.0002993295019157088
+    },
+    {
+      "sensor_idx": 264,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 265,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 266,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 267,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 1,
+      "prevalencia": 5.986590038314176e-05
+    },
+    {
+      "sensor_idx": 268,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 269,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 4,
+      "prevalencia": 0.00023946360153256704
+    },
+    {
+      "sensor_idx": 270,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 56,
+      "prevalencia": 0.003352490421455939
+    },
+    {
+      "sensor_idx": 271,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 272,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 273,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 274,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 8,
+      "prevalencia": 0.0004789272030651341
+    },
+    {
+      "sensor_idx": 275,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 9,
+      "prevalencia": 0.0005387931034482759
+    },
+    {
+      "sensor_idx": 276,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 277,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 278,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 279,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 2,
+      "prevalencia": 0.00011973180076628352
+    },
+    {
+      "sensor_idx": 280,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 36,
+      "prevalencia": 0.0021551724137931034
+    },
+    {
+      "sensor_idx": 281,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 45,
+      "prevalencia": 0.0026939655172413795
+    },
+    {
+      "sensor_idx": 282,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 283,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 284,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 285,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 20,
+      "prevalencia": 0.0011973180076628352
+    },
+    {
+      "sensor_idx": 286,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 55,
+      "prevalencia": 0.003292624521072797
+    },
+    {
+      "sensor_idx": 287,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 43,
+      "prevalencia": 0.002574233716475096
+    },
+    {
+      "sensor_idx": 288,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    },
+    {
+      "sensor_idx": 289,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 3,
+      "prevalencia": 0.00017959770114942528
+    },
+    {
+      "sensor_idx": 290,
+      "n_instantes_validos": 16704,
+      "n_anomalos": 0,
+      "prevalencia": 0.0
+    }
+  ],
+  "prevalencia_global": {
+    "n_instantes_validos": 4860864,
+    "n_anomalos": 4873,
+    "prevalencia": 0.0010024966754881436
+  }
+}
