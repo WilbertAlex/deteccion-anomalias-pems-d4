@@ -13,7 +13,7 @@ import pandas as pd
 from pathlib import Path
 
 DATA_PATH = Path("data/raw/pems04.npz")
-CONFIG_PATH = Path("config_preprocesamiento.json")
+CONFIG_PATH = Path("configs/config_preprocesamiento.json")
 OUT_DIR = Path("data/processed")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 RESULTS_DIR = Path("results/eda")
