@@ -1,0 +1,54 @@
+# Entorno virtual
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Datos (no versionados: ver README > Reproducibilidad)
+data/raw/*.npz
+data/raw/*.h5
+data/processed/*.npz
+data/processed/*.h5
+data/processed/*.npy
+
+# Resultados de EDA (se regeneran con los scripts)
+results/eda/*.png
+results/eda/*.csv
+results/eda/*.json
+
+# Salidas de modelos (Semanas 4+)
+results/models/
+results/predictions/
+checkpoints/
+*.h5
+*.keras
+*.pt
+*.pth
+
+# Logs
+*.log
+logs/
+
+# Archivos temporales
+estructura_proyecto.txt
+temp/
+tmp/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp

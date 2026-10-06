@@ -4,11 +4,12 @@ Este proyecto sigue un versionado por semana de cronograma, no semver estricto,
 dado que se trata de un proyecto de investigación con hitos definidos por el
 protocolo (ver docs/cronograma_ppi_fechas.png).
 
-## [No publicado] — Semana 3 (21–27 sep. 2026) — en curso
-### Pendiente
-- Partición temporal walk-forward (20% prueba + 3 pliegues expansivos)
-- Normalización z-score ajustada solo con entrenamiento por pliegue
-- Construcción de ventanas temporales (12, 291, 3)
+## [0.3.0] — Semana 3 (21–27 sep. 2026) — cerrada
+### Agregado
+- Partición temporal walk-forward (3 pliegues expansivos + 20% prueba final)
+- Normalización z-score por pliegue, ajustada solo con datos de entrenamiento
+- Función reutilizable de construcción de ventanas (`src/ventanas.py`), verificada
+  sobre el Pliegue 1 (985 617 ventanas de train, 988 818 de validación)
 
 ## [0.2.0] — Semana 2 (14–20 sep. 2026) — cerrada
 ### Agregado
