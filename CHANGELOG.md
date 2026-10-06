@@ -3,6 +3,32 @@
 Este proyecto sigue un versionado por semana de cronograma, no semver estricto,
 dado que se trata de un proyecto de investigación con hitos definidos por el
 protocolo (ver docs/cronograma_ppi_fechas.png).
+## [0.4.0] — Semana 4 (28 sep. – 4 oct. 2026) — cerrada
+### Agregado
+- Esquema A: etiquetado proxy causal (ventana móvil de 288 pasos, umbral |z|>3, flujo sin normalizar)
+  - Prevalencia global observada: 0.10% (hallazgo empírico por debajo del rango esperado 0.3%-2%)
+  - Config: `configs/config_esquema_A.json`, reporte: `results/eda/prevalencia_esquema_A.json`
+- Esquema B: inyección controlada de anomalías (3% por bloque sensor × pliegue, semilla fija 42)
+  - Prevalencia global: 3.035%, consistente en los 7 splits evaluados
+  - Config: `configs/config_esquema_B.json`, reporte: `results/eda/prevalencia_esquema_B.json`
+  - Módulo reutilizable: `src/inyeccion_anomalias.py`
+- Comparación A vs B para PE1 (prevalencia, Jaccard, bloques con ambas clases)
+  - Reportes: `results/eda/comparacion_A_vs_B.json` y `.md`
+- Normalización del bloque 80% inicial (para reentrenamiento final §2.7.1)
+  - Añadida entrada `"final"` en `configs/normalizacion_zscore.json`
+- Config `config_final.json` con decisiones pre-gate (bloques Friedman 873 val/291 test, batch 291/307)
+- Decisiones 8 y 9 registradas en la bitácora metodológica
+- `configs/hardware.json` con especificaciones reales del entorno de benchmark
+
+### Corregido
+- `config_preprocesamiento.json` movido de la raíz a `configs/`
+- `.gitignore` activo (antes era `gitignore` sin punto)
+- Datos crudos, procesados y resultados de EDA sacados del índice git
+- README actualizado con estructura real y 5 scripts del pipeline
+- CI mejorado: compila `src/` además de la raíz, valida todos los `configs/*.json`, verifica que datos y `venv` no estén versionados
+- `requirements.txt` reestructurado (PyTorch en venv aislado para G7)
+
+---
 
 ## [0.3.0] — Semana 3 (21–27 sep. 2026) — cerrada
 ### Agregado
