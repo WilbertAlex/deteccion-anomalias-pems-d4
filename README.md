@@ -26,21 +26,26 @@ El protocolo evalúa las 8 condiciones bajo **dos esquemas independientes de eti
 │ ├── config_preprocesamiento.json (exclusión de sensores, hora pico)
 │ ├── particion_temporal.json (3 pliegues walk-forward + prueba final)
 │ ├── normalizacion_zscore.json (μ y σ por pliegue + bloque final)
-│ ├── config_esquema_A.json (Esquema A causal, pendiente de ejecución)
-│ ├── config_esquema_B.json (Esquema B inyección, pendiente)
+│ ├── config_esquema_A.json (Esquema A causal — ejecutado, prevalencia 0.10%)
+│ ├── config_esquema_B.json (Esquema B inyección — ejecutado, prevalencia 3.03%)
 │ ├── config_final.json (se sella en gate semana 7)
 │ └── hardware.json (caracterización del entorno de benchmark)
 ├── data/
-│ ├── raw/ (NO versionado - ver Reproducibilidad)
-│ └── processed/ (NO versionado - se regenera)
+│ ├── raw/ (NO versionado — ver Reproducibilidad)
+│ └── processed/ (NO versionado — se regenera)
 ├── results/
-│ └── eda/ (NO versionado - se regenera con los scripts)
+│ └── eda/ (gráficos NO versionados; reportes .json/.md SÍ versionados)
+│ ├── prevalencia_esquema_A.json
+│ ├── prevalencia_esquema_B.json
+│ ├── comparacion_A_vs_B.json
+│ └── comparacion_A_vs_B.md
 ├── docs/
 │ ├── imagenes/ (figuras del PPI)
 │ ├── informes/ (cierres semanales por integrante, PDF)
 │ └── justificacion_dataset_pems04.pdf
 ├── src/
-│ └── ventanas.py (función reutilizable de ventaneo)
+│ ├── ventanas.py (función reutilizable de ventaneo)
+│ └── inyeccion_anomalias.py (módulo del Esquema B)
 ├── .github/workflows/
 │ └── verificar-entorno.yml
 ├── eda_pems04.py (Semana 1)
@@ -48,10 +53,15 @@ El protocolo evalúa las 8 condiciones bajo **dos esquemas independientes de eti
 ├── semana3_particion.py (Semana 3)
 ├── semana3_normalizacion.py (Semana 3)
 ├── semana3_ventanas.py (Semana 3)
-├── bitacora_decisiones_metodologicas.md
+├── semana4_normalizacion_final.py (Semana 4)
+├── semana4_esquema_A.py (Semana 4)
+├── semana4_esquema_B.py (Semana 4)
+├── semana4_comparacion_A_vs_B.py (Semana 4)
+├── bitacora_decisiones_metodologicas.md (Decisiones 1–9)
 ├── CHANGELOG.md
 ├── CITATION.cff
 ├── LICENSE (MIT para el código)
+├── .gitignore
 ├── requirements.txt
 └── README.md
 
