@@ -1,0 +1,257 @@
+{
+  "n_ok": 50,
+  "n_total": 50,
+  "todo_ok": true,
+  "checks": [
+    {
+      "check": "P1: train < val < prueba",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P2: train < val < prueba",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P3: train < val < prueba",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P1 flow: mu/sigma = solo train",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P1 occupancy: mu/sigma = solo train",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P1 speed: mu/sigma = solo train",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P2 flow: mu/sigma = solo train",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P2 occupancy: mu/sigma = solo train",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P2 speed: mu/sigma = solo train",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P3 flow: mu/sigma = solo train",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P3 occupancy: mu/sigma = solo train",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P3 speed: mu/sigma = solo train",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "Existe entrada 'final' (0..inicio prueba)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "'final' cubre exactamente [0, inicio de prueba)",
+      "ok": true,
+      "detalle": "rango=[0, 13593]"
+    },
+    {
+      "check": "'final' mu(flujo) = bloque 80 %",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "Alterar flujo futuro NO cambia etiquetas A hasta t0",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "Etiquetas A guardadas = recalculo independiente",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "A: primeros 288 pasos sin etiqueta",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "A: despues solo 0/1 (salvo sigma=0)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "G0 w=6: futuro alterado no cambia scores hasta t0",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "G0 w=6: el paso t no entra en su referencia",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "G0 w=11: futuro alterado no cambia scores hasta t0",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "G0 w=11: el paso t no entra en su referencia",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "G0 w=22: futuro alterado no cambia scores hasta t0",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "G0 w=22: el paso t no entra en su referencia",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "G0 w=44: futuro alterado no cambia scores hasta t0",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "G0 w=44: el paso t no entra en su referencia",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B P1: nada alterado despues de val_end",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B P1: sin etiquetas despues de val_end",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B P1: label 0 => features intactas",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B P1: label 1 altera >=99 % de los flujos",
+      "ok": true,
+      "detalle": "0.9954"
+    },
+    {
+      "check": "B P1: posiciones train != val",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B P2: nada alterado despues de val_end",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B P2: sin etiquetas despues de val_end",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B P2: label 0 => features intactas",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B P2: label 1 altera >=99 % de los flujos",
+      "ok": true,
+      "detalle": "0.9948"
+    },
+    {
+      "check": "B P2: posiciones train != val",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B P3: nada alterado despues de val_end",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B P3: sin etiquetas despues de val_end",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B P3: label 0 => features intactas",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B P3: label 1 altera >=99 % de los flujos",
+      "ok": true,
+      "detalle": "0.9954"
+    },
+    {
+      "check": "B P3: posiciones train != val",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B final: prevalencia prueba en [2.9 %, 3.2 %]",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B final: nada fuera de [0, fin)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P1: t_max de ventanas de train < train_end",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P1: ventana termina en t (ultimo paso = dato de t)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P2: t_max de ventanas de train < train_end",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P2: ventana termina en t (ultimo paso = dato de t)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P3: t_max de ventanas de train < train_end",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "P3: ventana termina en t (ultimo paso = dato de t)",
+      "ok": true,
+      "detalle": ""
+    }
+  ]
+}
