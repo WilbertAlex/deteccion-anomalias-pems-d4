@@ -3,6 +3,20 @@
 Este proyecto sigue un versionado por semana de cronograma, no semver estricto,
 dado que se trata de un proyecto de investigación con hitos definidos por el
 protocolo (ver docs/cronograma_ppi_fechas.png).
+
+## [0.5.0] — Semana 5 (5–11 oct. 2026) — en curso
+### Agregado
+- `semana5_esquema_B_por_pliegue.py`: Esquema B por pliegue (Decisión 10)
+- `src/g0_linea_base.py`, `semana5_g0.py`, `configs/config_g0.json`: G0 con 12 configuraciones (Decisión 11)
+- `semana5_validacion_pipeline.py`: 50 controles de fuga temporal por perturbación
+- `semana5_comparacion_A_vs_B.py`: comparación PE1 sobre bloques de evaluación
+- `auditar_repo.py`, `results/eda/LEEME_resultados.md`, informes de las Semanas 4 y 5
+### Corregido
+- Esquema B v1: arreglo único para tres pliegues y misma semilla en train y val (superado)
+- Texto del Anexo: solo el 29,2 % de los bloques tiene ambas clases bajo el Esquema A
+### Pendiente
+- Control de integración de G7, correcciones del protocolo, decisión del perfil contextual por sensor
+
 ## [0.4.0] — Semana 4 (28 sep. – 4 oct. 2026) — cerrada
 ### Agregado
 - Esquema A: etiquetado proxy causal (ventana móvil de 288 pasos, umbral |z|>3, flujo sin normalizar)

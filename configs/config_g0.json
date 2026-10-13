@@ -1,0 +1,27 @@
+{
+  "condicion": "G0",
+  "tipo": "linea_base_no_parametrica_causal",
+  "variable": "flow (sin normalizar; el z-score movil es invariante a transformaciones afines)",
+  "score": "abs(x_t - mu) / sigma, con mu y sigma de los w pasos previos (t excluido); sigma < 1e-6 -> score 0",
+  "grilla": {
+    "ventanas": [6, 11, 22, 44],
+    "multiplicadores": [2.0, 2.5, 3.0],
+    "n_configuraciones": 12,
+    "tipo_busqueda": "rejilla completa (no aleatoria): G0 es determinista"
+  },
+  "regla_de_seleccion": {
+    "fijada_antes_de_ver_resultados": true,
+    "paso_1": "w* = argmax PR-AUC medio de validacion sobre los 3 pliegues (PR-AUC no depende de k)",
+    "paso_2": "k* = argmax F1 medio de validacion sobre los 3 pliegues, con w*",
+    "evaluacion_final": "una sola pasada sobre la prueba con (w*, k*)"
+  },
+  "seleccion_observada": {
+    "esquema_A": {"ventana": 22, "multiplicador": 3.0},
+    "esquema_B": {"ventana": 22, "multiplicador": 3.0}
+  },
+  "limitacion": "k* = 3.0 es el borde de la grilla y el F1 de validacion seguia subiendo con k; no se amplia la grilla a posteriori (presupuesto maximo de 12 configuraciones).",
+  "decision_bitacora": "Decision 11",
+  "referencia_protocolo": "PPI 2.6",
+  "script": "semana5_g0.py",
+  "resultados": "results/eda/g0_resultados.json"
+}

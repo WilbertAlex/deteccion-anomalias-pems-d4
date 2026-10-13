@@ -56,3 +56,8 @@ Thumbs.db
 # Salidas pesadas de modelos y arrays (Semanas 5+)
 data/processed/*.npz
 data/processed/*.npy
+# Entorno aislado de G7 (semana 7)
+venv_g7/
+
+# Excepcion: evidencia pequena que si se versiona
+!results/eda/sensores_excluidos.csv

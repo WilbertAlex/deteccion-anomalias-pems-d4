@@ -166,3 +166,22 @@ G0–G7 importarán directamente.
 - [ ] Implementación y ajuste de G0 con 12 configuraciones
 - [ ] Comparación de prevalencia, distribución y solapamiento A vs B (PE1)
 - [ ] Estadísticas del bloque 80% para el reentrenamiento final
+
+---
+
+## Decisión 10 — Esquema B: un arreglo alterado por pliegue y semilla por bloque
+**Semana 5 (5 – 11 oct. 2026)**
+
+**Contexto:** `semana4_esquema_B.py` escribía los tres pliegues sobre un mismo arreglo. Como los rangos de train se solapan, lo guardado era la inyección del pliegue 3; los conteos reportados para los pliegues 1 y 2 no correspondían a lo guardado (pliegue 1 train: 30 161 reportado vs 30 186 en el archivo final). Además, con semilla 42 idéntica, train y val de igual longitud recibían las mismas posiciones relativas de anomalías (verificado).
+
+**Decisión:** `semana5_esquema_B_por_pliegue.py` genera `esquema_B_pliegue{1,2,3}.npz` (train y val inyectados con el perfil estimado solo con el train de ese pliegue) y `esquema_B_final.npz` (bloque 80 % y prueba, perfil del bloque 80 %). Semilla = `[42, id_pliegue, id_split]`. `src/inyeccion_anomalias.py` no cambia.
+
+**Controles (assert):** nada alterado fuera de los bloques; label 0 implica features intactas; prevalencia en [2,9 %, 3,2 %]; train distinto de val; segunda corrida idéntica.
+
+**Abierto:** el perfil contextual se calcula agrupando los 291 sensores; el protocolo indica un perfil por sensor.
+
+## Decisión 11 — G0: grilla y regla de selección fijadas antes de ver resultados
+**Grilla:** ventanas {6, 11, 22, 44} x multiplicadores {2,0, 2,5, 3,0} = 12 configuraciones (rejilla completa).
+**Regla:** el PR-AUC se calcula sobre el score continuo y no depende del multiplicador; por eso (1) w* = argmax de PR-AUC medio de validación (3 pliegues) y (2) k* = argmax de F1 medio de validación con w*. Una sola pasada sobre la prueba.
+**Score:** |x_t - mu| / sigma con mu, sigma de los w pasos previos (t excluido); sigma < 1e-6 implica score 0.
+**Resultado:** w* = 22 y k* = 3,0 en ambos esquemas. k* está en el borde de la grilla; no se amplía a posteriori (presupuesto máximo de 12 configuraciones).
