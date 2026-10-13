@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  verificar-instalacion:
+  verificar-entorno:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,11 +22,45 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Verificar que los scripts no tengan errores de sintaxis
+      - name: Verificar sintaxis de todos los scripts (raiz + src/)
         run: |
-          python -m py_compile *.py
+          python -m compileall . -x 'venv|__pycache__|data|\.git' -q
+          echo "OK: sintaxis valida en todo el proyecto"
 
-      - name: Verificar configuraciones versionadas (JSON valido)
+      - name: Verificar que todos los JSON de configs/ son validos
         run: |
-          python -c "import json; json.load(open('config_preprocesamiento.json'))"
-          echo "config_preprocesamiento.json es JSON valido"
+          python -c "
+          import json
+          from pathlib import Path
+          configs = list(Path('configs').glob('*.json'))
+          assert len(configs) > 0, 'No hay JSON en configs/'
+          for f in configs:
+              json.load(open(f, encoding='utf-8'))
+              print(f'OK: {f}')
+          "
+
+      - name: Verificar consistencia de la particion temporal
+        run: |
+          python -c "
+          import json
+          p = json.load(open('configs/particion_temporal.json'))
+          assert p['n_steps_total'] == 16992
+          assert p['test_idx'] == [13593, 16992]
+          assert len(p['pliegues']) == 3
+          for pl in p['pliegues']:
+              assert pl['train_idx'][1] <= pl['val_idx'][0], 'Fuga train/val'
+              assert pl['val_idx'][1] <= p['test_idx'][0], 'Fuga val/test'
+          print('OK: particion temporal sin fuga')
+          "
+
+      - name: Verificar que el dataset NO esta versionado
+        run: |
+          if git ls-files | grep -q "pems04.npz"; then
+            echo "ERROR: pems04.npz esta versionado - ver .gitignore"
+            exit 1
+          fi
+          if git ls-files | grep -q "^venv/"; then
+            echo "ERROR: venv/ esta versionado - ver .gitignore"
+            exit 1
+          fi
+          echo "OK: dataset y venv no estan versionados"

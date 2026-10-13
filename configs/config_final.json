@@ -1,0 +1,42 @@
+{
+  "estado": "borrador_pre_gate_semana_7",
+  "cadena_seleccion": {
+    "seleccion_config_por_pliegue": "12 configs por busqueda aleatoria acotada, PR-AUC medio sobre 3 semillas",
+    "config_ganadora": "argmax_c PR-AUC(c) promedio sobre 3 pliegues",
+    "reentrenamiento": "bloque 80% inicial completo (pasos 0-13593)",
+    "umbral_operativo": "ultimo bloque de validacion del pliegue 3, max F1",
+    "umbral_recall_090": "mismo bloque, recall objetivo 0.90",
+    "evaluacion_final": "una sola pasada sobre 20% cronologico reservado"
+  },
+  "contraste_principal": {
+    "prueba": "Friedman",
+    "bloques": "sensor_x_pliegue",
+    "n_bloques": 873,
+    "conjunto": "validacion",
+    "post_hoc": "Holm frente a G0",
+    "justificacion": "Mayor poder estadistico; pliegues permiten estimar varianza entre particiones"
+  },
+  "analisis_sensibilidad_friedman": {
+    "conjunto": "pliegue_3",
+    "n_bloques": 291,
+    "uso": "Confirmacion de robustez ante dependencia entre pliegues anidados"
+  },
+  "analisis_secundario": {
+    "conjunto": "prueba",
+    "n_bloques": 291,
+    "bloques": "sensor",
+    "uso": "Confirmacion sobre 20% final, reportado como robustez"
+  },
+  "batch_latencia": {
+    "principal": 291,
+    "hipotetico_despliegue": 307
+  },
+  "normalizacion_final": {
+    "rango_pasos": [0, 13593],
+    "referencia": "configs/normalizacion_zscore.json entrada 'final'"
+  },
+  "semilla_inyeccion_B": 42,
+  "semillas_modelo": "3 (ampliable a 5)",
+  "referencia_protocolo": "PPI 2.7.1, 2.9",
+  "fecha_sellado_gate_semana_7": null
+}

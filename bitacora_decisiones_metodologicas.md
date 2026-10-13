@@ -124,10 +124,45 @@ G0–G7 importarán directamente.
 - Primera ventana coincide exactamente con corte manual de control
 - Todas las ventanas de validación tienen su instante final dentro del rango correcto
 
-- **Estado: cerrada.**
+
 
 ---
 
-## Próximas decisiones pendientes (Semana 4, 28 sep. – 4 oct.)
-- [ ] Parámetros exactos del Esquema A: tamaño de ventana histórica y umbral de desviación
-- [ ] Semillas y parámetros del generador de anomalías del Esquema B
+## Decisión 8 — Esquema A: ventana móvil causal sobre flujo sin normalizar
+**Semana 4 (28 sep. – 4 oct. 2026)**
+
+**Contexto:** la Sección 2.5.1 del protocolo presentaba una contradicción entre la ecuación (1) — ventana móvil de 288 pasos, intrínsecamente causal — y una frase posterior que indicaba que la ventana se calculaba "exclusivamente con datos del entrenamiento del pliegue correspondiente". Bajo las dos reglas las etiquetas difieren en validación y prueba.
+
+**Decisión adoptada:** se adopta la versión causal. Para cada instante `t`, `mu` y `sigma` se calculan sobre los 288 pasos inmediatamente anteriores (`t-288` a `t-1`) de la serie de **flujo sin normalizar**. Umbral `abs(z) > 3`. Los primeros 288 pasos de cada sensor (1 de enero, 00:00-23:55) quedan sin etiqueta y se excluyen de la evaluación.
+
+**Por qué la versión causal:**
+- No filtra información futura.
+- Produce etiquetas idénticas en los 3 pliegues y en prueba.
+- Simplifica la comparación entre esquemas.
+
+**Configuración sellada:** `configs/config_esquema_A.json`.
+**Estado:** cerrada, ejecutada por `semana4_esquema_A.py`.
+
+---
+
+## Decisión 9 — Esquema B: prevalencia estratificada y semilla fija de inyección
+**Semana 4 (28 sep. – 4 oct. 2026)**
+
+**Contexto:** la Sección 2.5.2 fijaba la prevalencia objetivo en 3% "dentro de cada bloque de evaluación", sin especificar si también se inyecta en entrenamiento ni cómo tratar la semilla.
+
+**Decisión adoptada:**
+- Prevalencia objetivo: **3% por bloque sensor x pliegue, en cada split** (entrenamiento, validación y prueba).
+- Inyección **también en entrenamiento**, porque las arquitecturas supervisadas requieren ejemplos anómalos para ajustar sus fronteras de decisión. Excepción: el Autoencoder G4 se entrena **solo con ventanas normales del train**, conforme a su régimen no supervisado.
+- **Semilla de inyección fija (42)**, idéntica para todas las arquitecturas y pliegues, para que las diferencias observadas se atribuyan al modelo y no al azar de la inyección.
+- Distribución de tipos: 40% puntual, 30% contextual, 30% colectiva.
+- Tipos: puntual (1 paso, magnitud 4-6 sigma), contextual (percentiles P5/P95 del perfil hora x día del train del pliegue), colectiva (3, 6 o 12 pasos, reducción a 20-40% del nivel previo).
+
+**Configuración sellada:** `configs/config_esquema_B.json`.
+**Estado:** cerrada, ejecutada por `semana4_esquema_B.py`.
+
+---
+
+## Próximas decisiones pendientes (Semana 5, 5 – 11 oct. 2026)
+- [ ] Implementación y ajuste de G0 con 12 configuraciones
+- [ ] Comparación de prevalencia, distribución y solapamiento A vs B (PE1)
+- [ ] Estadísticas del bloque 80% para el reentrenamiento final
