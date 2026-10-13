@@ -156,7 +156,7 @@
     {
       "check": "B P1: label 1 altera >=99 % de los flujos",
       "ok": true,
-      "detalle": "0.9954"
+      "detalle": "0.9951"
     },
     {
       "check": "B P1: posiciones train != val",
@@ -181,7 +181,7 @@
     {
       "check": "B P2: label 1 altera >=99 % de los flujos",
       "ok": true,
-      "detalle": "0.9948"
+      "detalle": "0.9944"
     },
     {
       "check": "B P2: posiciones train != val",
@@ -206,7 +206,7 @@
     {
       "check": "B P3: label 1 altera >=99 % de los flujos",
       "ok": true,
-      "detalle": "0.9954"
+      "detalle": "0.9950"
     },
     {
       "check": "B P3: posiciones train != val",

@@ -1,5 +1,6 @@
 {
   "semilla_base": 42,
+  "perfil_por_sensor": true,
   "esquema_semillas": "[semilla_base, id_pliegue (0=final), id_split (0 train,1 val,2 test)]",
   "pliegues": {
     "pliegue1": {

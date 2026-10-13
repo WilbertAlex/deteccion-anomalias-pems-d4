@@ -14,7 +14,9 @@ Esta version (Decision 10):
   - construye un arreglo "final": bloque 80 % [0,13593) + prueba [13593,16992),
     ambos con perfil estimado SOLO con el bloque 80 %;
   - semilla = [42, id_pliegue, id_split] (determinista, distinta por bloque).
-Reutiliza src/inyeccion_anomalias.py SIN cambios.
+  - Decision 12: el perfil contextual (P5/P95 hora x dia) se estima POR SENSOR
+    (config_esquema_B.json: "perfil_por_sensor": true), como indica el PPI 2.5.2.
+    Con false se reproduce el perfil agrupado de la Decision 10.
 
 Requiere: data/processed/pems04_semana2.npz, configs/particion_temporal.json,
           configs/config_esquema_B.json, src/inyeccion_anomalias.py
@@ -54,7 +56,12 @@ def construir(raw, cfg, id_pliegue, bloques, train_rango):
     T, S, _ = raw.shape
     alt = raw.copy()
     lab = np.full((T, S), -1, dtype=np.int8)
-    perfil, _, _ = construir_perfil_hora_dia(raw[train_rango[0]:train_rango[1], :, 0])
+    por_sensor = bool(cfg.get("perfil_por_sensor", False))
+    perfil, _, _ = construir_perfil_hora_dia(raw[train_rango[0]:train_rango[1], :, 0],
+                                             por_sensor=por_sensor)
+    if por_sensor:
+        assert all(np.ndim(v["p5"]) == 1 and v["p5"].shape[0] == S for v in perfil.values()), \
+            "el perfil por sensor debe tener un vector (S,) por celda"
     rep = {}
     for split, a, b in bloques:
         x, l = inyectar_bloque(raw, a, b, perfil, cfg, id_pliegue, split)
@@ -85,10 +92,11 @@ def verificar(raw, alt, lab, bloques, nombre):
 
 
 def main():
-    cfg = json.loads(CFG.read_text(encoding="utf-8"))
-    part = json.loads(PART.read_text(encoding="utf-8"))
+    cfg = json.loads(CFG.read_text(encoding="utf-8-sig"))
+    part = json.loads(PART.read_text(encoding="utf-8-sig"))
     raw = np.load(DATA)["data"]
     reporte = {"semilla_base": cfg["semilla_inyeccion"],
+               "perfil_por_sensor": bool(cfg.get("perfil_por_sensor", False)),
                "esquema_semillas": "[semilla_base, id_pliegue (0=final), id_split (0 train,1 val,2 test)]",
                "pliegues": {}}
 

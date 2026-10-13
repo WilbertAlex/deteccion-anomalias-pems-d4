@@ -18,7 +18,7 @@ etiquetas. Los valores inyectados respetan restricciones fisicas:
 import numpy as np
 
 
-def construir_perfil_hora_dia(flow_train, n_horas=24, n_dias=7):
+def construir_perfil_hora_dia(flow_train, n_horas=24, n_dias=7, por_sensor=False):
     """
     Construye un perfil historico (hora x dia) con percentiles 5, 25, 50, 75, 95
     del flujo observado en cada celda del perfil.
@@ -27,10 +27,16 @@ def construir_perfil_hora_dia(flow_train, n_horas=24, n_dias=7):
     ----------
     flow_train : np.ndarray (T_train, S)
         Flujo crudo del rango de entrenamiento del pliegue.
+    por_sensor : bool
+        False -> perfil agrupado: un percentil por celda con TODOS los sensores
+                 juntos (Esquema B v2, Decision 10).
+        True  -> perfil por sensor: cada percentil es un vector (S,), uno por
+                 sensor (Esquema B v3, Decision 12; es lo que dice el PPI 2.5.2).
 
     Retorna
     -------
     perfil : dict con clave (h, d) y valor dict {p5, p25, p50, p75, p95, n}
+             (escalares si por_sensor=False; vectores (S,) si por_sensor=True)
     """
     T, S = flow_train.shape
     idx = np.arange(T)
@@ -44,6 +50,14 @@ def construir_perfil_hora_dia(flow_train, n_horas=24, n_dias=7):
         for d in range(n_dias):
             mask = (hora == h) & (dia_semana == d)
             if mask.sum() == 0:
+                continue
+            if por_sensor:
+                bloque = flow_train[mask, :]
+                q = np.nanpercentile(bloque, [5, 25, 50, 75, 95], axis=0)
+                perfil[(h, d)] = {
+                    "p5": q[0], "p25": q[1], "p50": q[2], "p75": q[3], "p95": q[4],
+                    "n": int(mask.sum()),  # observaciones por sensor en la celda
+                }
                 continue
             valores = flow_train[mask, :].flatten()
             valores = valores[~np.isnan(valores)]
@@ -68,6 +82,12 @@ def _timestamp_a_hora_dia(idx_inicio, idx_fin):
     dia_abs = minutos // (60 * 24)
     dia_semana = dia_abs % 7
     return hora, dia_semana
+
+
+def _valor_perfil(p, nombre, s):
+    """Escalar del perfil para el sensor s (agrupado: el mismo para todos)."""
+    v = p[nombre]
+    return float(v[s]) if np.ndim(v) else float(v)
 
 
 def inyectar_anomalias(
@@ -138,9 +158,14 @@ def inyectar_anomalias(
                 p = perfil[clave]
                 lado = rng.choice(["bajo", "alto"])
                 if lado == "bajo":
-                    nuevo = max(0.0, p["p5"] * rng.uniform(0.3, 0.7))
+                    base = _valor_perfil(p, "p5", s)
+                    factor = rng.uniform(0.3, 0.7)
                 else:
-                    nuevo = p["p95"] * rng.uniform(1.3, 1.7)
+                    base = _valor_perfil(p, "p95", s)
+                    factor = rng.uniform(1.3, 1.7)
+                if not np.isfinite(base):
+                    continue
+                nuevo = max(0.0, base * factor)
                 raw_alterado[t, s, 0] = nuevo
                 labels[t, s] = 1
                 n_inyectados += 1

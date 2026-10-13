@@ -178,10 +178,31 @@ G0–G7 importarán directamente.
 
 **Controles (assert):** nada alterado fuera de los bloques; label 0 implica features intactas; prevalencia en [2,9 %, 3,2 %]; train distinto de val; segunda corrida idéntica.
 
-**Abierto:** el perfil contextual se calcula agrupando los 291 sensores; el protocolo indica un perfil por sensor.
+**Resuelto:** el perfil contextual se calculaba agrupando los 291 sensores; el protocolo indica un perfil por sensor. Ver Decisión 12.
 
 ## Decisión 11 — G0: grilla y regla de selección fijadas antes de ver resultados
 **Grilla:** ventanas {6, 11, 22, 44} x multiplicadores {2,0, 2,5, 3,0} = 12 configuraciones (rejilla completa).
 **Regla:** el PR-AUC se calcula sobre el score continuo y no depende del multiplicador; por eso (1) w* = argmax de PR-AUC medio de validación (3 pliegues) y (2) k* = argmax de F1 medio de validación con w*. Una sola pasada sobre la prueba.
 **Score:** |x_t - mu| / sigma con mu, sigma de los w pasos previos (t excluido); sigma < 1e-6 implica score 0.
 **Resultado:** w* = 22 y k* = 3,0 en ambos esquemas. k* está en el borde de la grilla; no se amplía a posteriori (presupuesto máximo de 12 configuraciones).
+
+
+## Decisión 12 — Esquema B: perfil contextual estimado por sensor
+**Semana 5 (5 – 11 oct. 2026)**
+
+**Contexto:** el PPI (2.5.2) define las anomalías contextuales con los percentiles P5/P95 del perfil hora × día **de cada sensor**. El código de la Decisión 10 los calculaba agrupando los 291 sensores en cada celda (hora × día), de modo que un sensor de bajo caudal recibía como referencia el P5/P95 de toda la autopista.
+
+**Decisión:** el perfil se estima por sensor, solo con el entrenamiento del pliegue (o con el bloque 80 % en el bloque final). `src/inyeccion_anomalias.py` añade el parámetro `por_sensor` a `construir_perfil_hora_dia` (por defecto `False`, que reproduce exactamente la Decisión 10) y `configs/config_esquema_B.json` fija `"perfil_por_sensor": true`. Semillas, tipos, porcentajes y duraciones no cambian.
+
+**Efecto verificado (misma máquina, mismos datos):**
+- Las posiciones de las etiquetas son idénticas a las de la Decisión 10 (el generador consume la misma secuencia aleatoria); solo cambian los valores de flujo de las anomalías contextuales (6 698 en el pliegue 1; 16 663 en el bloque final).
+- Mediana de |Δflujo| en esas anomalías: 252 → 119 veh/5 min (pliegue 1) y 255 → 132 (bloque final): las anomalías contextuales son menos extremas al ser relativas a cada sensor.
+- G0 en el Esquema B: la selección no cambia (w* = 22, k* = 3,0). PR-AUC de validación (w = 22): 0,3627 → 0,3445. Prueba: PR-AUC 0,3617 → 0,3453; lift 11,8× → 11,3×; F1 0,332 → 0,323; AUC-ROC 0,797 → 0,792. El Esquema A no cambia.
+- Comparación A vs B: sin cambios (depende de las posiciones, no de los valores).
+- Los 50 controles de `semana5_validacion_pipeline.py` pasan; el modo `por_sensor=False` reproduce byte a byte el arreglo del pliegue 1 de la Decisión 10.
+- Verificado de forma idéntica en el entorno del equipo (Esquema B, G0, 50/50 controles y comparación A vs B).
+
+**Limitaciones a declarar:**
+1. Con un perfil por sensor cada celda hora × día tiene pocas observaciones: 12 a 24 por sensor en el pliegue 1 (mediana 24), 60 a 72 en el pliegue 3 y 72 a 84 en el bloque final. Los P5/P95 del pliegue 1 son por tanto más ruidosos.
+2. En 0,8 % (pliegue 1) y 1,2 % (bloque final) de las anomalías contextuales el valor inyectado es 0 porque el P5 del sensor en esa celda es 0; y en ~1 % la diferencia con el valor original es < 5 veh/5 min. No se filtraron a posteriori (no se modificó el diseño tras ver resultados); queda como limitación.
+3. Los resultados de G0 sobre el Esquema B de la Decisión 10 (agrupado) quedan **superados** por los de esta decisión.
