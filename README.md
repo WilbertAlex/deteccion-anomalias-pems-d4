@@ -109,8 +109,11 @@ python semana3_normalizacion.py
 python semana3_ventanas.py
 python semana4_normalizacion_final.py
 python semana4_esquema_A.py
-python semana4_esquema_B.py
-python semana4_comparacion_A_vs_B.py
+python semana5_esquema_B_por_pliegue.py
+python semana5_g0.py
+python semana5_validacion_pipeline.py
+python semana5_comparacion_A_vs_B.py
+python semana6_g0_ampliado.py
 ```
 
 Cada script documenta sus decisiones en `configs/` y verifica sus propios resultados mediante controles automáticos (`assert`) antes de continuar.
