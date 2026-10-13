@@ -2,7 +2,7 @@
 
 Proyecto de Investigación IV — Escuela Profesional de Ingeniería de Sistemas, Universidad Peruana Unión (UPeU), filial Juliaca.
 
-**Estado actual:** Semana 4 de 12 **cerrada**. Esquemas A (proxy causal, prevalencia 0.10%) y B (inyección controlada, prevalencia 3.03%) implementados y verificados. Comparación PE1 ejecutada. Fase 1 (preparación de datos) cerrada y verificada — ver [cronograma](docs/imagenes/cronograma_ppi_fechas.png).
+**Estado actual:** Semana 5 de 12 en curso. Datos, Esquemas A y B (corregido) y G0 ejecutados y verificados; pendientes el control de integracion de G7 y las correcciones del protocolo.
 
 ## Qué es este proyecto
 
@@ -25,48 +25,44 @@ El protocolo evalúa las 8 condiciones bajo **dos esquemas independientes de eti
 ```
 .
 ├── configs/                              (criterios versionados)
-│   ├── config_preprocesamiento.json      (exclusión de sensores, hora pico)
+│   ├── config_preprocesamiento.json      (exclusion de sensores, hora pico)
 │   ├── particion_temporal.json           (3 pliegues walk-forward + prueba final)
-│   ├── normalizacion_zscore.json         (μ y σ por pliegue + bloque final)
-│   ├── config_esquema_A.json             (Esquema A causal — ejecutado, prevalencia 0.10%)
-│   ├── config_esquema_B.json             (Esquema B inyección — ejecutado, prevalencia 3.03%)
-│   ├── config_final.json                 (se sella en gate semana 7)
-│   └── hardware.json                     (caracterización del entorno de benchmark)
-├── data/
-│   ├── raw/                              (NO versionado — ver Reproducibilidad)
-│   └── processed/                        (NO versionado — se regenera)
-├── results/
-│   └── eda/                              (gráficos NO versionados; reportes .json/.md SÍ versionados)
-│       ├── prevalencia_esquema_A.json
-│       ├── prevalencia_esquema_B.json
-│       ├── comparacion_A_vs_B.json
-│       └── comparacion_A_vs_B.md
+│   ├── normalizacion_zscore.json         (mu y sigma por pliegue + bloque final)
+│   ├── config_esquema_A.json             (Esquema A causal, Decision 8)
+│   ├── config_esquema_B.json             (Esquema B, Decisiones 9 y 10)
+│   ├── config_g0.json                    (G0: grilla y regla de seleccion, Decision 11)
+│   ├── config_final.json                 (se sella en el gate de la semana 7)
+│   └── hardware.json                     (caracterizacion del entorno)
+├── data/                                 (NO versionado; se regenera)
+├── results/eda/                          (reportes .json/.md versionados; ver LEEME_resultados.md)
 ├── docs/
 │   ├── imagenes/                         (figuras del PPI)
 │   ├── informes/                         (cierres semanales por integrante, PDF)
+│   ├── paper/                            (figuras del articulo corto)
 │   └── justificacion_dataset_pems04.pdf
+├── scripts_paper/                        (generacion de figuras del articulo)
 ├── src/
-│   ├── ventanas.py                       (función reutilizable de ventaneo)
-│   └── inyeccion_anomalias.py            (módulo del Esquema B)
-├── .github/workflows/
-│   └── verificar-entorno.yml
+│   ├── ventanas.py                       (ventaneo reutilizable)
+│   ├── inyeccion_anomalias.py            (modulo del Esquema B)
+│   └── g0_linea_base.py                  (G0: score causal y evaluacion por bloque)
 ├── eda_pems04.py                         (Semana 1)
 ├── semana2_preprocesamiento.py           (Semana 2)
-├── semana3_particion.py                  (Semana 3)
-├── semana3_normalizacion.py              (Semana 3)
-├── semana3_ventanas.py                   (Semana 3)
-├── semana4_normalizacion_final.py        (Semana 4)
-├── semana4_esquema_A.py                  (Semana 4)
-├── semana4_esquema_B.py                  (Semana 4)
-├── semana4_comparacion_A_vs_B.py         (Semana 4)
-├── bitacora_decisiones_metodologicas.md  (Decisiones 1–9)
-├── CHANGELOG.md
-├── CITATION.cff
-├── LICENSE                               (MIT para el código)
-├── .gitignore
-├── requirements.txt
+├── semana3_particion.py / semana3_normalizacion.py / semana3_ventanas.py   (Semana 3)
+├── semana4_esquema_A.py                  (Semana 4, vigente)
+├── semana4_normalizacion_final.py        (Semana 4, vigente)
+├── semana4_esquema_B.py                  (Semana 4, SUPERADO por semana5_esquema_B_por_pliegue.py)
+├── semana4_comparacion_A_vs_B.py         (Semana 4, SUPERADO por semana5_comparacion_A_vs_B.py)
+├── semana5_esquema_B_por_pliegue.py      (Semana 5)
+├── semana5_g0.py                         (Semana 5)
+├── semana5_validacion_pipeline.py        (Semana 5)
+├── semana5_comparacion_A_vs_B.py         (Semana 5)
+├── auditar_repo.py                       (auditoria de lo versionado)
+├── bitacora_decisiones_metodologicas.md  (Decisiones 1-11)
+├── CHANGELOG.md, CITATION.cff, LICENSE, requirements.txt, requirements-lock.txt
 └── README.md
 ```
+
+**Orden de ejecucion:** `eda_pems04.py` → `semana2_preprocesamiento.py` → `semana3_particion.py` → `semana3_normalizacion.py` → `semana4_normalizacion_final.py` → `semana4_esquema_A.py` → `semana5_esquema_B_por_pliegue.py` → `semana5_g0.py` → `semana5_validacion_pipeline.py` → `semana5_comparacion_A_vs_B.py`.
 
 ## Reproducibilidad
 

@@ -61,3 +61,6 @@ venv_g7/
 
 # Excepcion: evidencia pequena que si se versiona
 !results/eda/sensores_excluidos.csv
+
+# Datos crudos auxiliares (se descargan con download_pems04)
+data/raw/distance.csv
