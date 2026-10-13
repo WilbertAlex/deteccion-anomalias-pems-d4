@@ -10,7 +10,12 @@
           3398
         ],
         "n_anomalos": 30279,
-        "prevalencia": 0.03062140859086303
+        "prevalencia": 0.03062140859086303,
+        "instantes_por_tipo": {
+          "puntual": 4486,
+          "contextual": 3437,
+          "colectiva": 22356
+        }
       },
       "val": {
         "rango": [
@@ -18,7 +23,12 @@
           6796
         ],
         "n_anomalos": 30289,
-        "prevalencia": 0.030631521675374033
+        "prevalencia": 0.030631521675374033,
+        "instantes_por_tipo": {
+          "puntual": 4447,
+          "contextual": 3261,
+          "colectiva": 22581
+        }
       }
     },
     "pliegue2": {
@@ -28,7 +38,12 @@
           6796
         ],
         "n_anomalos": 59940,
-        "prevalencia": 0.03030891427947307
+        "prevalencia": 0.03030891427947307,
+        "instantes_por_tipo": {
+          "puntual": 8936,
+          "contextual": 6727,
+          "colectiva": 44277
+        }
       },
       "val": {
         "rango": [
@@ -36,7 +51,12 @@
           10194
         ],
         "n_anomalos": 30236,
-        "prevalencia": 0.03057792232746572
+        "prevalencia": 0.03057792232746572,
+        "instantes_por_tipo": {
+          "puntual": 4573,
+          "contextual": 3388,
+          "colectiva": 22275
+        }
       }
     },
     "pliegue3": {
@@ -46,7 +66,12 @@
           10194
         ],
         "n_anomalos": 89615,
-        "prevalencia": 0.030209468948448216
+        "prevalencia": 0.030209468948448216,
+        "instantes_por_tipo": {
+          "puntual": 13292,
+          "contextual": 10056,
+          "colectiva": 66267
+        }
       },
       "val": {
         "rango": [
@@ -54,7 +79,12 @@
           13593
         ],
         "n_anomalos": 30234,
-        "prevalencia": 0.03056690415313176
+        "prevalencia": 0.03056690415313176,
+        "instantes_por_tipo": {
+          "puntual": 4451,
+          "contextual": 3346,
+          "colectiva": 22437
+        }
       }
     },
     "final": {
@@ -64,7 +94,12 @@
           13593
         ],
         "n_anomalos": 119328,
-        "prevalencia": 0.03016713423601141
+        "prevalencia": 0.03016713423601141,
+        "instantes_por_tipo": {
+          "puntual": 17680,
+          "contextual": 13427,
+          "colectiva": 88221
+        }
       },
       "test": {
         "rango": [
@@ -72,7 +107,12 @@
           16992
         ],
         "n_anomalos": 30237,
-        "prevalencia": 0.030569937185891544
+        "prevalencia": 0.030569937185891544,
+        "instantes_por_tipo": {
+          "puntual": 4408,
+          "contextual": 3236,
+          "colectiva": 22593
+        }
       }
     }
   }

@@ -206,3 +206,41 @@ G0–G7 importarán directamente.
 1. Con un perfil por sensor cada celda hora × día tiene pocas observaciones: 12 a 24 por sensor en el pliegue 1 (mediana 24), 60 a 72 en el pliegue 3 y 72 a 84 en el bloque final. Los P5/P95 del pliegue 1 son por tanto más ruidosos.
 2. En 0,8 % (pliegue 1) y 1,2 % (bloque final) de las anomalías contextuales el valor inyectado es 0 porque el P5 del sensor en esa celda es 0; y en ~1 % la diferencia con el valor original es < 5 veh/5 min. No se filtraron a posteriori (no se modificó el diseño tras ver resultados); queda como limitación.
 3. Los resultados de G0 sobre el Esquema B de la Decisión 10 (agrupado) quedan **superados** por los de esta decisión.
+
+---
+
+## Decisión 13 — G0: historial mayor que la ventana de las redes y análisis de sensibilidad prefijado
+**Semana 6 (12 – 18 oct. 2026)**
+
+**Contexto:** el PPI (§2.2, §2.5.2) presenta a G0 como comparable a las redes porque todas puntúan con los pasos previos de la ventana (12 pasos: t−11 a t). La grilla de la Decisión 11 incluye ventanas de 22 y 44 pasos, y la selección en validación eligió 22, casi el doble del historial que reciben las redes. Con 11 pasos (lo máximo que cabe en la ventana, porque t no entra en su propia referencia) G0 rinde menos.
+
+**Decisión:** no se rehace la selección (la grilla y la regla se fijaron antes de ver resultados). La asimetría se declara en el §2.2 y en el Anexo A, y el resultado de G0 con 11 pasos se reporta como **análisis de sensibilidad fijado antes de entrenar las redes** (tabla `condicion = G0_w11_sensibilidad` en `results/eda/g0_por_bloque.csv`; `semana6_g0_ampliado.py`).
+
+**Resultados (verificados en el entorno del equipo):**
+
+| Esquema | G0 elegida (w = 22) | G0 sensibilidad (w = 11) |
+|---|---|---|
+| B, PR-AUC validación (873 bloques) | 0,3445 | 0,2926 |
+| B, PR-AUC prueba (291 bloques) | 0,3453 | 0,2926 |
+| A, PR-AUC validación (256 bloques) | 0,0427 | 0,0295 |
+| A, PR-AUC prueba (84 bloques) | 0,0838 | 0,0599 |
+
+**Consecuencia para H1:** el contraste de H1 se evalúa contra G0 con w = 22 (la más exigente) y se reporta también contra G0 con w = 11. Si una red supera a la primera, supera a ambas.
+
+## Decisión 14 — Normalización bajo el Esquema B: estadísticas de la serie original
+**Semana 6 (12 – 18 oct. 2026)**
+
+**Contexto:** `configs/normalizacion_zscore.json` se calculó con la serie original. Bajo el Esquema B, el entrenamiento de cada pliegue contiene ~3 % de valores alterados, de modo que μ y σ de la serie inyectada difieren de los de la original.
+
+**Medición** (`semana6_g0_ampliado.py`, serie inyectada del entrenamiento vs original):
+
+| Bloque | Δμ flujo | Δσ flujo | Δμ velocidad | Δσ velocidad |
+|---|---|---|---|---|
+| Pliegue 1 | −0,36 % | +3,93 % | −0,86 % | +7,75 % |
+| Pliegue 2 | −0,32 % | +4,05 % | −0,85 % | +7,55 % |
+| Pliegue 3 | −0,31 % | +4,08 % | −0,85 % | +7,08 % |
+| Final | −0,30 % | +4,08 % | −0,85 % | +6,60 % |
+
+(La ocupación difiere hasta 0,92 % en μ y 1,35 % en σ.)
+
+**Decisión:** se usan las estadísticas de la serie original (`normalizacion_zscore.json`) en ambos esquemas. Razones: (1) el protocolo las define sobre el entrenamiento del pliegue y la inyección es un procedimiento posterior sobre esa serie; (2) así ambos esquemas comparten la misma transformación y la comparación A vs B no se mezcla con un cambio de escala; (3) la regla no usa validación ni prueba, de modo que no hay fuga. **Limitación:** la diferencia no es despreciable en la desviación de la velocidad (hasta 7,75 %); se declara y no se corrige.

@@ -3,8 +3,13 @@
 Este proyecto sigue un versionado por semana de cronograma, no semver estricto,
 dado que se trata de un proyecto de investigación con hitos definidos por el
 protocolo (ver docs/cronograma_ppi_fechas.png).
+## [0.6.0] — Semana 6 (12–18 oct. 2026) — en curso
+### Agregado
+- `semana6_g0_ampliado.py`: G0 por bloque (`g0_por_bloque.csv`), umbral de recall 0,90, PR-AUC por tipo de anomalía y normalización bajo el Esquema B
+- `esquema_B_*.npz` incluye la clave `tipos` (puntual, contextual, colectiva)
+- Decisiones 13 (G0 con historial mayor que la ventana de las redes; sensibilidad con 11 pasos) y 14 (normalización bajo B con la serie original)
 
-## [0.5.0] — Semana 5 (5–11 oct. 2026) — en curso
+## [0.5.0] — Semana 5 (5–11 oct. 2026) — cerrada
 ### Agregado
 - `semana5_esquema_B_por_pliegue.py`: Esquema B por pliegue (Decisión 10)
 - `src/g0_linea_base.py`, `semana5_g0.py`, `configs/config_g0.json`: G0 con 12 configuraciones (Decisión 11)

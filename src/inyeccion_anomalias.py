@@ -100,16 +100,21 @@ def inyectar_anomalias(
     duraciones_colectivas,
     magnitud_sigma,
     factor_reduccion,
+    devolver_tipos=False,
 ):
     """
     Inyecta anomalias en raw_split y devuelve:
       raw_alterado : np.ndarray (T_split, S, 3)
       labels       : np.ndarray (T_split, S) con 1 en anomalias, 0 en normales
+    Si devolver_tipos=True devuelve tambien tipos (T_split, S) int8:
+      0 normal, 1 puntual, 2 contextual, 3 colectiva (no consume numeros aleatorios:
+      las posiciones y valores son identicos con y sin este parametro).
     """
     rng = np.random.default_rng(semilla)
     T, S, F = raw_split.shape
     raw_alterado = raw_split.copy()
     labels = np.zeros((T, S), dtype=np.int8)
+    tipos_arr = np.zeros((T, S), dtype=np.int8)
 
     hora, dia_semana = _timestamp_a_hora_dia(idx_inicio_split, idx_inicio_split + T)
 
@@ -146,6 +151,7 @@ def inyectar_anomalias(
                 raw_alterado[t, s, 1] = np.clip(raw_split[t, s, 1] * 1.5, 0, 1)
                 raw_alterado[t, s, 2] = max(0.0, raw_split[t, s, 2] * 0.6)
                 labels[t, s] = 1
+                tipos_arr[t, s] = 1
                 n_inyectados += 1
 
             elif tipo == "contextual":
@@ -168,6 +174,7 @@ def inyectar_anomalias(
                 nuevo = max(0.0, base * factor)
                 raw_alterado[t, s, 0] = nuevo
                 labels[t, s] = 1
+                tipos_arr[t, s] = 2
                 n_inyectados += 1
 
             elif tipo == "colectiva":
@@ -183,6 +190,9 @@ def inyectar_anomalias(
                     raw_alterado[t, s, 1] = np.clip(raw_split[t, s, 1] * 1.3, 0, 1)
                     raw_alterado[t, s, 2] = max(0.0, raw_split[t, s, 2] * 0.7)
                     labels[t, s] = 1
+                    tipos_arr[t, s] = 3
                 n_inyectados += dur
 
+    if devolver_tipos:
+        return raw_alterado, labels, tipos_arr
     return raw_alterado, labels

@@ -34,7 +34,7 @@ ESPERADOS = {
     "Codigo (raiz)": ["eda_pems04.py", "semana2_preprocesamiento.py", "semana3_particion.py", "semana3_normalizacion.py",
                       "semana3_ventanas.py", "semana4_esquema_A.py", "semana4_esquema_B.py", "semana4_normalizacion_final.py",
                       "semana4_comparacion_A_vs_B.py", "semana5_esquema_B_por_pliegue.py", "semana5_g0.py",
-                      "semana5_validacion_pipeline.py", "semana5_comparacion_A_vs_B.py"],
+                      "semana5_validacion_pipeline.py", "semana5_comparacion_A_vs_B.py", "semana6_g0_ampliado.py"],
     "Codigo (src)": ["src/ventanas.py", "src/inyeccion_anomalias.py", "src/g0_linea_base.py"],
     "Documentos raiz": ["README.md", "CHANGELOG.md", "CITATION.cff", "LICENSE", "requirements.txt", ".gitignore",
                         "bitacora_decisiones_metodologicas.md", "requirements-lock.txt"],
@@ -47,6 +47,7 @@ ESPERADOS = {
                                 "results/eda/comparacion_A_vs_B_v2.json", "results/eda/comparacion_A_vs_B_v2.md",
                                 "results/eda/g0_resultados.json", "results/eda/g0_resultados.md",
                                 "results/eda/validacion_pipeline.json", "results/eda/sensores_excluidos.csv",
+                                "results/eda/g0_por_bloque.csv", "results/eda/g0_ampliado.json", "results/eda/g0_ampliado.md",
                                 "results/eda/LEEME_resultados.md"],
     "CI": [".github/workflows/verificar-entorno.yml"],
 }
@@ -71,14 +72,23 @@ for pat in ("venv", "data/raw", "data/processed", "venv_g7"):
 
 print("\n3) Documentacion al dia")
 bit = txt("bitacora_decisiones_metodologicas.md")
-for n in ("Decisión 8", "Decisión 9", "Decisión 10", "Decisión 11"):
+for n in ("Decisión 8", "Decisión 9", "Decisión 10", "Decisión 11", "Decisión 12", "Decisión 13", "Decisión 14"):
     (ok if n in bit else falta)(f"bitacora contiene '{n}'")
 ch = txt("CHANGELOG.md")
 (ok if "0.5.0" in ch else falta)("CHANGELOG tiene la entrada [0.5.0] (Semana 5)")
 rd = txt("README.md")
-for k in ("semana5_g0.py", "g0_linea_base.py", "semana5_esquema_B_por_pliegue.py", "config_g0.json"):
+for k in ("semana5_g0.py", "g0_linea_base.py", "semana5_esquema_B_por_pliegue.py", "config_g0.json", "semana6_g0_ampliado.py"):
     (ok if k in rd else falta)(f"README menciona {k}")
-(ok if "Semana 5" in rd else falta)("README indica el estado de la Semana 5")
+(ok if "Semana 6" in rd else falta)("README indica el estado de la Semana 6")
+# H-09: el README no debe mandar a ejecutar scripts superados fuera de su anotacion de "SUPERADO"
+for i, l in enumerate(rd.splitlines(), 1):
+    if ("semana4_esquema_B.py" in l or "semana4_comparacion_A_vs_B.py" in l) and "SUPERAD" not in l.upper():
+        falta(f"README linea {i} menciona un script superado sin marcarlo: {l.strip()[:90]}")
+lock = txt("requirements-lock.txt")
+for pat in ("file:///", "Downloads", "@ file"):
+    if pat in lock:
+        falta(f"requirements-lock.txt contiene una ruta local ({pat}): no es reproducible por otras personas")
+(ok if "torch" not in lock.lower() else falta)("requirements-lock.txt sin torch (va en venv_g7)")
 ci = txt(".github/workflows/verificar-entorno.yml")
 (ok if ("compileall" in ci or "py_compile" in ci) else falta)("CI compila el codigo")
 (ok if "src" in ci else falta)("CI cubre src/")

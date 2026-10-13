@@ -21,7 +21,8 @@ Esta version (Decision 10):
 Requiere: data/processed/pems04_semana2.npz, configs/particion_temporal.json,
           configs/config_esquema_B.json, src/inyeccion_anomalias.py
 Genera:   data/processed/esquema_B_pliegue{1,2,3}.npz y esquema_B_final.npz
-          (claves: data (T,S,3) alterado, labels (T,S): 0/1 dentro de lo inyectado, -1 fuera)
+          (claves: data (T,S,3) alterado, labels (T,S): 0/1 dentro de lo inyectado, -1 fuera,
+          tipos (T,S): 0 normal, 1 puntual, 2 contextual, 3 colectiva)
           results/eda/prevalencia_esquema_B_por_pliegue.json
 """
 import json
@@ -41,7 +42,7 @@ ID_SPLIT = {"train": 0, "val": 1, "test": 2}
 
 def inyectar_bloque(raw, a, b, perfil, cfg, id_pliegue, split):
     return inyectar_anomalias(
-        raw_split=raw[a:b], idx_inicio_split=a, perfil=perfil,
+        devolver_tipos=True, raw_split=raw[a:b], idx_inicio_split=a, perfil=perfil,
         prevalencia_objetivo=cfg["prevalencia_objetivo"],
         semilla=[cfg["semilla_inyeccion"], id_pliegue, ID_SPLIT[split]],
         distribucion_tipos=cfg["distribucion_tipos"],
@@ -56,6 +57,7 @@ def construir(raw, cfg, id_pliegue, bloques, train_rango):
     T, S, _ = raw.shape
     alt = raw.copy()
     lab = np.full((T, S), -1, dtype=np.int8)
+    tip = np.zeros((T, S), dtype=np.int8)   # 0 normal/fuera, 1 puntual, 2 contextual, 3 colectiva
     por_sensor = bool(cfg.get("perfil_por_sensor", False))
     perfil, _, _ = construir_perfil_hora_dia(raw[train_rango[0]:train_rango[1], :, 0],
                                              por_sensor=por_sensor)
@@ -64,11 +66,13 @@ def construir(raw, cfg, id_pliegue, bloques, train_rango):
             "el perfil por sensor debe tener un vector (S,) por celda"
     rep = {}
     for split, a, b in bloques:
-        x, l = inyectar_bloque(raw, a, b, perfil, cfg, id_pliegue, split)
-        alt[a:b], lab[a:b] = x, l
+        x, l, tp = inyectar_bloque(raw, a, b, perfil, cfg, id_pliegue, split)
+        alt[a:b], lab[a:b], tip[a:b] = x, l, tp
+        assert np.array_equal(tp > 0, l == 1), "tipos y etiquetas no coinciden"
+        rep_tipos = {n: int((tp == c).sum()) for n, c in (("puntual", 1), ("contextual", 2), ("colectiva", 3))}
         rep[split] = {"rango": [int(a), int(b)], "n_anomalos": int(l.sum()),
-                      "prevalencia": float(l.mean())}
-    return alt, lab, rep
+                      "prevalencia": float(l.mean()), "instantes_por_tipo": rep_tipos}
+    return alt, lab, rep, tip
 
 
 def verificar(raw, alt, lab, bloques, nombre):
@@ -104,24 +108,24 @@ def main():
         k = pl["pliegue"]
         (t0, t1), (v0, v1) = pl["train_idx"], pl["val_idx"]
         bl = [("train", t0, t1), ("val", v0, v1)]
-        alt, lab, rep = construir(raw, cfg, k, bl, (t0, t1))
+        alt, lab, rep, tip = construir(raw, cfg, k, bl, (t0, t1))
         verificar(raw, alt, lab, bl, f"pliegue{k}")
-        np.savez_compressed(f"data/processed/esquema_B_pliegue{k}.npz", data=alt, labels=lab)
+        np.savez_compressed(f"data/processed/esquema_B_pliegue{k}.npz", data=alt, labels=lab, tipos=tip)
         reporte["pliegues"][f"pliegue{k}"] = rep
         print(f"Pliegue {k}: " + " | ".join(f"{s} {r['prevalencia']*100:.3f}% ({r['n_anomalos']:,})"
                                              for s, r in rep.items()))
 
     te0, te1 = part["test_idx"]
     bl = [("train", 0, te0), ("test", te0, te1)]
-    alt, lab, rep = construir(raw, cfg, 0, bl, (0, te0))
+    alt, lab, rep, tip = construir(raw, cfg, 0, bl, (0, te0))
     verificar(raw, alt, lab, bl, "final")
-    np.savez_compressed("data/processed/esquema_B_final.npz", data=alt, labels=lab)
+    np.savez_compressed("data/processed/esquema_B_final.npz", data=alt, labels=lab, tipos=tip)
     reporte["pliegues"]["final"] = rep
     print("Final  : " + " | ".join(f"{s} {r['prevalencia']*100:.3f}% ({r['n_anomalos']:,})" for s, r in rep.items()))
 
     # Reproducibilidad: segunda corrida del pliegue 1 debe ser identica
     t0, t1 = part["pliegues"][0]["train_idx"]; v0, v1 = part["pliegues"][0]["val_idx"]
-    alt2, lab2, _ = construir(raw, cfg, 1, [("train", t0, t1), ("val", v0, v1)], (t0, t1))
+    alt2, lab2, _, _ = construir(raw, cfg, 1, [("train", t0, t1), ("val", v0, v1)], (t0, t1))
     assert np.array_equal(lab2, np.load("data/processed/esquema_B_pliegue1.npz")["labels"]), "no reproducible"
     print("Controles OK: nada fuera de los bloques, label 0 = sin cambios, prevalencia ~3 %,"
           " train != val, reproducible.")

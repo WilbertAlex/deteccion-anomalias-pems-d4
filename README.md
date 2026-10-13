@@ -2,7 +2,7 @@
 
 Proyecto de Investigación IV — Escuela Profesional de Ingeniería de Sistemas, Universidad Peruana Unión (UPeU), filial Juliaca.
 
-**Estado actual:** Semana 5 de 12 en curso. Datos, Esquemas A y B (corregido) y G0 ejecutados y verificados; pendientes el control de integracion de G7 y las correcciones del protocolo.
+**Estado actual:** Semana 6 de 12 en curso. Datos, Esquemas A y B (perfil por sensor), G0 (con salida por bloque) y 50 controles de fuga ejecutados y verificados; pendientes el codigo de G1-G7, la medicion de una epoca real y las correcciones del protocolo.
 
 ## Qué es este proyecto
 
@@ -29,7 +29,7 @@ El protocolo evalúa las 8 condiciones bajo **dos esquemas independientes de eti
 │   ├── particion_temporal.json           (3 pliegues walk-forward + prueba final)
 │   ├── normalizacion_zscore.json         (mu y sigma por pliegue + bloque final)
 │   ├── config_esquema_A.json             (Esquema A causal, Decision 8)
-│   ├── config_esquema_B.json             (Esquema B, Decisiones 9 y 10)
+│   ├── config_esquema_B.json             (Esquema B, Decisiones 9, 10 y 12)
 │   ├── config_g0.json                    (G0: grilla y regla de seleccion, Decision 11)
 │   ├── config_final.json                 (se sella en el gate de la semana 7)
 │   └── hardware.json                     (caracterizacion del entorno)
@@ -56,13 +56,14 @@ El protocolo evalúa las 8 condiciones bajo **dos esquemas independientes de eti
 ├── semana5_g0.py                         (Semana 5)
 ├── semana5_validacion_pipeline.py        (Semana 5)
 ├── semana5_comparacion_A_vs_B.py         (Semana 5)
+├── semana6_g0_ampliado.py                (Semana 6: G0 por bloque, recall 0.90, tipos, normalizacion)
 ├── auditar_repo.py                       (auditoria de lo versionado)
-├── bitacora_decisiones_metodologicas.md  (Decisiones 1-11)
+├── bitacora_decisiones_metodologicas.md  (Decisiones 1-14)
 ├── CHANGELOG.md, CITATION.cff, LICENSE, requirements.txt, requirements-lock.txt
 └── README.md
 ```
 
-**Orden de ejecucion:** `eda_pems04.py` → `semana2_preprocesamiento.py` → `semana3_particion.py` → `semana3_normalizacion.py` → `semana4_normalizacion_final.py` → `semana4_esquema_A.py` → `semana5_esquema_B_por_pliegue.py` → `semana5_g0.py` → `semana5_validacion_pipeline.py` → `semana5_comparacion_A_vs_B.py`.
+**Orden de ejecucion:** `eda_pems04.py` → `semana2_preprocesamiento.py` → `semana3_particion.py` → `semana3_normalizacion.py` → `semana4_normalizacion_final.py` → `semana4_esquema_A.py` → `semana5_esquema_B_por_pliegue.py` → `semana5_g0.py` → `semana5_validacion_pipeline.py` → `semana5_comparacion_A_vs_B.py` → `semana6_g0_ampliado.py`.
 
 ## Reproducibilidad
 
