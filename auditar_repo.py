@@ -42,7 +42,7 @@ ESPERADOS = {
     "Documentos raiz": ["README.md", "CHANGELOG.md", "CITATION.cff", "LICENSE", "requirements.txt", ".gitignore",
                         "bitacora_decisiones_metodologicas.md", "requirements-lock.txt"],
     "Informes": ["docs/informes/informe_avance_por_integrante.pdf"] +
-                [f"docs/informes/semana{i}_por_integrante.pdf" for i in range(1, 7)] +
+                [f"docs/informes/semana{i}_por_integrante.pdf" for i in range(1, 8)] +
                 ["docs/justificacion_dataset_pems04.pdf"],
     "Imagenes": ["docs/imagenes/arquitectura_sistema.png", "docs/imagenes/cronograma_ppi_fechas.png",
                  "docs/imagenes/flujo_datos_modelos.png", "docs/imagenes/pipeline_estado_detallado.png"],
