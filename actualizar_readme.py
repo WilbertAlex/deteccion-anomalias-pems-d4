@@ -31,7 +31,9 @@ ESTRUCTURA = '''## Estructura del repositorio
 ├── src/
 │   ├── ventanas.py                       (ventaneo reutilizable)
 │   ├── inyeccion_anomalias.py            (modulo del Esquema B)
-│   └── g0_linea_base.py                  (G0: score causal y evaluacion por bloque)
+│   ├── g0_linea_base.py                  (G0: score causal y evaluacion por bloque)
+│   ├── datos.py                          (cargador tf.data de ventanas por esquema y pliegue)
+│   └── entrenar.py                       (semillas, parada temprana por PR-AUC, evaluacion por bloque)
 ├── eda_pems04.py                         (Semana 1)
 ├── semana2_preprocesamiento.py           (Semana 2)
 ├── semana3_particion.py / semana3_normalizacion.py / semana3_ventanas.py   (Semana 3)
@@ -44,6 +46,8 @@ ESTRUCTURA = '''## Estructura del repositorio
 ├── semana5_validacion_pipeline.py        (Semana 5)
 ├── semana5_comparacion_A_vs_B.py         (Semana 5)
 ├── semana6_g0_ampliado.py                (Semana 6: G0 por bloque, recall 0.90, tipos, normalizacion)
+├── semana6_verificar_datos.py            (Semana 6: 73 controles del cargador de datos)
+├── semana6_cronometro_epoca.py           (Semana 6: costo real de una epoca y de la busqueda)
 ├── auditar_repo.py                       (auditoria de lo versionado)
 ├── bitacora_decisiones_metodologicas.md  (Decisiones 1-14)
 ├── CHANGELOG.md, CITATION.cff, LICENSE, requirements.txt, requirements-lock.txt

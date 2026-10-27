@@ -34,8 +34,9 @@ ESPERADOS = {
     "Codigo (raiz)": ["eda_pems04.py", "semana2_preprocesamiento.py", "semana3_particion.py", "semana3_normalizacion.py",
                       "semana3_ventanas.py", "semana4_esquema_A.py", "semana4_esquema_B.py", "semana4_normalizacion_final.py",
                       "semana4_comparacion_A_vs_B.py", "semana5_esquema_B_por_pliegue.py", "semana5_g0.py",
-                      "semana5_validacion_pipeline.py", "semana5_comparacion_A_vs_B.py", "semana6_g0_ampliado.py"],
-    "Codigo (src)": ["src/ventanas.py", "src/inyeccion_anomalias.py", "src/g0_linea_base.py"],
+                      "semana5_validacion_pipeline.py", "semana5_comparacion_A_vs_B.py", "semana6_g0_ampliado.py",
+                      "semana6_verificar_datos.py", "semana6_cronometro_epoca.py"],
+    "Codigo (src)": ["src/ventanas.py", "src/inyeccion_anomalias.py", "src/g0_linea_base.py", "src/datos.py", "src/entrenar.py"],
     "Documentos raiz": ["README.md", "CHANGELOG.md", "CITATION.cff", "LICENSE", "requirements.txt", ".gitignore",
                         "bitacora_decisiones_metodologicas.md", "requirements-lock.txt"],
     "Informes": ["docs/informes/informe_avance_por_integrante.pdf"] +
@@ -47,7 +48,7 @@ ESPERADOS = {
                                 "results/eda/comparacion_A_vs_B_v2.json", "results/eda/comparacion_A_vs_B_v2.md",
                                 "results/eda/g0_resultados.json", "results/eda/g0_resultados.md",
                                 "results/eda/validacion_pipeline.json", "results/eda/sensores_excluidos.csv",
-                                "results/eda/g0_por_bloque.csv", "results/eda/g0_ampliado.json", "results/eda/g0_ampliado.md",
+                                "results/eda/g0_por_bloque.csv", "results/eda/verificacion_datos.json", "results/eda/g0_ampliado.json", "results/eda/g0_ampliado.md",
                                 "results/eda/LEEME_resultados.md"],
     "CI": [".github/workflows/verificar-entorno.yml"],
 }
