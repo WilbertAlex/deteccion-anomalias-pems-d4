@@ -1,0 +1,71 @@
+{
+  "controles_ok": 40,
+  "controles_total": 40,
+  "tensorflow": "2.16.2",
+  "modelos": {
+    "lstm": {
+      "parametros": 213,
+      "config_de_prueba": {
+        "unidades": 4,
+        "capas": 1,
+        "dropout": 0.0,
+        "lr": 0.001
+      },
+      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6"
+    },
+    "gru": {
+      "parametros": 293,
+      "config_de_prueba": {
+        "unidades": 4,
+        "capas": 2,
+        "dropout": 0.1,
+        "lr": 0.001
+      },
+      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6"
+    },
+    "cnn1d": {
+      "parametros": 157,
+      "config_de_prueba": {
+        "filtros": 4,
+        "kernel": 3,
+        "capas": 2,
+        "dropout": 0.1,
+        "lr": 0.001
+      },
+      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6"
+    },
+    "autoencoder": {
+      "parametros": 1699,
+      "config_de_prueba": {
+        "unidades_ocultas": 8,
+        "dim_latente": 3,
+        "lr": 0.001
+      },
+      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6"
+    },
+    "transformer": {
+      "parametros": 641,
+      "config_de_prueba": {
+        "d_model": 8,
+        "cabezas": 2,
+        "ff": 8,
+        "capas": 1,
+        "dropout": 0.1,
+        "lr": 0.001
+      },
+      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6"
+    },
+    "cnn_lstm_gru": {
+      "parametros": 369,
+      "config_de_prueba": {
+        "filtros": 4,
+        "kernel": 3,
+        "unidades_lstm": 4,
+        "unidades_gru": 4,
+        "dropout": 0.0,
+        "lr": 0.001
+      },
+      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6"
+    }
+  }
+}

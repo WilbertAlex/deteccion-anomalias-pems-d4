@@ -1,0 +1,13 @@
+{
+  "estado": "PLANTILLA - COMPLETAR con los rangos del Cuadro 6 del PPI. No hay valores inventados: los null hacen fallar semana7_busqueda.py",
+  "fuente": "Cuadro 6 del PPI",
+  "espacio": {
+    "lstm": {"unidades": null, "capas": null, "dropout": null, "lr": null},
+    "gru": {"unidades": null, "capas": null, "dropout": null, "lr": null},
+    "cnn1d": {"filtros": null, "kernel": null, "capas": null, "dropout": null, "lr": null},
+    "autoencoder": {"unidades_ocultas": null, "dim_latente": null, "lr": null},
+    "transformer": {"d_model": null, "cabezas": null, "ff": null, "capas": null, "dropout": null, "lr": null},
+    "cnn_lstm_gru": {"filtros": null, "kernel": null, "unidades_lstm": null, "unidades_gru": null, "dropout": null, "lr": null}
+  },
+  "formato": "cada hiperparametro = lista de valores candidatos, p. ej. [32, 64, 128]"
+}

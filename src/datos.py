@@ -73,13 +73,19 @@ class Fuente:
         self.T, self.S = self.X3.shape[:2]
         self.rangos = rangos(pliegue)
 
-    def indices(self, split):
-        """(t, s, y) de los instantes con etiqueta valida en el split y t >= VENTANA-1."""
+    def indices(self, split, paso_t=1):
+        """(t, s, y) de los instantes con etiqueta valida en el split y t >= VENTANA-1.
+        paso_t > 1: submuestra FIJA (determinista, sin azar) que conserva solo los instantes t
+        multiplos de paso_t; se usa unicamente en la fase de busqueda de hiperparametros."""
         a, b = self.rangos[split]
         a = max(a, VENTANA - 1)
         sub = self.labels[a:b]
         tt, ss = np.nonzero(sub != -1)
-        return (tt + a).astype(np.int32), ss.astype(np.int32), sub[tt, ss].astype(np.float32)
+        tt = tt + a
+        if paso_t > 1:
+            k = (tt % paso_t) == 0
+            tt, ss = tt[k], ss[k]
+        return tt.astype(np.int32), ss.astype(np.int32), self.labels[tt, ss].astype(np.float32)
 
     def ventanas_numpy(self, t, s):
         """Ventanas (n, 12, 8) float32 para pares (t, s). Solo para verificacion y pruebas pequenas."""
@@ -90,11 +96,11 @@ class Fuente:
         return np.concatenate([a, b], axis=2)
 
 
-def dataset(fuente, split, batch=64, barajar=None, semilla=0):
+def dataset(fuente, split, batch=64, barajar=None, semilla=0, paso_t=1):
     """tf.data.Dataset de (ventanas (B,12,8), y (B,)). barajar=None -> True solo en train."""
     import tensorflow as tf
     assert split in fuente.rangos, f"el pliegue {fuente.pliegue} no tiene split '{split}'"
-    t, s, y = fuente.indices(split)
+    t, s, y = fuente.indices(split, paso_t)
     barajar = (split == "train") if barajar is None else barajar
     X3 = tf.constant(fuente.X3)
     TMP = tf.constant(fuente.temp)

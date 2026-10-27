@@ -30,17 +30,19 @@ def txt(p):
 ESPERADOS = {
     "Configuracion": ["configs/config_esquema_A.json", "configs/config_esquema_B.json", "configs/config_final.json",
                       "configs/config_g0.json", "configs/config_preprocesamiento.json", "configs/hardware.json",
+                      "configs/config_busqueda.json", "configs/config_modelos.json",
                       "configs/normalizacion_zscore.json", "configs/particion_temporal.json"],
     "Codigo (raiz)": ["eda_pems04.py", "semana2_preprocesamiento.py", "semana3_particion.py", "semana3_normalizacion.py",
                       "semana3_ventanas.py", "semana4_esquema_A.py", "semana4_esquema_B.py", "semana4_normalizacion_final.py",
                       "semana4_comparacion_A_vs_B.py", "semana5_esquema_B_por_pliegue.py", "semana5_g0.py",
                       "semana5_validacion_pipeline.py", "semana5_comparacion_A_vs_B.py", "semana6_g0_ampliado.py",
-                      "semana6_verificar_datos.py", "semana6_cronometro_epoca.py"],
-    "Codigo (src)": ["src/ventanas.py", "src/inyeccion_anomalias.py", "src/g0_linea_base.py", "src/datos.py", "src/entrenar.py"],
+                      "semana6_verificar_datos.py", "semana6_cronometro_epoca.py", "semana7_humo_modelos.py",
+                      "semana7_busqueda.py"],
+    "Codigo (src)": ["src/ventanas.py", "src/inyeccion_anomalias.py", "src/g0_linea_base.py", "src/datos.py", "src/entrenar.py", "src/modelos.py"],
     "Documentos raiz": ["README.md", "CHANGELOG.md", "CITATION.cff", "LICENSE", "requirements.txt", ".gitignore",
                         "bitacora_decisiones_metodologicas.md", "requirements-lock.txt"],
     "Informes": ["docs/informes/informe_avance_por_integrante.pdf"] +
-                [f"docs/informes/semana{i}_por_integrante.pdf" for i in range(1, 6)] +
+                [f"docs/informes/semana{i}_por_integrante.pdf" for i in range(1, 7)] +
                 ["docs/justificacion_dataset_pems04.pdf"],
     "Imagenes": ["docs/imagenes/arquitectura_sistema.png", "docs/imagenes/cronograma_ppi_fechas.png",
                  "docs/imagenes/flujo_datos_modelos.png", "docs/imagenes/pipeline_estado_detallado.png"],
