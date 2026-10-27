@@ -28,15 +28,19 @@ def _j(p):
     return json.loads(Path(p).read_text(encoding="utf-8-sig"))
 
 
-def muestrear(espacio, n, semilla):
-    """n configuraciones distintas, deterministas, de un espacio {clave: [valores]}."""
+def muestrear(espacio, n, semilla, inicial=None):
+    """n configuraciones distintas y deterministas. Si se da `inicial` (Cuadro 6), es la configuracion 0 y
+    las n-1 restantes se muestrean del espacio {clave: [valores]} sin repetirla."""
     claves = sorted(espacio)
     for k in claves:
-        assert isinstance(espacio[k], list) and len(espacio[k]) > 0, f"{k}: lista de candidatos vacia o null (completar Cuadro 6)"
-    todas = list(itertools.product(*[espacio[k] for k in claves]))
+        assert isinstance(espacio[k], list) and len(espacio[k]) > 0, f"{k}: lista de candidatos vacia o null"
+    todas = [dict(zip(claves, v)) for v in itertools.product(*[espacio[k] for k in claves])]
+    if inicial is not None:
+        todas = [c for c in todas if c != {k: inicial[k] for k in claves}]
     rng = np.random.default_rng(semilla)
-    idx = rng.permutation(len(todas))[:min(n, len(todas))]
-    return [dict(zip(claves, todas[i])) for i in sorted(idx)]
+    idx = rng.permutation(len(todas))[:min(n - (1 if inicial is not None else 0), len(todas))]
+    elegidas = [todas[i] for i in sorted(idx)]
+    return ([dict(inicial)] if inicial is not None else []) + elegidas
 
 
 def puntuar(modelo, arq, fuente, split, paso_t=1, lote=1024):
@@ -129,13 +133,14 @@ def main():
     bus = _j("configs/config_busqueda.json")
     if a.prueba:                                  # humo: nada de esto es del Cuadro 6
         bus = dict(bus, epocas_max_busqueda=1, paso_t_busqueda=40)
-        esp = {"unidades": [4, 8], "capas": [1], "dropout": [0.0], "lr": [1e-3]}
+        esp = {"unidades": [[4], [8]], "dropout": [0.0], "lr": [1e-3]}
         cfgs, arq, esq, pliegues, paso_val, ruta = muestrear(esp, 2, 1), "lstm", "B", [1], 40, SAL / "PRUEBA.jsonl"
         ruta.unlink(missing_ok=True)
     else:
         assert a.arq and a.esquema, "indica --arq y --esquema"
-        esp = _j("configs/config_modelos.json")["espacio"][a.arq]
-        cfgs = muestrear(esp, bus["n_configuraciones"], bus["semilla_muestreo"] + sorted(_j("configs/config_modelos.json")["espacio"]).index(a.arq))
+        cm = _j("configs/config_modelos.json")
+        cfgs = muestrear(cm["espacio"][a.arq], bus["n_configuraciones"],
+                         bus["semilla_muestreo"] + sorted(cm["espacio"]).index(a.arq), inicial=cm["inicial"][a.arq])
         arq, esq, pliegues, paso_val, ruta = a.arq, a.esquema, [1, 2, 3], 1, SAL / f"{a.arq}_{a.esquema}.jsonl"
     hechos = set()
     if ruta.exists():

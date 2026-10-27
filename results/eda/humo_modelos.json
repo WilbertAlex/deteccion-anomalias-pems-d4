@@ -1,59 +1,74 @@
 {
-  "controles_ok": 40,
-  "controles_total": 40,
+  "controles_ok": 54,
+  "controles_total": 54,
   "tensorflow": "2.16.2",
   "modelos": {
     "lstm": {
       "parametros": 213,
       "config_de_prueba": {
-        "unidades": 4,
-        "capas": 1,
+        "unidades": [
+          4
+        ],
         "dropout": 0.0,
         "lr": 0.001
       },
-      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6"
+      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6",
+      "parametros_cuadro6": 31137
     },
     "gru": {
-      "parametros": 293,
+      "parametros": 253,
       "config_de_prueba": {
-        "unidades": 4,
-        "capas": 2,
+        "unidades": [
+          4,
+          3
+        ],
         "dropout": 0.1,
         "lr": 0.001
       },
-      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6"
+      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6",
+      "parametros_cuadro6": 23649
     },
     "cnn1d": {
       "parametros": 157,
       "config_de_prueba": {
-        "filtros": 4,
+        "filtros": [
+          4,
+          4
+        ],
         "kernel": 3,
-        "capas": 2,
-        "dropout": 0.1,
+        "weight_decay": 0.0001,
         "lr": 0.001
       },
-      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6"
+      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6",
+      "parametros_cuadro6": 31841
     },
     "autoencoder": {
-      "parametros": 1699,
+      "parametros": 1747,
       "config_de_prueba": {
-        "unidades_ocultas": 8,
-        "dim_latente": 3,
+        "capas": [
+          8,
+          4,
+          3
+        ],
+        "l2": 0.0,
         "lr": 0.001
       },
-      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6"
+      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6",
+      "parametros_cuadro6": 7624
     },
     "transformer": {
       "parametros": 641,
       "config_de_prueba": {
-        "d_model": 8,
+        "bloques": 1,
         "cabezas": 2,
+        "d_model": 8,
         "ff": 8,
-        "capas": 1,
         "dropout": 0.1,
-        "lr": 0.001
+        "lr": 0.001,
+        "weight_decay": 0.0001
       },
-      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6"
+      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6",
+      "parametros_cuadro6": 68353
     },
     "cnn_lstm_gru": {
       "parametros": 369,
@@ -65,7 +80,8 @@
         "dropout": 0.0,
         "lr": 0.001
       },
-      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6"
+      "nota": "configuracion de prueba de forma; NO es la del Cuadro 6",
+      "parametros_cuadro6": 44065
     }
   }
 }
