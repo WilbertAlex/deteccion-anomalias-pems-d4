@@ -1,0 +1,389 @@
+{
+  "n_ok": 73,
+  "n_total": 73,
+  "conteos_ventanas": {
+    "A/pliegue1/train": 905010,
+    "A/pliegue1/val": 988818,
+    "A/pliegue2/train": 1893828,
+    "A/pliegue2/val": 988818,
+    "A/pliegue3/train": 2882646,
+    "A/pliegue3/val": 989109,
+    "A/plieguefinal/train": 3871755,
+    "A/plieguefinal/test": 989109,
+    "B/pliegue1/train": 985617,
+    "B/pliegue1/val": 988818,
+    "B/pliegue2/train": 1974435,
+    "B/pliegue2/val": 988818,
+    "B/pliegue3/train": 2963253,
+    "B/pliegue3/val": 989109,
+    "B/plieguefinal/train": 3952362,
+    "B/plieguefinal/test": 989109
+  },
+  "checks": [
+    {
+      "check": "X3 float32 y temporales float32",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "A: media del flujo normalizado en train ~ 0",
+      "ok": true,
+      "detalle": "4.44e-09"
+    },
+    {
+      "check": "A: desviacion del flujo normalizado en train ~ 1",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: todos los t dentro de [0,3398) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "val: todos los t dentro de [3398,6796) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "val: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "val: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "train y val sin instantes comunes",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "X3 float32 y temporales float32",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "A: media del flujo normalizado en train ~ 0",
+      "ok": true,
+      "detalle": "9.88e-10"
+    },
+    {
+      "check": "A: desviacion del flujo normalizado en train ~ 1",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: todos los t dentro de [0,6796) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "val: todos los t dentro de [6796,10194) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "val: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "val: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "train y val sin instantes comunes",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "X3 float32 y temporales float32",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "A: media del flujo normalizado en train ~ 0",
+      "ok": true,
+      "detalle": "-4.32e-09"
+    },
+    {
+      "check": "A: desviacion del flujo normalizado en train ~ 1",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: todos los t dentro de [0,10194) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "val: todos los t dentro de [10194,13593) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "val: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "val: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "train y val sin instantes comunes",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "X3 float32 y temporales float32",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "A: media del flujo normalizado en train ~ 0",
+      "ok": true,
+      "detalle": "3.21e-09"
+    },
+    {
+      "check": "A: desviacion del flujo normalizado en train ~ 1",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: todos los t dentro de [0,13593) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "test: todos los t dentro de [13593,16992) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "test: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "test: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "train y test sin instantes comunes",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "X3 float32 y temporales float32",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: todos los t dentro de [0,3398) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "val: todos los t dentro de [3398,6796) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "val: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "val: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "train y val sin instantes comunes",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "X3 float32 y temporales float32",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: todos los t dentro de [0,6796) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "val: todos los t dentro de [6796,10194) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "val: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "val: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "train y val sin instantes comunes",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "X3 float32 y temporales float32",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: todos los t dentro de [0,10194) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "val: todos los t dentro de [10194,13593) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "val: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "val: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "train y val sin instantes comunes",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "X3 float32 y temporales float32",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: todos los t dentro de [0,13593) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "train: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "test: todos los t dentro de [13593,16992) y t >= 11",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "test: etiquetas solo 0/1 (sin -1)",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "test: forma (n,12,8) float32 y ventanas identicas a src/ventanas.py",
+      "ok": true,
+      "detalle": "1455 ventanas comparadas en 5 instantes"
+    },
+    {
+      "check": "train y test sin instantes comunes",
+      "ok": true,
+      "detalle": ""
+    },
+    {
+      "check": "B pliegue 3 train: 291 * (10194 - 11) = 2 963 253 ventanas",
+      "ok": true,
+      "detalle": "2963253"
+    }
+  ]
+}
