@@ -1,0 +1,564 @@
+% =====================================================================
+%  Short paper (maximo 5 paginas) -- formato de conferencia IEEE (IEEEtran)
+%  PPI Grupo 4 -- UPeU Juliaca -- protocolo de deteccion de anomalias PeMS-D4
+%  Version en espanol del 27 oct 2026 (fin de la semana 8 de 12).
+%
+%  LEYENDA DE ESTADO usada en el texto:
+%    "obtenido"  -> resultados producidos y verificados con pruebas
+%                   automaticas (assert) (Anexo C del PPI, semanas 1--8).
+%    "pendiente" -> analisis definidos a priori pero aun no ejecutados.
+%  Las lineas marcadas  %% TODO  requieren informacion de los autores.
+% =====================================================================
+\documentclass[conference]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{pifont}
+
+\newcommand{\cm}{\ding{51}}          % reportado / cumplido
+\newcommand{\xm}{\ding{55}}          % no realizado
+\newcommand{\nr}{n.i.}               % no informado
+\newcommand{\pend}{\textit{pendiente}} % analisis aun no ejecutado
+\newcommand{\pl}{\textit{plan}}            % planificado, aun no ejecutado
+\usepackage{url}
+
+\begin{document}
+
+\title{Aprendizaje profundo frente a una l\'inea base no param\'etrica para la
+detecci\'on de anomal\'ias en el flujo vehicular de autopistas: protocolo
+uniforme y dise\~no de sensibilidad al etiquetado en PeMS-D4}
+
+%% TODO: confirmar orden de autores, correos u ORCID, y si el asesor figura
+%% como coautor segun las reglas de la conferencia.
+\author{\IEEEauthorblockN{Wilbert Alex Mayta Arotaype}
+\IEEEauthorblockA{\textit{Escuela Profesional de Ingenier\'ia de Sistemas} \\
+\textit{Universidad Peruana Uni\'on}\\
+Juliaca, Per\'u \\
+correo o ORCID}
+\and
+\IEEEauthorblockN{Juan Enders Prieto Quispe}
+\IEEEauthorblockA{\textit{Escuela Profesional de Ingenier\'ia de Sistemas} \\
+\textit{Universidad Peruana Uni\'on}\\
+Juliaca, Per\'u \\
+correo o ORCID}
+\and
+\IEEEauthorblockN{Wrangler Choquechambi Luque}
+\IEEEauthorblockA{\textit{Escuela Profesional de Ingenier\'ia de Sistemas} \\
+\textit{Universidad Peruana Uni\'on}\\
+Juliaca, Per\'u \\
+correo o ORCID}
+\and
+\IEEEauthorblockN{Esteban Tocto Cano}
+\IEEEauthorblockA{\textit{Escuela Profesional de Ingenier\'ia de Sistemas} \\
+\textit{Universidad Peruana Uni\'on}\\
+Juliaca, Per\'u \\
+correo o ORCID}
+}
+
+\maketitle
+
+% NOTA (regla de la plantilla): sin simbolos, caracteres especiales, notas
+% al pie ni matematicas en el titulo ni en el resumen.
+\begin{abstract}
+Los detectores de anomal\'ias de tr\'afico basados en aprendizaje profundo
+suelen reportarse con conjuntos de datos, particiones, umbrales y etiquetas
+heterog\'eneos, mientras que estudios recientes muestran que los detectores
+estad\'isticos simples suelen ser competitivos una vez eliminados los
+defectos de evaluaci\'on. Presentamos un protocolo uniforme, cuyas reglas
+principales se fijaron antes de ver cualquier resultado de redes neuronales,
+que compara seis familias de aprendizaje profundo (LSTM, GRU, CNN-1D,
+autoencoder, Transformer e h\'ibrido CNN-LSTM-GRU) y un modelo publicado
+(SI-DMSeq) frente a una l\'inea base no param\'etrica de estad\'isticos m\'oviles
+sobre series de flujo de autopistas de PeMS-D4. El protocolo usa validaci\'on
+temporal progresiva, un procedimiento com\'un y reducido de ajuste para las
+seis familias entrenadas (el modelo publicado queda en su configuraci\'on por
+defecto), tres semillas para los modelos finales, PR-AUC sin ajuste por
+puntos, pruebas pareadas con correcci\'on de Holm, medici\'on de latencia y dos
+esquemas de etiquetado construidos por separado: un proxy estad\'istico causal
+y la inyecci\'on controlada de anomal\'ias puntuales, contextuales y
+colectivas, para evaluar si el ranking de detectores depende de c\'omo se
+definen las anomal\'ias. Los resultados preliminares, que pasaron las
+verificaciones autom\'aticas de consistencia especificadas, abarcan la
+depuraci\'on de datos (291 de 307 sensores conservados), ambos esquemas de
+etiquetado y la l\'inea base. El esquema proxy produce una prevalencia de 0.10
+por ciento y solo 29.2 por ciento de los bloques de evaluaci\'on contiene
+ambas clases; su conjunto positivo casi no se solapa con el inyectado
+(\'indice de Jaccard de a lo sumo 0.0012); y la l\'inea base alcanza un PR-AUC
+medio por bloque de 0.345 en prueba bajo inyecci\'on, unas 11 veces el azar,
+pero un PR-AUC agregado de solo 0.003 bajo el proxy, unas tres veces el azar.
+Los tiempos de entrenamiento medidos obligaron a una b\'usqueda de
+hiperpar\'ametros reducida y declarada de antemano. Los resultados de
+aprendizaje profundo y las pruebas estad\'isticas est\'an pendientes.
+\end{abstract}
+
+\begin{IEEEkeywords}
+detecci\'on de anomal\'ias, aprendizaje profundo, protocolo de evaluaci\'on,
+PeMS, series temporales, flujo vehicular, inyecci\'on sint\'etica de anomal\'ias
+\end{IEEEkeywords}
+
+% ---------------------------------------------------------------------
+\section{Introducci\'on}
+
+\textbf{Contexto y afectados.} Los centros de gesti\'on de tr\'afico, como el
+Departamento de Transporte de California (Caltrans), que patrocina PeMS
+\cite{chen2003pems}, dependen de sensores de autopista para detectar
+perturbaciones, y los conductores sufren las demoras. La Administraci\'on
+Federal de Carreteras de EE.\ UU.\ atribuye cerca de la mitad de la
+congesti\'on a perturbaciones temporales, y solo los incidentes explican 25\%
+de la congesti\'on \cite{fhwa_nonrecurring}. En el \'area de la Bah\'ia de San
+Francisco, INRIX estim\'o que la congesti\'on cost\'o a cada conductor 79 horas y
+USD~2\,250 en 2017, el a\~no previo al periodo estudiado aqu\'i
+\cite{cbs2018inrix}. Detectar a tiempo observaciones at\'ipicas tiene por tanto
+valor operativo. Si los detectores se adoptan por resultados que no se pueden
+comparar, un operador puede pagar modelos profundos costosos sin una ventaja
+demostrada sobre una regla simple, y por eso hace falta un protocolo uniforme
+de evaluaci\'on.
+
+Los detectores de lazo en autopistas producen series de flujo densas,
+estacionales y ruidosas, en las que identificar a tiempo observaciones
+at\'ipicas apoya el monitoreo del tr\'afico. Se han propuesto detectores de
+aprendizaje profundo (DL) basados en recurrencia, convoluci\'on,
+reconstrucci\'on o atenci\'on
+\cite{zhang2022automatic,mendez2022using,ijaradar2025datadriven,nouri2025sidmseq},
+pero sus resultados son dif\'iciles de comparar: los estudios difieren en
+datos, particiones, etiquetas, umbrales y m\'etricas, y los grandes conjuntos
+p\'ublicos de autopistas como PeMS se construyeron para pron\'ostico y no
+traen etiquetas de anomal\'ia \cite{coursey2024ftaed}. Por ello las etiquetas
+se derivan de bit\'acoras de incidentes, reglas o simulaci\'on
+\cite{sun2022datacentric,yang2025sumo}, y una anomal\'ia estad\'istica no es
+necesariamente un incidente real.
+
+Dos l\'ineas de evidencia motivan una evaluaci\'on m\'as estricta. El ajuste por
+puntos (PA) infla tanto los puntajes que puntajes aleatorios alcanzan F1 de
+estado del arte \cite{kim2022rigorous}, y los benchmarks populares son en
+gran parte resolubles con reglas de una l\'inea basadas en estad\'isticos m\'oviles
+\cite{wu2022flawed}. Cuando la evaluaci\'on es controlada, los detectores
+cl\'asicos igualan o superan a los profundos en benchmarks gen\'ericos
+\cite{schmidl2022anomaly,audibert2022deep,rewicki2023worth,liu2024elephant}
+y en volumen de tr\'afico etiquetado por expertos
+\cite{taheri2026applicability}; adem\'as, la calidad de las etiquetas cambia
+las conclusiones en la detecci\'on de incidentes viales
+\cite{sun2022datacentric}, y los rankings var\'ian con el tipo de anomal\'ia y
+la m\'etrica \cite{liu2024elephant,sorbo2024navigating}.
+
+\textbf{Objeto de investigaci\'on y problema.} El objeto de estudio es la
+detecci\'on de anomal\'ias en el flujo vehicular de autopistas con aprendizaje
+profundo, analizada en PeMS-D4 con el bloque detector $\times$ esquema de
+etiquetado $\times$ sensor-pliegue como unidad de an\'alisis. El problema es si
+los detectores DL ofrecen una ventaja reproducible sobre una l\'inea base de
+estad\'isticos m\'oviles, y si el ranking resultante se mantiene estable ante
+distintas definiciones operativas de anomal\'ia y bajo una restricci\'on de
+costo de inferencia.
+
+\textbf{Vac\'io de conocimiento.} Ya existen comparaciones uniformes para series
+gen\'ericas \cite{schmidl2022anomaly,liu2024elephant} y para volumen de tr\'afico
+urbano \cite{taheri2026applicability}. Lo que no se sabe es si la posici\'on
+relativa de los detectores DL frente a una l\'inea base simple en flujo de
+autopistas sobrevive a un cambio en la forma de definir las anomal\'ias. En la
+literatura revisada, ning\'un estudio examina esto sobre una misma partici\'on
+temporal de un conjunto de autopistas y a la vez compara familias DL
+gen\'ericas, una l\'inea base no param\'etrica y un modelo de tr\'afico publicado,
+trata la latencia de inferencia como criterio de primer orden y cuantifica la
+variabilidad entre semillas con control de comparaciones m\'ultiples
+(Tabla~\ref{tab:practices}). El vac\'io es por tanto de evidencia sobre
+robustez, no de detectores.
+
+\textbf{Objetivos y preguntas.} \emph{Objetivo general:} determinar si los
+detectores DL ofrecen una ventaja reproducible sobre una l\'inea base de
+estad\'isticos m\'oviles (G0) en PeMS-D4 y si el ranking de detectores es
+estable entre esquemas de etiquetado. \emph{Objetivos espec\'ificos:}
+(O1)~estimar, bajo el Esquema B, la diferencia de PR-AUC entre cada detector
+DL y G0; (O2)~establecer cu\'ales de los detectores que superan a G0 cumplen un
+criterio de latencia predefinido; (O3)~cuantificar la concordancia entre los
+rankings de detectores bajo los Esquemas A y B. \emph{Preguntas de
+investigaci\'on:} RQ1~(O1, H1), \textquestiondown cu\'anto mejora, si es que lo
+hace, alg\'un detector DL la precisi\'on promedio de G0 bajo el Esquema B;
+RQ2~(O2, H2), \textquestiondown cumplen el criterio de latencia los detectores
+que mejoran a G0; RQ3~(O3, H3), \textquestiondown es estable el ranking de
+detectores entre esquemas de etiquetado? An\'alisis con entradas controladas y
+por tipo de anomal\'ia prueban la robustez de estas comparaciones.
+
+\textbf{Aportes declarados.} (1)~\emph{Emp\'irico:} evidencia sobre si la
+posici\'on de los detectores DL frente a una l\'inea base m\'ovil en flujo de
+autopistas es robusta a la definici\'on de anomal\'ia (resultados DL
+pendientes); (2)~\emph{metodol\'ogico:} un protocolo reproducible para PeMS-D4
+que operacionaliza pr\'acticas destiladas de los estudios semilla, con dos
+esquemas de etiquetado construidos por separado y un criterio a~priori de
+estabilidad del ranking; (3)~\emph{pr\'actico:} la latencia como criterio
+expl\'icito, con un frente de Pareto PR-AUC$\times$latencia. Los resultados
+preliminares aqu\'i reportados conciernen solo a los datos, las etiquetas y la
+l\'inea base.
+
+% ---------------------------------------------------------------------
+\section{Trabajos relacionados y pr\'acticas destiladas}
+
+\textbf{Detecci\'on de anomal\'ias de tr\'afico.} Los detectores reportados
+incluyen pron\'ostico con atenci\'on sobre grafos \cite{zhang2022automatic},
+autoencoders CNN y BiLSTM \cite{mendez2022using}, un autoencoder
+GCN-LSTM-atenci\'on evaluado con anomal\'ias artificiales
+\cite{ijaradar2025datadriven} y SI-DMSeq, un codificador--decodificador LSTM
+multitarea que marca perturbaciones con una carta de control
+\cite{nouri2025sidmseq}. El etiquetado es el principal obst\'aculo: la
+supervisi\'on d\'ebil elev\'o el F1 de la clase incidente de un LSTM de 0.69 a
+0.88 en el Distrito~4 de PeMS \cite{sun2022datacentric}, y FT-AED combina
+registros de choques con etiquetas de expertos \cite{coursey2024ftaed}. En
+datos de volumen etiquetados por expertos, un perfil horario
+media$\pm c\cdot$desv. alcanz\'o F1 0.566 frente a 0.120 de un LSTM
+\cite{taheri2026applicability}.
+
+\textbf{Defectos de evaluaci\'on.} Con PA, puntajes uniformemente aleatorios
+alcanzan F1 0.969 en SWaT frente a 0.216 sin \'el \cite{kim2022rigorous}; 316
+de 367 series de Yahoo son separables con una l\'inea de media/desviaci\'on
+m\'oviles \cite{wu2022flawed}. El AUC-ROC est\'a dominado por los verdaderos
+negativos bajo desbalance \cite{sorbo2024navigating,liu2024elephant}, pero el
+PR-AUC puntual no es robusto a peque\~nos desfases temporales
+\cite{liu2024elephant}.
+
+\textbf{Etiquetas sint\'eticas.} Las anomal\'ias se dividen en puntuales
+(globales, contextuales) y por patr\'on \cite{lai2021revisiting}. Las anomal\'ias
+inyectadas ayudan a entrenar y seleccionar detectores, pero difieren de las
+reales y solo transfieren cuando coinciden los tipos
+\cite{carmona2022ncad,goswami2023unsupervised}.
+
+La Tabla~\ref{tab:practices} resume las caracter\'isticas de protocolo
+reportadas por los estudios semilla y motiva cada decisi\'on de dise\~no de la
+Secci\'on~III.
+
+\begin{table}[t]
+\centering
+\caption{Caracter\'isticas de protocolo reportadas por los estudios semilla.
+Tr: datos de tr\'afico; NB: l\'inea base no profunda; CS: partici\'on cronol\'ogica
+declarada; NT: sin PA ni umbral ajustado en prueba para la m\'etrica
+principal; RR: corridas repetidas; ST: prueba de significancia; LT:
+tiempo/latencia. \cm\ s\'i, \xm\ no, p parcial, \nr\ no informado, -- no
+aplica, plan: planificado, a\'un no ejecutado.}
+\label{tab:practices}
+\setlength{\tabcolsep}{3.2pt}
+\renewcommand{\arraystretch}{0.9}
+\footnotesize
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+Estudio & Tr & NB & CS & NT & RR & ST & LT \\
+\midrule
+Taheri'26 \cite{taheri2026applicability} & \cm & \cm & \nr & \xm & \nr & \xm & \xm \\
+Taheri'24 \cite{taheri2024tpfds}         & \cm & \cm & \nr & \xm & \cm & \xm & \xm \\
+FT-AED'24 \cite{coursey2024ftaed}        & \cm & p   & \nr & \cm & \xm & \xm & \xm \\
+Sun'22 \cite{sun2022datacentric}         & \cm & \xm & \cm & \cm & \cm & \xm & \xm \\
+Zhang'22 \cite{zhang2022automatic}       & \cm & \cm & \nr & \cm & \xm & \xm & \xm \\
+Ijaradar'25 \cite{ijaradar2025datadriven}& \cm & \cm & \nr & \nr & \nr & \xm & \xm \\
+Nouri'25 \cite{nouri2025sidmseq}         & \cm & \xm & \cm & --  & \xm & \xm & \cm \\
+Kim'22 \cite{kim2022rigorous}            & \xm & \cm & --  & \xm & p   & \xm & \xm \\
+Audibert'22 \cite{audibert2022deep}      & \xm & \cm & --  & \xm & \nr & \cm & \xm \\
+Schmidl'22 \cite{schmidl2022anomaly}     & \xm & \cm & --  & \cm & \nr & \xm & \cm \\
+Liu'24 \cite{liu2024elephant}            & \xm & \cm & --  & \cm & \xm & \cm & \nr \\
+\midrule
+\textbf{Este protocolo}                  & \cm & \cm & \cm & \cm & \pl & \pl & \pl \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------
+\section{Protocolo}
+
+\textbf{Dise\~no.} Experimento computacional comparativo con estructura
+factorial (detector $\times$ esquema de etiquetado) y medidas repetidas sobre
+bloques sensor$\times$pliegue, con validaci\'on temporal progresiva y un bloque
+de prueba reservado.
+
+\textbf{Datos.} PeMS-D4 \cite{guo2019astgcn} contiene flujo, ocupaci\'on y
+velocidad de 307 sensores de autopista del \'area de la Bah\'ia de San
+Francisco, del 1~ene al 28~feb 2018, con resoluci\'on de 5~min (16\,992
+pasos por sensor). Se excluyeron \emph{a priori} los sensores con m\'as de 20\%
+de ceros o una racha congelada de 24~h, quedando 291.
+%% TODO: confirmar que este control de calidad examino todo el periodo antes
+%% de la particion; si es asi, indicarlo aqui (un revisor pidio la declaracion).
+Cada muestra es una ventana de 12 pasos ($t-11..t$, una hora) con $F=8$
+entradas (flujo, ocupaci\'on, velocidad, codificaciones c\'iclicas de hora y
+d\'ia de la semana, y un indicador de hora pico); la etiqueta es la del paso
+final $t$, de modo que todos los m\'etodos punt\'uan el mismo instante. Se entrena
+un modelo global por arquitectura con las ventanas de todos los sensores.
+
+\textbf{Partici\'on.} El \'ultimo 20\% de cada serie es un bloque de prueba
+reservado que se usa una sola vez. El primer 80\% forma tres pliegues
+progresivos de validaci\'on temporal; la normalizaci\'on z-score, los
+hiperpar\'ametros y los umbrales se ajustan solo con las partes de
+entrenamiento y validaci\'on de cada pliegue, nunca con datos de prueba
+(Tabla~\ref{tab:practices}, CS/NT).
+
+\textbf{Esquemas de etiquetado.} El \emph{Esquema A} (proxy) etiqueta
+$x_{s,t}$ como an\'omalo cuando $|z_{s,t}|>3$, con media y desviaci\'on
+est\'andar calculadas causalmente sobre los 288 pasos previos de flujo crudo; la prevalencia
+anticipada era de 0.3--2\%.
+La l\'inea base G0 pertenece a la misma familia de reglas (media y desviaci\'on
+m\'oviles, aunque con una ventana mucho m\'as corta), por lo que A se usa solo
+para la prueba de estabilidad del ranking (H3) y nunca para H1. El
+\emph{Esquema B} inyecta anomal\'ias puntuales, contextuales y colectivas (3,
+6 o 12 pasos) en series reales, perturbando flujo, ocupaci\'on y velocidad,
+con 3\% de prevalencia objetivo por partici\'on y por bloque sensor$\times$
+pliegue, semilla de inyecci\'on fija, restricciones f\'isicas (flujo y
+velocidad $\geq 0$; ocupaci\'on en $[0,1]$) y sin solapamiento entre
+particiones. Las anomal\'ias contextuales reemplazan un valor por uno menor al
+percentil 5 o mayor al 95 de un perfil hora$\times$d\'ia de la semana por
+sensor, estimado con datos de entrenamiento, una familia de reglas distinta de
+G0 \cite{lai2021revisiting}.
+
+\textbf{Condiciones.} G0: detector m\'ovil no param\'etrico solo sobre flujo;
+punt\'ua cada paso con el z-score absoluto sobre los $w$ pasos previos (ventana
+$w\in\{6,11,22,44\}$ pasos y multiplicador de umbral $k\in\{2.0,2.5,3.0\}$,
+una grilla de 12 puntos). G1:
+LSTM; G2: GRU; G3: CNN-1D; G4: autoencoder (error de reconstrucci\'on como
+puntaje); G5: encoder Transformer; G6: h\'ibrido CNN-LSTM-GRU; G7: SI-DMSeq
+\cite{nouri2025sidmseq} con su configuraci\'on publicada, usando el error de
+reconstrucci\'on local de la serie en el paso $t$ como puntaje puntual. G1--G3,
+G5 y G6 optimizan una p\'erdida supervisada de clasificaci\'on (salida sigmoide,
+entrop\'ia cruzada binaria). G4 optimiza una p\'erdida de reconstrucci\'on sobre
+ventanas cuya etiqueta del paso final es normal bajo el esquema
+correspondiente, por lo que esas ventanas pueden contener pasos an\'omalos
+anteriores. G0 y G7 no optimizan ninguna p\'erdida supervisada de
+clasificaci\'on, aunque se usa selecci\'on basada en etiquetas donde se
+especifica (ventana y umbral de G0 en validaci\'on). Arquitectura y grado de
+uso de etiquetas est\'an por tanto parcialmente confundidos, y la comparaci\'on
+es entre sistemas detectores y no entre arquitecturas aisladas. G0--G6 se
+implementan en TensorFlow/Keras. Cada una de G1--G6 eval\'ua 12 configuraciones
+por esquema, la primera es su especificaci\'on inicial y las otras 11 se
+sortean de los rangos fijos de la Tabla~\ref{tab:ranges} con semilla
+determinista. G7 se mantiene en PyTorch y
+sin ajuste, una asimetr\'ia declarada a~priori.
+
+\textbf{B\'usqueda reducida.} La b\'usqueda nominal (6 arquitecturas $\times$ 2
+esquemas $\times$ 3 pliegues $\times$ 12 configuraciones $\times$ 3 semillas)
+son 1\,296 entrenamientos; con los 4.3--5.4 min por \'epoca medidos en el
+pliegue 3 (CPU, LSTM), 30 \'epocas cada uno superan 70 d\'ias. Antes de
+cualquier b\'usqueda fijamos una reducci\'on para todas las arquitecturas: una
+semilla, como m\'aximo 10 \'epocas con parada temprana (paciencia 3) sobre
+PR-AUC, una de cada cuatro ventanas de entrenamiento y selecci\'on sobre el
+bloque de validaci\'on \emph{completo}. La ganadora se reentrena con todo el
+bloque de 80\%, tres semillas, todas las ventanas y sin parada temprana,
+usando la mediana de la mejor \'epoca. El costo se cronometr\'o en un AMD Ryzen 7 7445HS
+(6 n\'ucleos, 12 hilos) con 15.2\,GB de RAM, en CPU (TensorFlow 2.16.2); una
+corrida en GPU (RTX 4050, bajo WSL2) fue m\'as lenta para este modelo y tama\~no
+de lote (unos 12 frente a 5.4 min por \'epoca). Cada corrida registra su
+hardware y los tiempos de entrenamiento se comparan entre arquitecturas solo si
+se midieron en la misma m\'aquina.
+%% TODO: agregar la maquina usada para latencia si es distinta de la anterior.
+%% TODO: confirmar que las Decisiones 15--17 estan aprobadas por el equipo y
+%% que config_final.json esta sellado antes del envio (sellar_config_final.py).
+%% TODO: los rangos de busqueda de abajo son propuesta (Decision 17); confirmar.
+
+\begin{table}[t]
+\centering
+\caption{Espacio de b\'usqueda de G1--G6. El primer valor de cada lista es la
+especificaci\'on inicial (configuraci\'on 0); las otras 11 configuraciones se
+sortean de estas listas.}
+\label{tab:ranges}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.9}
+\begin{tabular}{@{}p{0.2\columnwidth}p{0.72\columnwidth}@{}}
+\toprule
+Modelo & Valores \\
+\midrule
+G1 LSTM, G2 GRU & unidades $\{[64,32],[32,16],[128,64]\}$; dropout $\{0.1,0.2,0.3\}$; tasa de aprendizaje $\{5\!\times\!10^{-4},10^{-3},2\!\times\!10^{-3}\}$ \\
+G3 CNN-1D & filtros $\{[32,64,128],[16,32,64],[64,128,256]\}$; kernel $\{3,5\}$; decaimiento de pesos $\{10^{-4},0,10^{-3}\}$; tasa como G1 \\
+G4 autoencoder & capas $\{[32,16,8],[64,32,16],[32,16,4]\}$; L2 $\{0,10^{-5},10^{-4}\}$; tasa como G1 \\
+G5 Transformer & bloques $\{2,1,3\}$; cabezas 4; $d_{model}$ $\{64,32\}$; feed-forward $\{128,64\}$; dropout $\{0.1,0.2\}$; tasa $\{5\!\times\!10^{-4},3\!\times\!10^{-4},10^{-3}\}$; decaimiento $\{10^{-4},10^{-3}\}$ \\
+G6 CNN-LSTM-GRU & filtros $\{64,32\}$; kernel $\{3,5\}$; unidades LSTM $\{64,32\}$; unidades GRU $\{32,16\}$; dropout $\{0.2,0.1,0.3\}$; tasa como G1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Selecci\'on y m\'etricas.} Se elige la configuraci\'on que maximiza el
+PR-AUC medio de validaci\'on sobre los tres pliegues; el umbral de F1 y el
+umbral que alcanza recall 0.90 se eligen en el \'ultimo bloque de validaci\'on
+(los modelos finales se reentrenan con ese bloque, lo que puede sesgar F1 y
+FPR pero no el PR-AUC). La m\'etrica primaria es el PR-AUC (precisi\'on
+promedio, AP), cuyo nivel de azar es la prevalencia. El AP medio por bloque es
+la media simple del AP por sensor sobre los bloques evaluables; el AP agregado
+se calcula sobre puntajes y etiquetas concatenados de todos los pasos v\'alidos
+de una partici\'on y se reporta con su prevalencia. El PR-AUC de G0 depende
+solo de $w$; $k$ fija el umbral binario usado para F1. F1, AUC-ROC y la tasa
+de falsos positivos (FPR) en el umbral de F1 y en el umbral de recall 0.90 son
+secundarios, y el recall realmente alcanzado en prueba se reporta junto con
+esa FPR; el PA est\'a prohibido \cite{kim2022rigorous,sorbo2024navigating}.
+Como las anomal\'ias colectivas dominan los instantes inyectados, el AP se
+reporta tambi\'en por tipo de anomal\'ia, tomando como positivos los instantes
+de un tipo y como negativos los instantes normales (los otros tipos se
+excluyen). La latencia se mide con \texttt{perf\_counter} tras 100 llamadas de
+calentamiento sobre $\geq$1000 llamadas, con lote 1 y una ventana por sensor,
+reportando mediana, p95 e IC 95\%; el criterio operativo es $\leq$10\,ms por
+ventana, complementado con el frente de Pareto PR-AUC$\times$latencia.
+
+\textbf{Controles contra un atajo de firma.} Las redes ven ocho canales, G0
+solo el flujo, y el Esquema B perturba varios canales, por lo que una red
+podr\'ia explotar la firma de la inyecci\'on en lugar de detectar mejor las
+anomal\'ias de flujo. El AP por tipo y una ablaci\'on reentrenada con ocupaci\'on
+y velocidad en cero lo abordan; la ablaci\'on conserva los canales de hora,
+d\'ia de la semana y hora pico, por lo que la informaci\'on sigue sin igualar a
+la de G0. El entrenamiento con pesos de clase prueba la sensibilidad al
+desbalance, no el atajo. Estos an\'alisis se fijaron tras una corrida
+exploratoria m\'inima que no se reporta como resultado.
+
+\textbf{Hip\'otesis y estad\'istica.} H1: al menos un detector DL supera a G0
+en PR-AUC medio por bloque en prueba bajo el Esquema B por al menos
+$\delta=0.05$ de PR-AUC absoluto (cerca de 14\% del 0.345 de G0), un margen que
+descarta ganancias triviales y se fija antes de abrir el bloque de prueba (H0:
+ninguno lo hace). H2, condicionada a H1: al menos
+un detector que cumple H1 satisface el criterio de latencia (mediana de una
+ventana, lote 1, solo inferencia del modelo, CPU com\'un; tambi\'en se reporta
+p95); H0: ninguno. H3: el ranking de detectores no es estable entre esquemas
+($\tau$ de Kendall $<0.7$); H0: $\tau\geq0.7$. Cada alternativa enuncia el efecto a demostrar (una ventaja,
+cumplir la latencia, un cambio de ranking), por lo que H3 se formula como
+inestabilidad. Los pliegues de validaci\'on
+sirven para selecci\'on y comparaciones exploratorias (prueba de Friedman sobre
+los $291\times3$ bloques, Nemenyi \cite{demsar2006statistical}); H1 se eval\'ua
+primordialmente sobre los 291 bloques de prueba reservados, despu\'es de
+congelar configuraciones, semillas, reglas de agregaci\'on y comparaciones, con
+pruebas pareadas frente a G0 y correcci\'on de Holm ($\alpha=0.05$). Sensores y
+pliegues progresivos no son independientes y Holm no corrige la dependencia,
+por lo que la significancia es indicativa y se reportan tama\~nos de efecto e
+intervalos. El AP por bloque se calcula por semilla y se promedia sobre las
+tres semillas antes de la prueba; tambi\'en se reportan resultados por semilla.
+Los bloques sin alguna de las clases se excluyen y se reportan. Para H3 las
+condiciones se ordenan por PR-AUC medio por bloque en cada esquema (bloques
+v\'alidos en ambos, remuestreados para un IC 95\% bootstrap de $\tau$): el
+ranking es estable si todo el IC est\'a en 0.7 o por encima, H3 se apoya si
+est\'a por debajo, y el resultado es inconcluso en otro caso; la $\rho$ de
+Spearman es un an\'alisis de sensibilidad. Como H3 cambia a la vez etiquetas,
+prevalencia, ejemplos de entrenamiento, configuraciones seleccionadas y datos
+perturbados, eval\'ua la sensibilidad del procedimiento completo a la
+definici\'on de anomal\'ia, no solo de las etiquetas de evaluaci\'on. Bajo el
+Esquema A la ventaja sobre G0 se reporta solo de forma descriptiva, porque A
+comparte la familia de reglas de G0.
+%% TODO (decisiones del equipo antes de abrir el bloque de prueba para las
+%% redes): (a) registrar como decision nueva que H1 es primaria en prueba,
+%% pues el PPI aun indica pliegues de validacion; (b) nombrar la prueba
+%% pareada (p. ej., Wilcoxon de rangos con signo); (c) confirmar media sobre
+%% semillas (el PPI dice media o mediana); (d) confirmar mediana vs p95 en H2;
+%% (e) confirmar el margen
+%% delta = 0.05 propuesto aqui (cerca de 14% del 0.345 de G0) o reemplazarlo,
+%% antes de abrir el bloque de prueba; (f) indicar bases de datos, cadena de
+%% busqueda, fechas y criterios de inclusion de la revision de literatura que
+%% respalda "en la literatura revisada".
+
+% ---------------------------------------------------------------------
+\section{Resultados preliminares}
+
+La Tabla~\ref{tab:results} reporta la evidencia obtenida hasta ahora
+(semanas 1--8) y lo que sigue pendiente. El pipeline, ambos esquemas de
+etiquetado y G0 pasaron 50 de 50 verificaciones autom\'aticas, incluidas
+pruebas de perturbaci\'on que alteran valores futuros; el cargador de ventanas
+pas\'o 73 de 73 y las definiciones de modelos 54 de 54 verificaciones frente a
+la especificaci\'on inicial.
+
+\begin{table}[t]
+\centering
+\caption{Evidencia obtenida a la fecha frente a an\'alisis pendientes. El
+nivel de azar es igual a la prevalencia.}
+\label{tab:results}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.9}
+\begin{tabular}{@{}p{0.47\columnwidth}p{0.45\columnwidth}@{}}
+\toprule
+\'Item & Resultado \\
+\midrule
+\multicolumn{2}{@{}l}{\textit{Obtenido}}\\
+Sensores conservados tras control de calidad & 291 de 307 (16 excluidos, 5.2\%) \\
+Prevalencia Esquema A & 0.10\% (4\,873 / 4\,860\,864); 0.086--0.125\% por partici\'on \\
+Prevalencia Esquema B & 3.02--3.06\% por bloque \\
+Composici\'on Esquema B (instantes) & 74.7\% colectiva, 14.6\% puntual, 10.7\% contextual \\
+Solapamiento A vs.\ B (Jaccard) & 0.0003--0.0012 \\
+Bloques con ambas clases & A: 340/1\,164 (29.2\%); B: 100\% \\
+Config.\ elegida de G0 (A y B) & ventana 22, multiplicador 3.0 (multiplicador en el borde de la grilla; no afecta el PR-AUC) \\
+G0 prueba, Esquema B & PR-AUC medio por bloque 0.345 ($\approx$11.3$\times$ azar); agregado 0.335 (11.0$\times$); F1 0.323; AUC-ROC 0.792; FPR 54.3\% en el umbral que alcanza recall 0.90 en validaci\'on \\
+G0 prueba, Esquema B, por tipo & puntual 0.905; contextual 0.399; colectiva 0.131 \\
+G0 prueba, Esquema A & PR-AUC medio por bloque 0.084 (84 de 291 bloques evaluables); agregado 0.003 (3.0$\times$); F1 0.021; FPR 65.6\% en el umbral de recall 0.90 derivado de validaci\'on \\
+\midrule
+\multicolumn{2}{@{}l}{\textit{Pendiente}}\\
+B\'usqueda y entrenamiento final G1--G6 & \pend \\
+Friedman/Holm, Nemenyi (H1) & \pend \\
+Latencia, frente de Pareto (H2); prueba de humo G7 & \pend \\
+$\tau$ de Kendall, $\rho$ de Spearman (H3) & \pend \\
+Ablaci\'on de canales, pesos de clase & \pend \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% TODO: agregar el recall alcanzado en prueba con el umbral de recall 0.90
+%% derivado de validacion (lo imprime "recall prueba" semana6_g0_ampliado.py).
+Cuatro observaciones orientan el trabajo restante. Primero, las etiquetas
+proxy e inyectadas son casi disjuntas (Jaccard $\leq0.0012$), por lo que H3 no
+se cumple de forma trivial. Segundo, el Esquema A tiene una prevalencia menor
+al 0.3--2\% anticipado y solo 29.2\% de bloques con ambas clases, lo que limita
+la intersecci\'on de bloques sobre la que se calcula H3; adem\'as sus dos
+agregaciones discrepan para G0 (0.084 medio por bloque sobre 84 bloques
+evaluables, 0.003 agregado, unas tres veces la prevalencia agregada), por lo
+que cada PR-AUC se reporta con su agregaci\'on. Tercero, G0 est\'a muy por
+encima del azar bajo inyecci\'on, en l\'inea con la competitividad de los
+detectores simples \cite{taheri2026applicability,schmidl2022anomaly}, pero
+depende mucho del tipo: separa casi perfectamente las anomal\'ias puntuales y
+mal las colectivas, que son tres cuartas partes de los instantes inyectados,
+por lo que cualquier ganancia de DL debe leerse por tipo. Cuarto, el costo de
+entrenamiento medido (4.3--5.4 min por \'epoca en CPU) oblig\'o a la b\'usqueda
+reducida de la Secci\'on~III, solo parcialmente mitigada por el reentrenamiento
+con varias semillas.
+
+% ---------------------------------------------------------------------
+\section{Discusi\'on y amenazas a la validez}
+
+La evidencia previa de que las l\'ineas base estad\'isticas pueden rivalizar con
+DL \cite{audibert2022deep,taheri2026applicability} motiva H1, pero no detectar
+una ventaja de DL se reportar\'a con tama\~nos de efecto e incertidumbre, sin
+interpretar la no significancia como evidencia de equivalencia. La latencia
+publicada de SI-DMSeq (unos 55\,ms por secuencia para 46 zonas y ventanas de
+24 pasos \cite{nouri2025sidmseq}) corresponde a otra carga, por lo que todos
+los m\'etodos se medir\'an bajo una misma configuraci\'on; el criterio de 10\,ms
+(unos 3\,s para una ventana por sensor, muy por debajo del intervalo de
+muestreo de 5~min) es un criterio t\'ecnico de este estudio.
+
+\emph{Validez externa:} un solo conjunto de datos, una red de autopistas y unos
+once d\'ias de prueba limitan la generalizaci\'on; H1 concierne a anomal\'ias
+inyectadas, no a incidentes verificados. \emph{Validez de constructo:} ning\'un esquema representa incidentes
+verificados; las anomal\'ias inyectadas difieren de las reales
+\cite{carmona2022ncad} y los eventos reales sin etiquetar act\'uan como
+pseudo-negativos \cite{goswami2023unsupervised}. \emph{Validez interna:} el
+Esquema A comparte familia de reglas con G0, de ah\'i su rol restringido; todo
+ajuste es local al pliegue. G0 usa solo flujo y una ventana de 22 pasos frente
+a 12 pasos y ocho canales de las redes, y la b\'usqueda reducida de una semilla
+puede favorecer arquitecturas que convergen temprano. Los controles de atajo
+se fijaron tras una peque\~na corrida exploratoria. \emph{Validez de
+conclusi\'on:} los pliegues progresivos no son independientes y los sensores
+comparten din\'amica, por lo que el an\'alisis de Friedman en validaci\'on es
+exploratorio y se planea un an\'alisis solo del pliegue 3 como chequeo de
+robustez. \emph{Validez de la m\'etrica:} el PR-AUC puntual da m\'as peso a las
+anomal\'ias largas (colectivas) y es sensible al desfase
+\cite{sorbo2024navigating,liu2024elephant}; se reportar\'an resultados por
+tipo. \emph{Validez de implementaci\'on:} G7 corre en otro framework, un
+confusor declarado para la latencia; el hardware de entrenamiento y de latencia
+se documentar\'a por separado.
+
+% ---------------------------------------------------------------------
+\section{Conclusi\'on}
+
+Especificamos y ejecutamos parcialmente un protocolo uniforme y reproducible
+para comparar detectores DL con una l\'inea base no param\'etrica sobre flujo de
+autopistas de PeMS-D4 bajo dos esquemas de etiquetado construidos por
+separado. Los resultados preliminares muestran que los esquemas producen
+conjuntos positivos en gran medida no solapados, que la l\'inea base est\'a muy
+por encima del azar bajo inyecci\'on pero depende del tipo de anomal\'ia, y que
+el presupuesto nominal de ajuste era inviable, lo que llev\'o a una b\'usqueda
+reducida declarada. Siguen la bater\'ia DL, las pruebas de H1--H3, los
+controles de atajo y la medici\'on de latencia; el c\'odigo (licencia MIT), las
+configuraciones y las semillas se publicar\'an con los resultados.
+%% TODO: agregar la URL del repositorio cuando sea publico.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

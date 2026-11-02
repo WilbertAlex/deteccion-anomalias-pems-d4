@@ -1,0 +1,528 @@
+% =====================================================================
+%  Short paper (max. 5 pages) -- IEEE conference format (IEEEtran)
+%  PPI Grupo 4 -- UPeU Juliaca -- PeMS-D4 anomaly detection protocol
+%  Version of 27 Oct 2026 (end of week 8 of the 12-week plan).
+%
+%  STATUS LEGEND used in the text:
+%    "obtained"  -> results produced and verified by automatic assert
+%                   checks (PPI Annex C, weeks 1--8).
+%    "pending"   -> analyses defined a priori but not yet executed.
+%  Lines marked  %% TODO  require information the authors must supply.
+% =====================================================================
+\documentclass[conference]{IEEEtran}
+% \IEEEoverridecommandlockouts  % uncomment only if a funding \thanks is added
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{pifont}
+
+\newcommand{\cm}{\ding{51}}          % reported / satisfied
+\newcommand{\xm}{\ding{55}}          % not done
+\newcommand{\nr}{n.r.}               % not reported
+\newcommand{\pend}{\textit{pending}} % analysis not yet executed
+\newcommand{\pl}{\textit{plan}}         % planned, not yet executed
+\usepackage{url}
+
+\begin{document}
+
+\title{Deep Learning versus a Non-Parametric Baseline for Freeway Traffic-Flow
+Anomaly Detection: A Uniform Protocol and Labeling-Sensitivity Design on PeMS-D4}
+
+%% TODO: confirm author order, e-mails or ORCID, and whether the advisor is
+%% listed as co-author according to the conference rules.
+\author{\IEEEauthorblockN{Wilbert Alex Mayta Arotaype}
+\IEEEauthorblockA{\textit{Escuela Profesional de Ingenier\'ia de Sistemas} \\
+\textit{Universidad Peruana Uni\'on}\\
+Juliaca, Peru \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{Juan Enders Prieto Quispe}
+\IEEEauthorblockA{\textit{Escuela Profesional de Ingenier\'ia de Sistemas} \\
+\textit{Universidad Peruana Uni\'on}\\
+Juliaca, Peru \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{Wrangler Choquechambi Luque}
+\IEEEauthorblockA{\textit{Escuela Profesional de Ingenier\'ia de Sistemas} \\
+\textit{Universidad Peruana Uni\'on}\\
+Juliaca, Peru \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{Esteban Tocto Cano}
+\IEEEauthorblockA{\textit{Escuela Profesional de Ingenier\'ia de Sistemas} \\
+\textit{Universidad Peruana Uni\'on}\\
+Juliaca, Peru \\
+email address or ORCID}
+}
+
+\maketitle
+
+% NOTE (template rule): no symbols, special characters, footnotes or math
+% in the title or abstract.
+\begin{abstract}
+Deep learning detectors for traffic anomalies are usually reported under
+heterogeneous datasets, splits, thresholds and labels, while recent
+benchmark studies show that simple statistical detectors are often
+competitive once evaluation flaws are removed. We present a uniform
+protocol, whose main rules were fixed before any network result was seen,
+that compares six
+deep learning families (LSTM, GRU, CNN-1D, autoencoder, Transformer and a
+CNN-LSTM-GRU hybrid) and one published model (SI-DMSeq) against a
+non-parametric rolling-statistics baseline on PeMS-D4 freeway flow series.
+The protocol uses walk-forward temporal validation, a common reduced tuning
+procedure for the six trained families with the published model left at its
+default configuration, three seeds for the final models, PR-AUC without
+point adjustment, paired tests with Holm correction, latency benchmarking,
+and two separately constructed labeling schemes, a causal statistical proxy
+and the controlled injection of point, contextual and collective anomalies,
+to test whether the detector ranking depends on how anomalies are defined.
+Preliminary outputs, which passed the specified automated consistency
+checks, cover data curation (291 of 307 sensors retained), both labeling
+schemes and the baseline. The proxy scheme yields a prevalence of 0.10
+percent and only 29.2 percent of evaluation blocks contain both classes; its
+positive set barely overlaps with the injected one (Jaccard index of at most
+0.0012); and the baseline reaches a block-mean test PR-AUC of 0.345 under
+injection, about 11 times chance, but a pooled PR-AUC of only 0.003 under the
+proxy, about three times chance. Measured training times forced a reduced,
+pre-declared hyperparameter search. Deep learning results and statistical
+tests are pending.
+\end{abstract}
+
+\begin{IEEEkeywords}
+anomaly detection, deep learning, evaluation protocol, PeMS, time series,
+traffic flow, synthetic anomaly injection
+\end{IEEEkeywords}
+
+% ---------------------------------------------------------------------
+\section{Introduction}
+
+\textbf{Context and who is affected.} Traffic management centers, such as the
+California Department of Transportation (Caltrans), which sponsors PeMS
+\cite{chen2003pems}, rely on freeway sensors to detect disruptions, and
+drivers bear the delays. The U.S.\ Federal Highway Administration attributes
+about half of congestion to temporary disruptions, with incidents alone
+accounting for 25\% of congestion \cite{fhwa_nonrecurring}. In the San
+Francisco Bay Area, INRIX estimated that congestion cost each driver 79 hours
+and USD~2\,250 in 2017, the year before the period studied here
+\cite{cbs2018inrix}. Detecting atypical observations promptly therefore has
+operational value. If detectors are adopted on the strength of results that
+cannot be compared, an operator may pay for costly deep models without a
+demonstrated advantage over a simple rule, which is why a uniform evaluation
+protocol is needed.
+
+Freeway loop detectors produce dense, seasonal and noisy flow series in
+which timely identification of atypical observations supports traffic
+monitoring. DL detectors based on recurrence, convolution, reconstruction or
+attention have been proposed for this task
+\cite{zhang2022automatic,mendez2022using,ijaradar2025datadriven,nouri2025sidmseq},
+but their results are hard to compare: studies differ in data, splits,
+labels, thresholds and metrics, and large public freeway datasets such as
+PeMS were built for forecasting and carry no anomaly labels
+\cite{coursey2024ftaed}. Labels are therefore derived from incident logs,
+rules or simulation \cite{sun2022datacentric,yang2025sumo}, and a statistical
+anomaly is not necessarily a real incident.
+
+Two lines of evidence motivate a stricter evaluation. Point adjustment (PA)
+inflates scores so much that random scores reach state-of-the-art F1
+\cite{kim2022rigorous}, and popular benchmarks are largely solvable by
+one-line moving-statistics rules \cite{wu2022flawed}. When evaluation is
+controlled, classical detectors match or outperform deep ones on generic
+benchmarks
+\cite{schmidl2022anomaly,audibert2022deep,rewicki2023worth,liu2024elephant}
+and on expert-labeled traffic volume \cite{taheri2026applicability};
+moreover, label quality changes conclusions in traffic incident detection
+\cite{sun2022datacentric}, and rankings shift with anomaly type and metric
+\cite{liu2024elephant,sorbo2024navigating}.
+
+\textbf{Research object and problem.} The object of study is DL-based
+anomaly detection in freeway traffic flow, analyzed on PeMS-D4 with the
+detector $\times$ labeling scheme $\times$ sensor-fold block as unit of
+analysis. The problem is whether DL detectors provide a reproducible
+advantage over a rolling-statistics baseline, and whether the resulting
+ranking remains stable across operational definitions of anomaly and under
+an inference-cost constraint.
+
+\textbf{Knowledge gap.} Uniform comparisons already exist for generic series
+\cite{schmidl2022anomaly,liu2024elephant} and for urban traffic volume
+\cite{taheri2026applicability}. What is not known is whether the relative
+standing of DL detectors against a simple baseline on freeway flow survives a
+change in how anomalies are defined. In the literature we reviewed, no study
+examines this on one temporal partition of a freeway dataset while jointly
+comparing generic DL families, a non-parametric baseline and a published
+traffic model, treating inference latency as a first-order criterion, and
+quantifying seed variability with multiple-comparison control
+(Table~\ref{tab:practices}). The gap is therefore one of evidence on
+robustness, not of detectors.
+
+\textbf{Objectives and questions.} \emph{General objective:} to determine
+whether DL detectors provide a reproducible advantage over a rolling-statistics
+baseline (G0) on PeMS-D4 and whether the detector ranking is stable across
+labeling schemes. \emph{Specific objectives:} (O1)~estimate, under Scheme B,
+the difference in PR-AUC between each DL detector and G0; (O2)~establish
+which detectors that exceed G0 meet a predefined latency criterion;
+(O3)~quantify the agreement between the detector rankings under Schemes A
+and B. \emph{Research questions:} RQ1~(O1, H1), by how much, if at all, does
+any DL detector improve average precision over G0 under Scheme B; RQ2~(O2,
+H2), do the detectors that improve on G0 meet the latency criterion; RQ3~(O3,
+H3), is the detector ranking stable across labeling schemes? Input-controlled
+and per-type analyses test the robustness of these comparisons.
+
+\textbf{Declared contributions.} (1)~\emph{Empirical:} evidence on whether
+the standing of DL detectors against a rolling baseline on freeway flow is
+robust to the anomaly definition (DL results pending); (2)~\emph{methodological:}
+a reproducible protocol for PeMS-D4 that operationalizes practices distilled
+from the seed studies, with two separately constructed labeling schemes and
+an a~priori ranking-stability criterion; (3)~\emph{practical:} latency as an
+explicit criterion, with a PR-AUC$\times$latency Pareto front. The
+preliminary outputs reported here concern the data, the labels and the
+baseline only.
+
+% ---------------------------------------------------------------------
+\section{Related Work and Distilled Practices}
+
+\textbf{Traffic anomaly detection.} Reported detectors include
+graph-attention forecasting \cite{zhang2022automatic}, CNN and BiLSTM
+autoencoders \cite{mendez2022using}, a GCN-LSTM-attention autoencoder
+evaluated with artificial anomalies \cite{ijaradar2025datadriven}, and
+SI-DMSeq, a multitask LSTM encoder--decoder that flags disruptions with a
+control chart \cite{nouri2025sidmseq}. Labeling is the main obstacle: weak
+supervision raised the incident-class F1 of an LSTM from 0.69 to 0.88 on
+PeMS District~4 \cite{sun2022datacentric}, and FT-AED combines crash logs
+with expert labels \cite{coursey2024ftaed}. On expert-labeled volume data, a
+mean$\pm c\cdot$std time-of-day profile reached F1 0.566 versus 0.120 for an
+LSTM \cite{taheri2026applicability}.
+
+\textbf{Evaluation pitfalls.} Under PA, uniform random scores reach
+F1 0.969 on SWaT versus 0.216 without it \cite{kim2022rigorous}; 316 of 367
+Yahoo series are separable by a moving mean/std one-liner
+\cite{wu2022flawed}. AUC-ROC is dominated by true negatives under imbalance
+\cite{sorbo2024navigating,liu2024elephant}, but point-wise PR-AUC is not
+robust to small temporal lags \cite{liu2024elephant}.
+
+\textbf{Synthetic labels.} Anomalies split into point-wise (global,
+contextual) and pattern-wise types \cite{lai2021revisiting}. Injected
+anomalies help to train and select detectors, but differ from real ones and
+transfer only when types match \cite{carmona2022ncad,goswami2023unsupervised}.
+
+Table~\ref{tab:practices} summarizes the protocol features reported by the
+seed studies and motivates each design choice in Section~III.
+
+\begin{table}[t]
+\centering
+\caption{Protocol features reported by seed studies.
+Tr: traffic data; NB: non-deep baseline; CS: chronological split stated;
+NT: no PA and no test-tuned threshold for the headline metric; RR: repeated
+runs; ST: significance test; LT: runtime/latency.
+\cm\ yes, \xm\ no, p partial, \nr\ not reported, -- not applicable,
+plan: planned, not yet executed.}
+\label{tab:practices}
+\setlength{\tabcolsep}{3.2pt}
+\renewcommand{\arraystretch}{0.9}
+\footnotesize
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+Study & Tr & NB & CS & NT & RR & ST & LT \\
+\midrule
+Taheri'26 \cite{taheri2026applicability} & \cm & \cm & \nr & \xm & \nr & \xm & \xm \\
+Taheri'24 \cite{taheri2024tpfds}         & \cm & \cm & \nr & \xm & \cm & \xm & \xm \\
+FT-AED'24 \cite{coursey2024ftaed}        & \cm & p   & \nr & \cm & \xm & \xm & \xm \\
+Sun'22 \cite{sun2022datacentric}         & \cm & \xm & \cm & \cm & \cm & \xm & \xm \\
+Zhang'22 \cite{zhang2022automatic}       & \cm & \cm & \nr & \cm & \xm & \xm & \xm \\
+Ijaradar'25 \cite{ijaradar2025datadriven}& \cm & \cm & \nr & \nr & \nr & \xm & \xm \\
+Nouri'25 \cite{nouri2025sidmseq}         & \cm & \xm & \cm & --  & \xm & \xm & \cm \\
+Kim'22 \cite{kim2022rigorous}            & \xm & \cm & --  & \xm & p   & \xm & \xm \\
+Audibert'22 \cite{audibert2022deep}      & \xm & \cm & --  & \xm & \nr & \cm & \xm \\
+Schmidl'22 \cite{schmidl2022anomaly}     & \xm & \cm & --  & \cm & \nr & \xm & \cm \\
+Liu'24 \cite{liu2024elephant}            & \xm & \cm & --  & \cm & \xm & \cm & \nr \\
+\midrule
+\textbf{This protocol}                   & \cm & \cm & \cm & \cm & \pl & \pl & \pl \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------
+\section{Protocol}
+
+\textbf{Design.} Computational comparative experiment with a factorial
+structure (detector $\times$ labeling scheme) and repeated measures over
+sensor$\times$fold blocks, under walk-forward temporal validation and one
+held-out test block.
+
+\textbf{Data.} PeMS-D4 \cite{guo2019astgcn} contains flow, occupancy and
+speed from 307 freeway sensors in the San Francisco Bay Area, 1~Jan--28~Feb
+2018, at 5-min resolution (16\,992 steps per sensor). Sensors with more than
+20\% zeros or a 24-h frozen run were excluded \emph{a priori}, leaving 291.
+%% TODO: confirm that this quality control examined the full period before
+%% the partition; if so, say it here (a reviewer asked for the declaration).
+Each sample is a 12-step window ($t-11..t$, one hour) with $F=8$ inputs
+(flow, occupancy, speed, cyclic hour and weekday encodings, a peak-hour
+flag); the label is that of the final step $t$, so all methods score the same
+instant. One global model per architecture is trained on the windows of all
+sensors.
+
+\textbf{Partition.} The last 20\% of each series is a held-out test block
+used once. The first 80\% forms three expanding walk-forward folds; z-score
+normalization, hyperparameters and thresholds are fitted only on the
+training and validation parts of each fold, never on test data
+(Table~\ref{tab:practices}, CS/NT).
+
+\textbf{Labeling schemes.} \emph{Scheme A} (proxy) labels $x_{s,t}$ as
+anomalous when $|z_{s,t}|>3$, with mean and standard deviation computed
+causally on the previous 288 steps of raw flow; the anticipated prevalence was
+0.3--2\%. The baseline G0 belongs to
+the same rule family (rolling mean and standard deviation, although over a
+much shorter window), so A is used only for the ranking-stability test (H3),
+never for H1. \emph{Scheme B} injects point, contextual and collective
+(3, 6 or 12 steps) anomalies into real series, perturbing flow, occupancy and
+speed, at a 3\% target prevalence per split and per sensor$\times$fold block,
+with a fixed injection seed, physical constraints (flow, speed $\geq 0$;
+occupancy in $[0,1]$) and no overlap across partitions. Contextual anomalies
+replace a value with one below the 5th or above the 95th percentile of a
+per-sensor hour$\times$weekday profile estimated on training data, a rule
+family distinct from G0 \cite{lai2021revisiting}.
+
+\textbf{Conditions.} G0: non-parametric rolling detector on flow only; it
+scores each step by the absolute z-score over the previous $w$ steps (window
+$w\in\{6,11,22,44\}$ steps and threshold multiplier $k\in\{2.0,2.5,3.0\}$,
+a 12-point grid). G1: LSTM; G2:
+GRU; G3: CNN-1D; G4: autoencoder (reconstruction error as score); G5:
+Transformer encoder; G6: CNN-LSTM-GRU hybrid; G7: SI-DMSeq
+\cite{nouri2025sidmseq} with its published configuration, using the local
+reconstruction error of the series at step $t$ as the point score. G1--G3, G5
+and G6 optimize a supervised classification loss (sigmoid output, binary
+cross-entropy). G4 optimizes a reconstruction loss on windows whose final-step
+label is normal under the corresponding scheme, so those windows may contain
+earlier anomalous steps. G0 and G7 optimize no supervised classification
+loss, although label-based selection is used where specified (G0's window and
+threshold on validation). Architecture and degree of label use are therefore
+partly confounded, and the comparison is between detector systems rather
+than between architectures in isolation. G0--G6 are implemented in
+TensorFlow/Keras. Each of G1--G6 evaluates 12
+configurations per scheme, the first being its initial specification and the
+other 11 drawn from the fixed ranges of Table~\ref{tab:ranges} with a
+deterministic seed. G7 keeps PyTorch
+and no tuning, an asymmetry declared a~priori.
+
+\textbf{Reduced search.} The nominal search (6 architectures $\times$ 2
+schemes $\times$ 3 folds $\times$ 12 configurations $\times$ 3 seeds) is 1\,296
+trainings; at the 4.3--5.4 min per epoch measured on fold 3 (CPU, LSTM), 30
+epochs each exceed 70 days. Before any search we fixed one reduction for all
+architectures: one seed, at most 10 epochs with early stopping (patience 3)
+on PR-AUC, every fourth training window, and selection on the \emph{full}
+validation block. The winner is retrained on the whole 80\% block with three
+seeds, all windows and no early stopping, using the median best epoch. Cost was timed on an AMD Ryzen 7 7445HS
+(6 cores, 12 threads) with 15.2\,GB of RAM, on CPU (TensorFlow 2.16.2); a
+GPU run (RTX 4050, under WSL2) was slower for this model and batch size
+(about 12 versus 5.4 min per epoch). Each run records its hardware, and
+training times are compared across architectures only when measured on the
+same machine.
+%% TODO: add the machine used for latency if it differs from the above.
+%% TODO: confirm Decisions 15--17 are approved by the team and that
+%% config_final.json is sealed before submission (sellar_config_final.py).
+%% TODO: the search ranges below are proposed (Decision 17); confirm approval.
+
+\begin{table}[t]
+\centering
+\caption{Search space of G1--G6. The first value of each list is the initial
+specification (configuration 0); the other 11 configurations are drawn from
+these lists.}
+\label{tab:ranges}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.9}
+\begin{tabular}{@{}p{0.2\columnwidth}p{0.72\columnwidth}@{}}
+\toprule
+Model & Values \\
+\midrule
+G1 LSTM, G2 GRU & units $\{[64,32],[32,16],[128,64]\}$; dropout $\{0.1,0.2,0.3\}$; learning rate $\{5\!\times\!10^{-4},10^{-3},2\!\times\!10^{-3}\}$ \\
+G3 CNN-1D & filters $\{[32,64,128],[16,32,64],[64,128,256]\}$; kernel $\{3,5\}$; weight decay $\{10^{-4},0,10^{-3}\}$; learning rate as G1 \\
+G4 autoencoder & layers $\{[32,16,8],[64,32,16],[32,16,4]\}$; L2 $\{0,10^{-5},10^{-4}\}$; learning rate as G1 \\
+G5 Transformer & blocks $\{2,1,3\}$; heads 4; $d_{model}$ $\{64,32\}$; feed-forward $\{128,64\}$; dropout $\{0.1,0.2\}$; learning rate $\{5\!\times\!10^{-4},3\!\times\!10^{-4},10^{-3}\}$; weight decay $\{10^{-4},10^{-3}\}$ \\
+G6 CNN-LSTM-GRU & filters $\{64,32\}$; kernel $\{3,5\}$; LSTM units $\{64,32\}$; GRU units $\{32,16\}$; dropout $\{0.2,0.1,0.3\}$; learning rate as G1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Selection and metrics.} The configuration maximizing mean
+validation PR-AUC over the three folds is selected; the F1 threshold and the
+threshold reaching recall 0.90 are chosen on the last validation block (the
+final models are retrained on that block, which may bias F1 and FPR but not
+PR-AUC). The primary metric is PR-AUC (average precision), whose chance level
+equals the prevalence. Block-mean AP is the unweighted mean of sensor-level
+AP over evaluable blocks; pooled AP is computed on scores and labels
+concatenated over all valid steps of a split and is reported with its
+prevalence. G0's PR-AUC depends on $w$ only; $k$ sets the binary threshold
+used for F1. F1, AUC-ROC and the false-positive rate (FPR) at the F1
+threshold and at the recall-0.90 threshold are secondary, and the recall
+actually reached on test is reported with that FPR; PA is forbidden
+\cite{kim2022rigorous,sorbo2024navigating}. Because collective anomalies
+dominate the injected instants, AP is also reported per anomaly type, taking
+the instants of one type as positives and the normal instants as negatives
+(other types excluded). Latency is measured with \texttt{perf\_counter}
+after 100 warm-up calls over $\geq$1000 calls, at batch 1 and for one window
+per sensor, reporting median, p95 and 95\% CI; the operational criterion is
+$\leq$10\,ms per window, complemented by the PR-AUC$\times$latency Pareto
+front.
+
+\textbf{Controls against a signature shortcut.} Networks see eight
+channels, G0 only flow, and Scheme B perturbs several channels, so a network
+could exploit the injection signature instead of detecting flow anomalies
+better. Per-type AP and an ablation retrained with occupancy and speed zeroed
+address this; the ablation keeps the hour, weekday and peak-hour channels, so
+information is still not equal to G0's. Class-weighted training tests
+sensitivity to imbalance, not the shortcut. These analyses were fixed after a
+minimal exploratory run that is not reported as a result.
+
+\textbf{Hypotheses and statistics.} H1: at least one DL detector exceeds G0
+in block-mean test PR-AUC under Scheme B by at least $\delta=0.05$ of
+absolute PR-AUC (about 14\% of G0's 0.345), a margin that rules out trivial
+gains and is fixed before the test block is opened (H0: none does). H2, conditional on H1: at least one detector
+satisfying H1 meets the latency criterion (median of one window, batch 1,
+model inference only, common CPU; p95 also reported); H0: none does. H3: the
+detector ranking is not stable across schemes (Kendall's $\tau<0.7$); H0:
+$\tau\geq0.7$. Each alternative states the effect to be demonstrated (an
+advantage, a latency pass, a ranking change), so H3 is phrased as
+instability. Validation folds serve selection and exploratory comparisons
+(Friedman test on the $291\times3$ blocks, Nemenyi
+\cite{demsar2006statistical}); H1 is evaluated primarily on the 291 held-out
+test blocks, after configurations, seeds, aggregation rules and comparisons
+are frozen, with paired tests against G0 and Holm correction
+($\alpha=0.05$). Sensors and expanding folds are not independent and Holm
+does not correct dependence, so significance is indicative and effect sizes
+and intervals are reported. Block AP is computed per seed and averaged over
+the three seeds before testing; per-seed results are also reported. Blocks
+lacking either class are excluded and reported. For H3 the conditions are
+ranked by block-mean PR-AUC per scheme (blocks valid under both, resampled
+for a 95\% bootstrap CI of $\tau$): the ranking is stable if the whole CI is
+at or above 0.7, H3 is supported if it lies below, and the result is
+inconclusive otherwise; Spearman's $\rho$ is a sensitivity check. As H3
+changes labels, prevalence, training examples, selected configurations and
+perturbed data together, it assesses the sensitivity of the whole procedure
+to the anomaly definition, not of the evaluation labels alone. Under
+Scheme A the advantage over G0 is reported descriptively only, because A
+shares G0's rule family.
+%% TODO (team decisions before the test block is opened for the networks):
+%% (a) record as a new decision that H1 is primary on the test block, as the
+%% PPI still states validation folds; (b) name the paired test (e.g. Wilcoxon
+%% signed-rank); (c) confirm mean over seeds (PPI says mean or median);
+%% (d) confirm median vs p95 for the H2 criterion; (e) confirm the margin
+%% delta = 0.05 proposed here (about 14% of G0's 0.345) or replace it, before
+%% the test block is opened; (f) state the databases, search string, dates and
+%% inclusion criteria of the literature review behind "in the literature we
+%% reviewed".
+
+% ---------------------------------------------------------------------
+\section{Preliminary Results}
+
+Table~\ref{tab:results} reports the evidence obtained so far (weeks 1--8)
+and what remains pending. The pipeline, both labeling schemes and G0 passed
+50 of 50 automated checks, including perturbation tests that alter future
+values; the window loader passed 73 of 73 and the model definitions 54 of 54
+checks against the initial specification.
+
+\begin{table}[t]
+\centering
+\caption{Evidence obtained to date versus pending analyses. Chance level
+equals prevalence.}
+\label{tab:results}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.9}
+\begin{tabular}{@{}p{0.47\columnwidth}p{0.45\columnwidth}@{}}
+\toprule
+Item & Result \\
+\midrule
+\multicolumn{2}{@{}l}{\textit{Obtained}}\\
+Sensors retained after QC & 291 of 307 (16 excluded, 5.2\%) \\
+Scheme A prevalence & 0.10\% (4\,873 / 4\,860\,864); 0.086--0.125\% per partition \\
+Scheme B prevalence & 3.02--3.06\% per block \\
+Scheme B composition (instants) & 74.7\% collective, 14.6\% point, 10.7\% contextual \\
+Overlap A vs.\ B (Jaccard) & 0.0003--0.0012 \\
+Blocks with both classes & A: 340/1\,164 (29.2\%); B: 100\% \\
+G0 selected config.\ (A and B) & window 22, multiplier 3.0 (multiplier at grid edge; it does not affect PR-AUC) \\
+G0 test, Scheme B & block-mean PR-AUC 0.345 ($\approx$11.3$\times$ chance); pooled 0.335 (11.0$\times$); F1 0.323; AUC-ROC 0.792; FPR 54.3\% at the threshold reaching recall 0.90 on validation \\
+G0 test, Scheme B, per type & point 0.905; contextual 0.399; collective 0.131 \\
+G0 test, Scheme A & block-mean PR-AUC 0.084 (84 of 291 blocks evaluable); pooled 0.003 (3.0$\times$); F1 0.021; FPR 65.6\% at the validation-derived recall-0.90 threshold \\
+\midrule
+\multicolumn{2}{@{}l}{\textit{Pending}}\\
+G1--G6 search and final training & \pend \\
+Friedman/Holm, Nemenyi (H1) & \pend \\
+Latency, Pareto front (H2); G7 smoke test & \pend \\
+Kendall $\tau$, Spearman $\rho$ (H3) & \pend \\
+Channel ablation, class weights & \pend \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% TODO: add the recall reached on test at the validation-derived recall-0.90
+%% threshold (printed as "recall prueba" by semana6_g0_ampliado.py).
+Four observations shape the remaining work. First, the proxy and injected
+labels are almost disjoint (Jaccard $\leq0.0012$), so H3 is not trivially
+satisfied. Second, Scheme A has a prevalence below the anticipated 0.3--2\% and only 29.2\% of
+blocks with both classes, which limits the block intersection on which H3
+is computed; its two aggregations also disagree for G0 (0.084 block-mean
+over 84 evaluable blocks, 0.003 pooled, about three times the pooled
+prevalence), so every PR-AUC is reported with its aggregation.
+Third, G0 is far above chance under injection, consistent with
+the competitiveness of simple detectors
+\cite{taheri2026applicability,schmidl2022anomaly}, but strongly
+type-dependent: it separates point anomalies almost perfectly and collective
+ones poorly, and collective anomalies are three quarters of the injected
+instants, so any DL gain must be read per type. Fourth, the measured
+training cost (4.3--5.4 min per epoch on CPU) forced the reduced search of
+Section~III, only partly mitigated by multi-seed retraining.
+
+% ---------------------------------------------------------------------
+\section{Discussion and Threats to Validity}
+
+Prior evidence that statistical baselines can rival DL
+\cite{audibert2022deep,taheri2026applicability} motivates H1, but failure to
+detect a DL advantage will be reported with effect sizes and uncertainty,
+without interpreting non-significance as evidence of equivalence. The
+published latency of SI-DMSeq (about 55\,ms per sequence for 46 zones and
+24-step windows \cite{nouri2025sidmseq}) refers to a different load, so all
+methods will be measured under one configuration; the 10\,ms criterion
+(about 3\,s for one window per sensor, far below the 5-min sampling
+interval) is a technical criterion of this study.
+
+\emph{External validity:} one dataset, one freeway network and about eleven
+test days limit generalization; H1 concerns injected anomalies, not verified
+incidents. \emph{Construct validity:} neither scheme represents verified incidents;
+injected anomalies differ from real ones \cite{carmona2022ncad}, and
+unlabeled real events act as pseudo-negatives \cite{goswami2023unsupervised}.
+\emph{Internal validity:} Scheme A shares its rule family with G0, hence its
+restricted role; all fitting is fold-local. G0 uses flow only and a 22-step
+window against 12 steps and eight channels for the networks, and the
+reduced one-seed search may favor architectures that converge early. The
+shortcut controls were fixed after a small exploratory run.
+\emph{Conclusion validity:}
+expanding folds are not independent and sensors share dynamics, so the
+validation-fold Friedman analysis is exploratory and a fold-3-only analysis
+is planned as a robustness check. \emph{Metric validity:} point-wise PR-AUC
+weighs long (collective) anomalies more and is lag-sensitive
+\cite{sorbo2024navigating,liu2024elephant}; per-type results will be
+reported. \emph{Implementation validity:} G7 runs in a different framework,
+a declared confounder for latency; training and latency hardware will be
+documented separately.
+
+% ---------------------------------------------------------------------
+\section{Conclusion}
+
+We specified and partially executed a uniform, reproducible protocol for
+comparing DL detectors with a non-parametric baseline on PeMS-D4 freeway
+flow under two separately constructed labeling schemes. Preliminary outputs
+show that the schemes yield largely non-overlapping positive sets, that the
+baseline is well above chance under injection yet type-dependent, and that
+the nominal tuning budget was infeasible, leading to a declared reduced
+search. Next come the DL battery, tests for H1--H3, shortcut controls and
+the latency benchmark; code (MIT license), configurations and seeds will be
+released with the results.
+%% TODO: add repository URL once public.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
