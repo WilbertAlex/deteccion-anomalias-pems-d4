@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "etiqueta": "cpu-windows-fit-transformer",
+    "dispositivos": {
+      "gpu": [],
+      "cpu": [
+        "/physical_device:CPU:0"
+      ],
+      "tensorflow": "2.16.2"
+    },
+    "python": "3.11.9",
+    "tensorflow": "2.16.2",
+    "keras": "3.15.1",
+    "arquitectura": "transformer",
+    "cfg": {
+      "bloques": 2,
+      "cabezas": 4,
+      "d_model": 64,
+      "ff": 128,
+      "dropout": 0.1,
+      "lr": 0.0005,
+      "weight_decay": 0.0001
+    },
+    "esquema": "B",
+    "pliegue": "3",
+    "lote": 64,
+    "paso_t": 4,
+    "ventanas_train_busqueda": 740886,
+    "ventanas_train_completas": 2963253,
+    "pasos_por_epoca_busqueda": 11577,
+    "pasos_por_epoca_final": 46301,
+    "n1": 256,
+    "n2": 1280,
+    "nota": "No incluye validacion por epoca ni puntuacion final. Modelo = configuracion inicial del Cuadro 6."
+  },
+  "resultados": {
+    "solo_datos": {
+      "ms_por_paso": 0.27064404298471345,
+      "fijo_s": 2.0628436249826336,
+      "epoca_busqueda_min": 0.05222076809390046,
+      "epoca_final_min": 0.20885149723725363,
+      "veces_mas_rapido_que_train_on_batch": 47.34647100448267
+    },
+    "train_on_batch": {
+      "ms_por_paso": 12.814040333711697,
+      "ms_mediana": 12.5354999981937,
+      "epoca_busqueda_min": 2.4724690823896722,
+      "epoca_final_min": 9.888381358186422,
+      "veces_mas_rapido_que_train_on_batch": 1.0
+    },
+    "fit_spe1": {
+      "steps_per_execution": 1,
+      "ms_por_paso": 19.546857812500207,
+      "fijo_s": 1.9783529999949678,
+      "epoca_busqueda_min": 3.771566214921915,
+      "epoca_final_min": 15.083984392942869,
+      "veces_mas_rapido_que_train_on_batch": 0.6555549979760493
+    }
+  }
+}

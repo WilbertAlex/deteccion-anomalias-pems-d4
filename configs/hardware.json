@@ -1,5 +1,5 @@
 {
-  "fecha_registro": "2026-10-06",
+  "fecha_registro": "2026-11-02",
   "maquina": "desarrollo-local-mayta",
   "os": "Windows 11 Home",
   "os_version": "10.0.26200",
@@ -15,5 +15,8 @@
   "tensorflow_version": "2.16.2",
   "torch_version": "2.5.1+cpu",
   "sklearn_version": "1.9.1",
-  "notas": "Maquina de desarrollo y benchmark preliminar. PyTorch instalado en CPU-only para smoke-test G7 (semana 7). RAM reportada como 15973788 KB / 1048576 = 15.23 GB utiles. Seccion 2.8 y 2.11 del PPI."
+  "notas": "Maquina de desarrollo y benchmark preliminar. PyTorch instalado en CPU-only para smoke-test G7 (semana 7). RAM reportada como 15973788 KB / 1048576 = 15.23 GB utiles. Seccion 2.8 y 2.11 del PPI. | Actualizado 2026-11-02: el entrenamiento y la latencia se hacen en CPU; la GPU no se usa para resultados. Con WSL2 la RTX 4050 fue mas lenta que la CPU en el LSTM de medicion (12 min por epoca frente a 4.3-5.3 min). Cronometros con fit() en results/eda/cronometro_fit_*.json.",
+  "fecha_registro_anterior": "2026-10-06",
+  "entorno_entrenamiento": "CPU, Windows 11, TensorFlow 2.16.2 (sin GPU), lote 64",
+  "gpu_usada_en_resultados": false
 }

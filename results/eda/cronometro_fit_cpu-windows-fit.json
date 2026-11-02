@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "etiqueta": "cpu-windows-fit",
+    "dispositivos": {
+      "gpu": [],
+      "cpu": [
+        "/physical_device:CPU:0"
+      ],
+      "tensorflow": "2.16.2"
+    },
+    "python": "3.11.9",
+    "tensorflow": "2.16.2",
+    "keras": "3.15.1",
+    "arquitectura": "lstm",
+    "cfg": {
+      "unidades": [
+        64,
+        32
+      ],
+      "dropout": 0.2,
+      "lr": 0.001
+    },
+    "esquema": "B",
+    "pliegue": "3",
+    "lote": 64,
+    "paso_t": 4,
+    "ventanas_train_busqueda": 740886,
+    "ventanas_train_completas": 2963253,
+    "pasos_por_epoca_busqueda": 11577,
+    "pasos_por_epoca_final": 46301,
+    "n1": 256,
+    "n2": 1280,
+    "nota": "No incluye validacion por epoca ni puntuacion final. Modelo = configuracion inicial del Cuadro 6."
+  },
+  "resultados": {
+    "solo_datos": {
+      "ms_por_paso": 0.38780048828357394,
+      "fijo_s": 2.119822975000716,
+      "epoca_busqueda_min": 0.0748261042143156,
+      "epoca_final_min": 0.2992591734669626,
+      "veces_mas_rapido_que_train_on_batch": 23.506122201253213
+    },
+    "train_on_batch": {
+      "ms_por_paso": 9.115685667299354,
+      "ms_mediana": 8.918899999116547,
+      "epoca_busqueda_min": 1.7588715495054106,
+      "epoca_final_min": 7.034422701360457,
+      "veces_mas_rapido_que_train_on_batch": 1.0
+    },
+    "fit_spe1": {
+      "steps_per_execution": 1,
+      "ms_por_paso": 9.951716601577232,
+      "fijo_s": 2.0651275499949406,
+      "epoca_busqueda_min": 1.9201837182743269,
+      "epoca_final_min": 7.6795738394937905,
+      "veces_mas_rapido_que_train_on_batch": 0.9159912839413679
+    },
+    "fit_spe8": {
+      "steps_per_execution": 8,
+      "ms_por_paso": 9.914147363289771,
+      "fijo_s": 2.200636774989107,
+      "epoca_busqueda_min": 1.9129347337467613,
+      "epoca_final_min": 7.650582284461328,
+      "veces_mas_rapido_que_train_on_batch": 0.9194623938164395
+    },
+    "fit_spe32": {
+      "steps_per_execution": 32,
+      "ms_por_paso": 12.697275781235362,
+      "fijo_s": 1.7643231000147352,
+      "epoca_busqueda_min": 2.4499393619893635,
+      "epoca_final_min": 9.79827609911631,
+      "veces_mas_rapido_que_train_on_batch": 0.7179245236817607
+    }
+  }
+}

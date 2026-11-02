@@ -1,0 +1,89 @@
+{
+  "supuestos": {
+    "configs": 12,
+    "epocas": 10,
+    "semillas_final": 3,
+    "esquemas": 2,
+    "abl_entrenamientos": 5,
+    "pesos_entrenamientos": 12,
+    "horas_disponibles": 648
+  },
+  "factor_pliegues": 2.0,
+  "factor_bloque80": 1.33343143025309,
+  "medidas": {
+    "autoencoder": {
+      "archivo": "results/eda\\cronometro_fit_cpu-windows-fit-autoencoder.json",
+      "ms_paso": 2.54584013671888,
+      "epoca_busqueda_min": 0.4912198543799079,
+      "epoca_final_pliegue3_min": 1.9645824028370142,
+      "epoca_final_80_min": 2.619635923265012,
+      "busqueda_h": 3.929758835039263,
+      "final_h": 2.619635923265012,
+      "ablacion_h": 0.0,
+      "pesos_clase_h": 0.8732119744216706
+    },
+    "cnn1d": {
+      "archivo": "results/eda\\cronometro_fit_cpu-windows-fit-cnn1d.json",
+      "ms_paso": 4.433873437477587,
+      "epoca_busqueda_min": 0.8555158797613003,
+      "epoca_final_pliegue3_min": 3.421546233810829,
+      "epoca_final_80_min": 4.562397288227448,
+      "busqueda_h": 6.844127038090402,
+      "final_h": 4.562397288227448,
+      "ablacion_h": 0.760399548037908,
+      "pesos_clase_h": 1.520799096075816
+    },
+    "cnn_lstm_gru": {
+      "archivo": "results/eda\\cronometro_fit_cpu-windows-fit-cnn_lstm_gru.json",
+      "ms_paso": 10.675490722661607,
+      "epoca_busqueda_min": 2.0598359349375572,
+      "epoca_final_pliegue3_min": 8.238098265832583,
+      "epoca_final_80_min": 10.984939153174643,
+      "busqueda_h": 16.478687479500458,
+      "final_h": 10.984939153174643,
+      "ablacion_h": 1.8308231921957738,
+      "pesos_clase_h": 3.6616463843915477
+    },
+    "gru": {
+      "archivo": "results/eda\\cronometro_fit_cpu-windows-fit-gru.json",
+      "ms_paso": 12.848815527348734,
+      "epoca_busqueda_min": 2.479178956001938,
+      "epoca_final_pliegue3_min": 9.915216795529563,
+      "epoca_final_80_min": 13.221261712932446,
+      "busqueda_h": 19.833431648015505,
+      "final_h": 13.221261712932444,
+      "ablacion_h": 2.2035436188220743,
+      "pesos_clase_h": 4.407087237644149
+    },
+    "transformer": {
+      "archivo": "results/eda\\cronometro_fit_cpu-windows-fit-transformer.json",
+      "ms_paso": 19.546857812500207,
+      "epoca_busqueda_min": 3.771566214921915,
+      "epoca_final_pliegue3_min": 15.083984392942869,
+      "epoca_final_80_min": 20.113458882997097,
+      "busqueda_h": 30.172529719375316,
+      "final_h": 20.113458882997097,
+      "ablacion_h": 3.352243147166183,
+      "pesos_clase_h": 6.704486294332366
+    },
+    "lstm": {
+      "archivo": "results/eda\\cronometro_fit_cpu-windows-fit.json",
+      "ms_paso": 9.951716601577232,
+      "epoca_busqueda_min": 1.9201837182743269,
+      "epoca_final_pliegue3_min": 7.6795738394937905,
+      "epoca_final_80_min": 10.240185128530419,
+      "busqueda_h": 15.361469746194615,
+      "final_h": 10.240185128530419,
+      "ablacion_h": 1.7066975214217366,
+      "pesos_clase_h": 3.413395042843473
+    }
+  },
+  "sin_medir": [],
+  "total_h_si_faltantes_cuestan_el_promedio": 184.7962156126953,
+  "total_h_si_faltantes_cuestan_el_doble": 184.7962156126953,
+  "dias_continuos": [
+    7.699842317195638,
+    7.699842317195638
+  ],
+  "horas_disponibles_por_maquina": 648
+}
