@@ -1,0 +1,42 @@
+{
+  "etiqueta": "cpu-windows-2nov",
+  "dispositivos": {
+    "gpu": [],
+    "cpu": [
+      "/physical_device:CPU:0"
+    ],
+    "tensorflow": "2.16.2"
+  },
+  "esquema": "B",
+  "pliegue": "3",
+  "ventanas_train": 2963253,
+  "lote": 64,
+  "pasos_por_epoca": 46301,
+  "modelo_medido": {
+    "tipo": "lstm",
+    "unidades": 64,
+    "capas": 1,
+    "nota": "configuracion de MEDICION; no es la del Cuadro 6"
+  },
+  "pasos_medidos": 300,
+  "calentamiento_s": 8.617786899994826,
+  "segundos_por_paso_media": 0.006847277999913786,
+  "segundos_por_paso_mediana": 0.006738650001352653,
+  "fraccion_tiempo_en_datos": 0.05677618652708103,
+  "epoca_completa_estimada_min": 5.283930311233471,
+  "epoca_estimada_min_por_pliegue": {
+    "1": 1.76131010374449,
+    "2": 3.52262020748898,
+    "3": 5.283930311233471,
+    "final": 7.0457587522657015
+  },
+  "escenario": {
+    "epocas_por_entrenamiento": 30,
+    "entrenamientos_busqueda": 1296,
+    "reentrenamientos_finales": 36,
+    "horas_busqueda": 2282.657894452859,
+    "horas_reentrenamiento_final": 126.82365754078263,
+    "dias_totales_24h": 100.39506466640175,
+    "nota": "extrapolacion de orden de magnitud; supone costo igual en las 6 arquitecturas"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "etiqueta": "gpu-wsl2-r2",
+  "dispositivos": {
+    "gpu": [
+      "/physical_device:GPU:0"
+    ],
+    "cpu": [
+      "/physical_device:CPU:0"
+    ],
+    "tensorflow": "2.16.2"
+  },
+  "esquema": "B",
+  "pliegue": "3",
+  "ventanas_train": 2963253,
+  "lote": 64,
+  "pasos_por_epoca": 46301,
+  "modelo_medido": {
+    "tipo": "lstm",
+    "unidades": 64,
+    "capas": 1,
+    "nota": "configuracion de MEDICION; no es la del Cuadro 6"
+  },
+  "pasos_medidos": 300,
+  "calentamiento_s": 14.371797169000047,
+  "segundos_por_paso_media": 0.016035446649996933,
+  "segundos_por_paso_mediana": 0.015067408499930934,
+  "fraccion_tiempo_en_datos": 0.03438303125361977,
+  "epoca_completa_estimada_min": 12.374286922358467,
+  "epoca_estimada_min_por_pliegue": {
+    "1": 4.124762307452823,
+    "2": 8.249524614905646,
+    "3": 12.374286922358467,
+    "final": 16.500263109242557
+  },
+  "escenario": {
+    "epocas_por_entrenamiento": 30,
+    "entrenamientos_busqueda": 1296,
+    "reentrenamientos_finales": 36,
+    "horas_busqueda": 5345.691950458858,
+    "horas_reentrenamiento_final": 297.004735966366,
+    "dias_totales_24h": 235.11236193438432,
+    "nota": "extrapolacion de orden de magnitud; supone costo igual en las 6 arquitecturas"
+  }
+}
