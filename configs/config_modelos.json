@@ -1,21 +1,234 @@
 {
-  "estado": "inicial = Cuadro 6 del PPI (version del 1 sep. 2026; CONFIRMAR que no cambio). espacio = PROPUESTA de rangos (Decision 17), pendiente de aprobacion.",
+  "estado": "inicial = Cuadro 6 del PPI (contrastado el 2026-11-03 con el Cuadro 6 del PPI en PDF disponible ese dia (la fecha de version de ese PDF no se verifico); coincide en capas, unidades, dropout, kernel, filtros, tasas de aprendizaje y optimizador). espacio = rangos APROBADOS el 2026-11-03 (Decision 17).",
   "inicial": {
-    "lstm": {"unidades": [64, 32], "dropout": 0.2, "lr": 0.001},
-    "gru": {"unidades": [64, 32], "dropout": 0.2, "lr": 0.001},
-    "cnn1d": {"filtros": [32, 64, 128], "kernel": 3, "weight_decay": 0.0001, "lr": 0.001},
-    "autoencoder": {"capas": [32, 16, 8], "l2": 0.0, "lr": 0.001},
-    "transformer": {"bloques": 2, "cabezas": 4, "d_model": 64, "ff": 128, "dropout": 0.1, "lr": 0.0005, "weight_decay": 0.0001},
-    "cnn_lstm_gru": {"filtros": 64, "kernel": 3, "unidades_lstm": 64, "unidades_gru": 32, "dropout": 0.2, "lr": 0.001}
+    "lstm": {
+      "unidades": [
+        64,
+        32
+      ],
+      "dropout": 0.2,
+      "lr": 0.001
+    },
+    "gru": {
+      "unidades": [
+        64,
+        32
+      ],
+      "dropout": 0.2,
+      "lr": 0.001
+    },
+    "cnn1d": {
+      "filtros": [
+        32,
+        64,
+        128
+      ],
+      "kernel": 3,
+      "weight_decay": 0.0001,
+      "lr": 0.001
+    },
+    "autoencoder": {
+      "capas": [
+        32,
+        16,
+        8
+      ],
+      "l2": 0.0,
+      "lr": 0.001
+    },
+    "transformer": {
+      "bloques": 2,
+      "cabezas": 4,
+      "d_model": 64,
+      "ff": 128,
+      "dropout": 0.1,
+      "lr": 0.0005,
+      "weight_decay": 0.0001
+    },
+    "cnn_lstm_gru": {
+      "filtros": 64,
+      "kernel": 3,
+      "unidades_lstm": 64,
+      "unidades_gru": 32,
+      "dropout": 0.2,
+      "lr": 0.001
+    }
   },
   "inicial_nota": "weight_decay 1e-4 (G3, G5) NO figura en el Cuadro 6 (dice 'decaimiento de pesos' sin valor): valor fijado por el equipo, a declarar. l2 = 0 en el autoencoder (sin regularizacion en la configuracion inicial).",
   "espacio": {
-    "lstm": {"unidades": [[64, 32], [32, 16], [128, 64]], "dropout": [0.1, 0.2, 0.3], "lr": [0.0005, 0.001, 0.002]},
-    "gru": {"unidades": [[64, 32], [32, 16], [128, 64]], "dropout": [0.1, 0.2, 0.3], "lr": [0.0005, 0.001, 0.002]},
-    "cnn1d": {"filtros": [[32, 64, 128], [16, 32, 64], [64, 128, 256]], "kernel": [3, 5], "weight_decay": [0.0, 0.0001, 0.001], "lr": [0.0005, 0.001, 0.002]},
-    "autoencoder": {"capas": [[32, 16, 8], [64, 32, 16], [32, 16, 4]], "l2": [0.0, 0.00001, 0.0001], "lr": [0.0005, 0.001, 0.002]},
-    "transformer": {"bloques": [1, 2, 3], "cabezas": [4], "d_model": [32, 64], "ff": [64, 128], "dropout": [0.1, 0.2], "lr": [0.0003, 0.0005, 0.001], "weight_decay": [0.0001, 0.001]},
-    "cnn_lstm_gru": {"filtros": [32, 64], "kernel": [3, 5], "unidades_lstm": [32, 64], "unidades_gru": [16, 32], "dropout": [0.1, 0.2, 0.3], "lr": [0.0005, 0.001, 0.002]}
+    "lstm": {
+      "unidades": [
+        [
+          64,
+          32
+        ],
+        [
+          32,
+          16
+        ],
+        [
+          128,
+          64
+        ]
+      ],
+      "dropout": [
+        0.1,
+        0.2,
+        0.3
+      ],
+      "lr": [
+        0.0005,
+        0.001,
+        0.002
+      ]
+    },
+    "gru": {
+      "unidades": [
+        [
+          64,
+          32
+        ],
+        [
+          32,
+          16
+        ],
+        [
+          128,
+          64
+        ]
+      ],
+      "dropout": [
+        0.1,
+        0.2,
+        0.3
+      ],
+      "lr": [
+        0.0005,
+        0.001,
+        0.002
+      ]
+    },
+    "cnn1d": {
+      "filtros": [
+        [
+          32,
+          64,
+          128
+        ],
+        [
+          16,
+          32,
+          64
+        ],
+        [
+          64,
+          128,
+          256
+        ]
+      ],
+      "kernel": [
+        3,
+        5
+      ],
+      "weight_decay": [
+        0.0,
+        0.0001,
+        0.001
+      ],
+      "lr": [
+        0.0005,
+        0.001,
+        0.002
+      ]
+    },
+    "autoencoder": {
+      "capas": [
+        [
+          32,
+          16,
+          8
+        ],
+        [
+          64,
+          32,
+          16
+        ],
+        [
+          32,
+          16,
+          4
+        ]
+      ],
+      "l2": [
+        0.0,
+        1e-05,
+        0.0001
+      ],
+      "lr": [
+        0.0005,
+        0.001,
+        0.002
+      ]
+    },
+    "transformer": {
+      "bloques": [
+        1,
+        2,
+        3
+      ],
+      "cabezas": [
+        4
+      ],
+      "d_model": [
+        32,
+        64
+      ],
+      "ff": [
+        64,
+        128
+      ],
+      "dropout": [
+        0.1,
+        0.2
+      ],
+      "lr": [
+        0.0003,
+        0.0005,
+        0.001
+      ],
+      "weight_decay": [
+        0.0001,
+        0.001
+      ]
+    },
+    "cnn_lstm_gru": {
+      "filtros": [
+        32,
+        64
+      ],
+      "kernel": [
+        3,
+        5
+      ],
+      "unidades_lstm": [
+        32,
+        64
+      ],
+      "unidades_gru": [
+        16,
+        32
+      ],
+      "dropout": [
+        0.1,
+        0.2,
+        0.3
+      ],
+      "lr": [
+        0.0005,
+        0.001,
+        0.002
+      ]
+    }
   },
   "espacio_nota": "La configuracion inicial del Cuadro 6 se evalua siempre como configuracion 0; las otras 11 se muestrean (semilla fija) del espacio. Rangos propuestos como vecindad de la inicial; el PPI solo fija el presupuesto (12) y que los rangos se registran en config."
 }

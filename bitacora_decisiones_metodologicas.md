@@ -248,7 +248,7 @@ G0–G7 importarán directamente.
 ---
 
 ## Decisión 15 — H1 bajo el Esquema B multicanal y ponderación de clases (fijada antes de entrenar las redes)
-**Semana 8 (26 oct. – 1 nov. 2026) — PROPUESTA, vigente al ser aprobada por el equipo**
+**Semana 8 (26 oct. – 1 nov. 2026) — APROBADA el 3 de noviembre de 2026 (ratificacion del equipo; asistentes y aviso al asesor en el acta de esa reunion)**
 
 **Contexto:** la inyección del Esquema B altera flujo, ocupación y velocidad con multiplicadores fijos (Decisiones 10 y 12), mientras G0 opera solo sobre flujo. Por instantes, el 74.7 % de las anomalías son colectivas, 14.6 % puntuales y 10.7 % contextuales.
 
@@ -274,7 +274,7 @@ G0–G7 importarán directamente.
 **Limitación:** el análisis por tipo no elimina la firma multicanal; solo la hace visible.
 
 ## Decisión 16 — Reducción declarada de la búsqueda de hiperparámetros (§2.7.1)
-**Semana 8 (26 oct. – 1 nov. 2026) — PROPUESTA, vigente al ser aprobada por el equipo**
+**Semana 8 (26 oct. – 1 nov. 2026) — APROBADA el 3 de noviembre de 2026 (ratificacion del equipo; asistentes y aviso al asesor en el acta de esa reunion)**
 
 **Contexto (medición del 27 oct., `results/eda/cronometro_epoca_cpu-windows.json`):** pliegue 3 del Esquema B = 2 963 253 ventanas de entrenamiento = 46 301 pasos por época con lote 64. En CPU con TensorFlow 2.16.2 (sin GPU), con un LSTM de medición (no es la configuración del Cuadro 6): 5.5–6.4 ms por paso, 4.3–5.0 min por época. El diseño literal del §2.7.1 son 12 configuraciones × 3 pliegues × 3 semillas × 6 arquitecturas × 2 esquemas = **1 296 entrenamientos** más 36 reentrenamientos finales; con 30 épocas por entrenamiento, 77 a 89 días de cómputo continuo para la búsqueda.
 
@@ -295,8 +295,14 @@ G0–G7 importarán directamente.
 
 **Limitaciones declaradas:** con 1 semilla, la selección de configuración lleva ruido de semilla; con submuestreo, la selección usa menos datos que el entrenamiento final; las ventanas consecutivas comparten 11 de 12 pasos, lo que reduce, pero no elimina, la pérdida de información.
 
+## Fe de erratas de la Decisión 16 (registrada el 3 de noviembre de 2026; el texto original se conserva)
+**Descubierta el 2 nov. 2026 al medir con `fit()`; registrada al ratificar el equipo.**
+- La Decisión 16 dice «unas 51 horas por arquitectura y esquema». Esa cifra corresponde al **total de las 12 combinaciones** (6 arquitecturas × 2 esquemas): el plan literal de 77 a 89 días dividido por 36 (1 semilla en vez de 3, 10 épocas en vez de 30, 1 de cada 4 ventanas) da 51 a 59 h.
+- Los extras que menciona (reentrenamientos finales ~102 h, ablación ~14 h, pesos de clase ~34 h) se calcularon con 30 épocas; el reentrenamiento final no pasa de 10.
+- Presupuesto vigente (`semana9_cronometro_fit.py` y `semana9_presupuesto.py`, CPU Windows, pliegue 3, Esquema B, lote 64): unas **185 h, 7.7 días continuos**, sin validación por época, puntuación final ni G7. Ver `results/eda/presupuesto_computo.md`.
+
 ## Decisión 17 — Especificación de arquitecturas (Cuadro 6) y espacio de búsqueda
-**Semana 8 (26 oct. – 1 nov. 2026) — PROPUESTA, vigente al ser aprobada por el equipo**
+**Semana 8 (26 oct. – 1 nov. 2026) — APROBADA el 3 de noviembre de 2026 (ratificacion del equipo; asistentes y aviso al asesor en el acta de esa reunion)**
 
 **Contexto:** el Cuadro 6 del PPI fija la configuración inicial de G1–G6 pero no todos los detalles de implementación, y el PPI exige registrar los rangos de la búsqueda en archivos de configuración sin enumerarlos. *(La especificación se tomó de la versión del PPI del 1 de septiembre; confirmar que no cambió.)*
 
@@ -307,3 +313,29 @@ G0–G7 importarán directamente.
 4. G4 usa como score el error cuadrático medio de reconstrucción y se entrena solo con ventanas de etiqueta 0; el percentil del umbral que menciona el PPI solo afecta a F1 y FPR, no a PR-AUC.
 
 **Limitación:** los rangos son una propuesta del equipo; el PPI solo exige que queden registrados antes de la ejecución.
+
+## Decisión 18 — Contraste primario de H1 y reglas estadísticas
+**Semana 9 (2–8 nov. 2026) — APROBADA el 3 de noviembre de 2026 (ratificacion del equipo; asistentes y aviso al asesor en el acta de esa reunion)**
+
+**Contexto:** el PPI (§1.6, §2.9, `config_final.json`) contrasta H1 con Friedman y Holm sobre los 873 bloques de validación; el short paper lo evaluaba sobre la prueba. Se fija antes de abrir la prueba final y antes de ver resultados de las redes (a la fecha no existe ninguna corrida de búsqueda).
+
+**Decisión:**
+1. **Conjunto de H1.** El contraste confirmatorio se hace sobre la **prueba final (291 bloques sensor), en una sola pasada**. Friedman, Holm contra G0 y Nemenyi sobre los 873 bloques de validación se reportan completos como análisis secundario. Razón: las configuraciones se eligen en la validación y su último bloque entra en el reentrenamiento final; la prueba es el único conjunto que ninguna decisión toca. Es una **desviación explícita del PPI** (§2.7.1, último párrafo) y se comunica al asesor antes de abrir la prueba.
+2. **Margen.** El contraste primario no usa margen (δ = 0), como la H1 del PPI. Se reporta como criterio secundario de relevancia práctica si la diferencia media de PR-AUC frente a G0 supera 0.05.
+3. **Prueba y semillas.** Wilcoxon de rangos con signo, alternativa unilateral de mejora, con Holm frente a G0 (α = 0.05). Familia: las comparaciones de G1–G6 (y G7 si entra) frente a G0 en el Esquema B, 6 comparaciones (7 con G7). Unidad pareada: el bloque sensor de la prueba (291). Las tres semillas se resumen por la **media** dentro de cada bloque; se conservan los resultados por semilla. Los bloques no son independientes (sensores vecinos, misma ventana temporal); se declara al reportar.
+4. **Latencia (H2).** El criterio de ≤ 10 ms se decide con la **mediana**, sobre **una ventana (batch 1)**; se reportan p95 e IC 95 %. La medición principal usa el modelo **compilado** (`tf.function`); el modo eager se reporta como secundario. Se registran equipo, entorno, versiones, calentamiento (≥ 100) y repeticiones (≥ 1 000). Los fallos de compilación se registran sin excluir arquitecturas. G7 se mide en su propio framework y se declara como factor de confusión.
+5. **Umbral operativo.** Se mantiene como en el §2.7.1 (paso 4): sobre el último bloque de validación del pliegue 3, sin usar la prueba. Como ese bloque forma parte del reentrenamiento del 80 %, el umbral puede ser optimista; afecta solo a F1 y FPR, no al PR-AUC primario. Si algún umbral llegara a usar información de la prueba, la declaración de limitación no basta y se revisa el carácter confirmatorio del análisis.
+6. **H3 bajo el Esquema A.** Además del análisis principal, se reporta τ de Kendall y ρ de Spearman con PR-AUC **agregado por pliegue** (función `pr_auc_agregado`), como sensibilidad.
+7. **Conteo de corridas.** El alcance mínimo es de **132 corridas** (108 de G1–G6, 6 evaluaciones de G0 y 18 de G7; 126 si G7 es determinista), como derivan la §3.1 y la nota de la Figura 2 del PPI; el 144 de la Figura 2 es una cifra anterior. Con la reducción de la Decisión 16 se ejecutan: 432 entrenamientos de búsqueda (6 × 2 × 3 pliegues × 12 configuraciones, 1 semilla), 36 reentrenamientos finales (6 × 2 × 3 semillas), las 6 evaluaciones de G0 y lo que quede de G7. En la validación, cada configuración tiene **una** semilla, no tres como dice el paso 1 del §2.7.1.
+8. **G7.** Smoke-test en `venv_g7` con un límite de un día laborable; si no produce puntuaciones válidas sobre las ventanas en ese plazo, se activa la contingencia de 7 condiciones del §2.6.1 y se documenta el intento.
+
+**Acciones derivadas:** corregir el PPI (§1.6, §2.9, Figura 2) y `config_final.json` en lo que cambian los puntos 1 y 7; poner el short paper de acuerdo; registrar la fecha del aviso al asesor.
+
+## Decisión 19 — Entorno de entrenamiento y presupuesto
+**Semana 9 (2–8 nov. 2026) — APROBADA el 3 de noviembre de 2026 (ratificacion del equipo; asistentes y aviso al asesor en el acta de esa reunion)**
+
+1. **Entorno.** El entrenamiento y la latencia se hacen en **CPU, Windows**, con `requirements-lock.txt` (TensorFlow 2.16.2), lote 64 y las mismas semillas en todas las máquinas. La GPU bajo WSL2 no se usa para resultados (fue más lenta que la CPU con estos modelos). Los tiempos de entrenamiento (VD6) solo se comparan entre arquitecturas si se midieron en la misma máquina. `configs/hardware.json` actualizado el 2 nov. 2026.
+2. **Presupuesto.** Ver la fe de erratas de la Decisión 16: unas 185 h (7.7 días continuos) con las seis arquitecturas medidas; costos por paso con `fit()`: autoencoder 2.55 ms, CNN-1D 4.43, LSTM 9.95, CNN-LSTM-GRU 10.68, GRU 12.85, Transformer 19.55. Para planificar se toma el doble (≈ 370 h) y se reparte la búsqueda entre las tres máquinas.
+3. **Reducción de la búsqueda.** Se mantiene tal como está escrita (Decisión 16). Solo información de **tiempo** (costo medido de la validación por época en la primera corrida) puede motivar relajarla, nunca información de rendimiento; si se relaja, se aplica a **todas** las arquitecturas por igual y se decide antes de ver resultados de las redes.
+4. **Registro del arnés.** `semana7_busqueda.py` guarda además `mejor_epoca` (época de la mejor validación) en cada entrenamiento, necesaria para la regla de épocas del reentrenamiento final de la Decisión 16. Es solo registro: no cambia el entrenamiento, los hiperparámetros ni las semillas.
+5. **Confirmación contra el §2.7.1.** La métrica de selección (media sobre los 3 pliegues del PR-AUC por bloque de validación) es coherente con los pasos 1 y 2; se declaran dos matices: el PPI promedia sobre 3 semillas y la búsqueda usa 1, y el PPI no precisa si el PR-AUC de un pliegue es el promedio por bloque o el agregado (se usa el promedio por bloque).

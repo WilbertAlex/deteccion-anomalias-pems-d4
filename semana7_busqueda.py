@@ -93,9 +93,11 @@ def entrenar_uno(arq, cfg, esquema, pliegue, semilla, bus, paso_val):
     t0 = time.perf_counter()
     h = m.fit(dtr, validation_data=dva, epochs=bus["epocas_max_busqueda"], callbacks=cb, verbose=0)
     seg = time.perf_counter() - t0
+    hist = h.history[mon]  # metrica de parada temprana por epoca (val_pr_auc o val_loss)
+    mejor = int(np.argmax(hist) if modo == "max" else np.argmin(hist)) + 1  # epoca (1-indexada) de la mejor validacion
     M, a, b = puntuar(m, arq, f, "val", paso_t=paso_val)
     v = pr_auc_por_bloque(M, a, b, f)
-    return {"segundos": seg, "epocas": len(h.history["loss"]), "ventanas_train": int(ntr),
+    return {"segundos": seg, "epocas": len(h.history["loss"]), "mejor_epoca": mejor, "ventanas_train": int(ntr),
             "pr_auc_media_bloques": float(np.mean(v)) if v else float("nan"), "n_bloques_evaluables": len(v)}
 
 

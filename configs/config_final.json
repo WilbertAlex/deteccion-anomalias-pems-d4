@@ -1,5 +1,5 @@
 {
-  "estado": "borrador_pre_gate_semana_7",
+  "estado": "reglas aprobadas el 2026-11-03 (Decisiones 15 a 19); el sellado queda en fecha_sellado y sellado",
   "cadena_seleccion": {
     "seleccion_config_por_pliegue": "12 configs por busqueda aleatoria acotada, PR-AUC medio sobre 3 semillas",
     "config_ganadora": "argmax_c PR-AUC(c) promedio sobre 3 pliegues",
@@ -8,35 +8,105 @@
     "umbral_recall_090": "mismo bloque, recall objetivo 0.90",
     "evaluacion_final": "una sola pasada sobre 20% cronologico reservado"
   },
-  "contraste_principal": {
-    "prueba": "Friedman",
-    "bloques": "sensor_x_pliegue",
-    "n_bloques": 873,
-    "conjunto": "validacion",
-    "post_hoc": "Holm frente a G0",
-    "justificacion": "Mayor poder estadistico; pliegues permiten estimar varianza entre particiones"
-  },
   "analisis_sensibilidad_friedman": {
     "conjunto": "pliegue_3",
     "n_bloques": 291,
     "uso": "Confirmacion de robustez ante dependencia entre pliegues anidados"
   },
-  "analisis_secundario": {
-    "conjunto": "prueba",
-    "n_bloques": 291,
-    "bloques": "sensor",
-    "uso": "Confirmacion sobre 20% final, reportado como robustez"
-  },
-  "batch_latencia": {
-    "principal": 291,
-    "hipotetico_despliegue": 307
-  },
   "normalizacion_final": {
-    "rango_pasos": [0, 13593],
+    "rango_pasos": [
+      0,
+      13593
+    ],
     "referencia": "configs/normalizacion_zscore.json entrada 'final'"
   },
   "semilla_inyeccion_B": 42,
   "semillas_modelo": "3 (ampliable a 5)",
   "referencia_protocolo": "PPI 2.7.1, 2.9",
-  "fecha_sellado_gate_semana_7": null
+  "fecha_sellado_gate_semana_7": null,
+  "version_anterior_borrador": {
+    "nota": "Bloques del borrador previo al gate, reemplazados por las Decisiones 18 y 19. Se conservan por trazabilidad.",
+    "contraste_principal": {
+      "prueba": "Friedman",
+      "bloques": "sensor_x_pliegue",
+      "n_bloques": 873,
+      "conjunto": "validacion",
+      "post_hoc": "Holm frente a G0",
+      "justificacion": "Mayor poder estadistico; pliegues permiten estimar varianza entre particiones"
+    },
+    "analisis_secundario": {
+      "conjunto": "prueba",
+      "n_bloques": 291,
+      "bloques": "sensor",
+      "uso": "Confirmacion sobre 20% final, reportado como robustez"
+    },
+    "batch_latencia": {
+      "principal": 291,
+      "hipotetico_despliegue": 307
+    }
+  },
+  "contraste_principal": {
+    "prueba": "Wilcoxon de rangos con signo, pareado, alternativa unilateral de mejora",
+    "bloques": "sensor",
+    "n_bloques": 291,
+    "conjunto": "prueba",
+    "post_hoc": "Holm frente a G0",
+    "familia": "G1-G6 (y G7 si entra) frente a G0 en el Esquema B: 6 comparaciones (7 con G7)",
+    "alfa": 0.05,
+    "margen_delta": 0.0,
+    "agregacion_semillas": "media por bloque; se conservan los resultados por semilla",
+    "evaluacion": "una sola pasada, con las reglas selladas antes de abrir la prueba",
+    "decision": "Decision 18, puntos 1 a 3 (desviacion explicita del PPI 1.6 y 2.9)"
+  },
+  "relevancia_practica": {
+    "delta": 0.05,
+    "uso": "criterio secundario reportado; no sustituye el contraste principal",
+    "decision": "Decision 18, punto 2"
+  },
+  "analisis_secundario_validacion": {
+    "prueba": "Friedman",
+    "bloques": "sensor_x_pliegue",
+    "n_bloques": 873,
+    "conjunto": "validacion",
+    "post_hoc": "Holm frente a G0; Nemenyi exploratorio",
+    "uso": "analisis secundario reportado completo; una semilla por configuracion (Decision 16)"
+  },
+  "latencia": {
+    "criterio_H2": "mediana <= 10 ms por ventana (batch 1)",
+    "modo_principal": "compilado (tf.function)",
+    "modo_secundario": "eager",
+    "batches": [
+      1,
+      291,
+      307
+    ],
+    "calentamiento": 100,
+    "medidas": 1000,
+    "reporta": [
+      "mediana",
+      "p95",
+      "IC 95 %"
+    ],
+    "decision": "Decision 18, punto 4"
+  },
+  "h3_complementario": {
+    "pr_auc_agregado_por_pliegue": true,
+    "coeficientes": [
+      "tau de Kendall",
+      "rho de Spearman"
+    ],
+    "decision": "Decision 18, punto 6"
+  },
+  "semillas_busqueda": 1,
+  "conteo_corridas": {
+    "alcance_minimo_PPI": 132,
+    "si_G7_determinista": 126,
+    "ejecutado_con_reduccion_D16": {
+      "busqueda": 432,
+      "reentrenamientos_finales": 36,
+      "g0_evaluaciones": 6,
+      "g7": "segun smoke-test"
+    },
+    "decision": "Decision 18, punto 7"
+  }
 }

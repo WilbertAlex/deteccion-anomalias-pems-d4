@@ -1,5 +1,5 @@
 {
-  "estado": "PROPUESTA - pendiente de aprobacion del equipo y de declararse en el PPI 2.7.1 antes de ver resultados de las redes",
+  "estado": "APROBADA el 2026-11-03 (Decisiones 16 y 19); la metrica de seleccion se confirmo contra el 2.7.1 (ver Decision 19, punto 5)",
   "motivo": "Cronometro de epoca (semana 6): busqueda completa = 1 296 entrenamientos, 77-89 dias de computo continuo en CPU (LSTM de medicion, 30 epocas).",
   "semillas_busqueda": [
     42
@@ -16,7 +16,7 @@
   "n_configuraciones": 12,
   "semilla_muestreo": 2026,
   "criterio_seleccion": "media sobre los 3 pliegues de la media de PR-AUC por bloque (sensor) en validacion, solo bloques con ambas clases",
-  "criterio_nota": "PROPUESTA: confirmar contra el texto del 2.7.1 del PPI",
+  "criterio_nota": "Confirmado contra el texto del 2.7.1 el 2026-11-03 (Decision 19, punto 5): media sobre 3 pliegues del PR-AUC por bloque; 1 semilla en la busqueda",
   "reentrenamiento_final": "configuracion ganadora, todas las ventanas (paso_t=1), 3 semillas, bloque 80 %",
   "seleccion_validacion": "todas las ventanas de validacion de cada pliegue (paso_t=1); el submuestreo solo vale para entrenar y para la parada temprana de la busqueda",
   "epocas_reentrenamiento_final": "mediana de las epocas hasta la mejor validacion de la ganadora en sus 3 pliegues de busqueda; sin parada temprana en el bloque 80 %",
