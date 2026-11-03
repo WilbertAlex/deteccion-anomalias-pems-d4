@@ -1,5 +1,5 @@
 {
-  "estado": "reglas aprobadas el 2026-11-03 (Decisiones 15 a 19); el sellado queda en fecha_sellado y sellado",
+  "estado": "SELLADO el 2026-11-03 (el gate de la semana 7 se traslado; ver Anexo C del PPI)",
   "cadena_seleccion": {
     "seleccion_config_por_pliegue": "12 configs por busqueda aleatoria acotada, PR-AUC medio sobre 3 semillas",
     "config_ganadora": "argmax_c PR-AUC(c) promedio sobre 3 pliegues",
@@ -23,7 +23,7 @@
   "semilla_inyeccion_B": 42,
   "semillas_modelo": "3 (ampliable a 5)",
   "referencia_protocolo": "PPI 2.7.1, 2.9",
-  "fecha_sellado_gate_semana_7": null,
+  "fecha_sellado_gate_semana_7": "2026-11-03",
   "version_anterior_borrador": {
     "nota": "Bloques del borrador previo al gate, reemplazados por las Decisiones 18 y 19. Se conservan por trazabilidad.",
     "contraste_principal": {
@@ -108,5 +108,22 @@
       "g7": "segun smoke-test"
     },
     "decision": "Decision 18, punto 7"
+  },
+  "fecha_sellado": "2026-11-03",
+  "sellado": {
+    "aprobado_por": "Equipo PPI Grupo 4 (ratificación del 3 de noviembre de 2026; asistentes y aviso al asesor en el acta)",
+    "decisiones": [
+      "15",
+      "16",
+      "17",
+      "18",
+      "19"
+    ],
+    "sha256": {
+      "configs/config_busqueda.json": "2ee72a14a67e3435fc28f93b298186f8b3e5ce8dd4fc8c908e5360d5ba41615d",
+      "configs/config_modelos.json": "e9c77fc1baa957e4927134ca2e316ea992c0121974dc4ad7fcb74ede038495c5",
+      "bitacora_decisiones_metodologicas.md": "4fdd51c5bc02c762e9b01bad3110a5417e226dd95b043e7679ce154db85ff1b6"
+    },
+    "nota_hash": "SHA-256 con saltos de linea normalizados a LF. config_final.json no se incluye en el hash."
   }
 }
