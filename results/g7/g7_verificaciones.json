@@ -1,0 +1,76 @@
+{
+ "V1_sensores": {
+  "forma": [
+   16992,
+   291,
+   3
+  ],
+  "retenidos": 291,
+  "unicos": 291,
+  "ok": true
+ },
+ "V2_particion": {
+  "limites": [
+   0,
+   3398,
+   6796,
+   10194,
+   13593
+  ],
+  "prueba": [
+   13593,
+   16992
+  ],
+  "ventanas_train_p3": 2963253,
+  "ok": true
+ },
+ "V3_medias_flujo": {
+  "pliegues": [
+   209.97,
+   210.4,
+   211.83
+  ],
+  "esperado": [
+   209.97,
+   210.4,
+   211.83
+  ],
+  "ok": true
+ },
+ "V4_esquemaA": {
+  "valores": [
+   -1,
+   0,
+   1
+  ],
+  "anomalos": 4873,
+  "validos": 4860864,
+  "ok": true
+ },
+ "V5_bloques_A": {
+  "con_ambas_clases": 256,
+  "total": 873,
+  "ok": true
+ },
+ "V6_esquemaB": {
+  "pliegue1": {
+   "prev_train": 3.062,
+   "prev_val": 3.063,
+   "bloques_val": 291,
+   "instantes_alterados": 60551
+  },
+  "pliegue2": {
+   "prev_train": 3.031,
+   "prev_val": 3.058,
+   "bloques_val": 291,
+   "instantes_alterados": 90136
+  },
+  "pliegue3": {
+   "prev_train": 3.021,
+   "prev_val": 3.057,
+   "bloques_val": 291,
+   "instantes_alterados": 119794
+  },
+  "ok": true
+ }
+}

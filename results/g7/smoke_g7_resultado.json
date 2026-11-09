@@ -1,0 +1,40 @@
+{
+ "torch": "2.2.2+cpu",
+ "numpy": "1.23.3",
+ "config_publicada": {
+  "seq_len": 24,
+  "y_len": 1,
+  "embedding_size": 64,
+  "num_layers": 2,
+  "dropout": 0.2,
+  "lr": 0.01,
+  "batch_size": 64,
+  "epochs": 20,
+  "rho": 0.25,
+  "train_size": 0.8
+ },
+ "A_equivalencia": "ok",
+ "B_entrenamiento": {
+  "segundos": 12.0,
+  "parametros": 240296,
+  "perdida_train": [
+   20431.796687075966,
+   3626.333794844778,
+   1718.7747915167558
+  ],
+  "perdida_val": [
+   15477.987060546875,
+   14635.17958984375,
+   14632.4416015625
+  ]
+ },
+ "D_pr_auc": {
+  "media": 1.0,
+  "azar": 0.02843959731543624,
+  "evaluables": 20
+ },
+ "E_costo": {
+  "segundos_epoca": 27.3,
+  "minutos_20_epocas": 9.1
+ }
+}
