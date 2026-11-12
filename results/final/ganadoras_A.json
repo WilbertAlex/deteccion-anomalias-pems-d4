@@ -1,0 +1,54 @@
+{
+  "lstm": {
+    "dropout": 0.1,
+    "lr": 0.0005,
+    "unidades": [
+      32,
+      16
+    ]
+  },
+  "gru": {
+    "dropout": 0.1,
+    "lr": 0.001,
+    "unidades": [
+      32,
+      16
+    ]
+  },
+  "cnn1d": {
+    "filtros": [
+      16,
+      32,
+      64
+    ],
+    "kernel": 5,
+    "lr": 0.001,
+    "weight_decay": 0.0001
+  },
+  "autoencoder": {
+    "capas": [
+      32,
+      16,
+      8
+    ],
+    "l2": 0.0,
+    "lr": 0.0005
+  },
+  "transformer": {
+    "bloques": 2,
+    "cabezas": 4,
+    "d_model": 64,
+    "ff": 128,
+    "dropout": 0.1,
+    "lr": 0.0005,
+    "weight_decay": 0.0001
+  },
+  "cnn_lstm_gru": {
+    "dropout": 0.2,
+    "filtros": 32,
+    "kernel": 3,
+    "lr": 0.0005,
+    "unidades_gru": 32,
+    "unidades_lstm": 64
+  }
+}
