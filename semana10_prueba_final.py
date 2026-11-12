@@ -66,7 +66,19 @@ OUT = Path("results/prueba")
 OUT_ENSAYO = Path("results/prueba_ENSAYO")
 P = Path("data/processed")
 RECALL_OBJ = 0.90
+TIPOS = {"puntual": 1, "contextual": 2, "colectiva": 3}          # codigos de `tipos` en esquema_B_final.npz (inyeccion_anomalias.py)
 METRICAS = ["pr_auc", "roc_auc", "f1_f1", "fpr_f1", "recall_f1", "f1_r90", "fpr_r90", "recall_r90"]
+METRICAS_TIPO = [f"pr_auc_{t}" for t in TIPOS]                   # Decision 15, punto 1 (solo Esquema B)
+NPOS_TIPO = [f"n_pos_{t}" for t in TIPOS]
+_CACHE_TIPOS = {}
+
+
+def tipos_b():
+    """Tipo de anomalia inyectada (T, S) int8 del Esquema B: 0 normal, 1 puntual, 2 contextual, 3 colectiva."""
+    if "B" not in _CACHE_TIPOS:
+        with np.load(P / "esquema_B_final.npz") as z:
+            _CACHE_TIPOS["B"] = z["tipos"].copy()
+    return _CACHE_TIPOS["B"]
 
 
 def _j(p):
@@ -106,18 +118,31 @@ def umbrales(score, labels):
             "n_validos": int(len(y)), "n_positivos": int(y.sum())}
 
 
-def metricas_bloques(score, labels, thr_f1, thr_r90):
-    """Una fila por sensor (bloque). score y labels: (n_pasos, S). Un bloque es evaluable si tiene ambas clases."""
+def metricas_bloques(score, labels, thr_f1, thr_r90, tipos=None):
+    """Una fila por sensor (bloque). score y labels: (n_pasos, S). Un bloque es evaluable si tiene ambas clases.
+    Con `tipos` (Esquema B) agrega el PR-AUC por tipo: positivos = instantes de ese tipo, negativos = todos los
+    instantes normales (se excluyen los positivos de los otros tipos), solo si el bloque tiene ambas clases."""
     filas = []
     for s in range(score.shape[1]):
         y, sc = labels[:, s], score[:, s]
         ok = (y != -1) & ~np.isnan(sc)
         y, sc = y[ok], sc[ok]
+        tp_ = tipos[:, s][ok] if tipos is not None else None
         n, npos = int(len(y)), int((y == 1).sum())
         ev = n > 0 and 0 < npos < n
         fila = {"sensor_idx": s, "n_validos": n, "n_positivos": npos, "evaluable": int(ev)}
-        for c in METRICAS:
+        for c in METRICAS + METRICAS_TIPO:
             fila[c] = np.nan
+        for c in NPOS_TIPO:
+            fila[c] = np.nan
+        if tipos is not None:
+            neg = y == 0
+            for nombre, k in TIPOS.items():
+                pos = tp_ == k
+                fila[f"n_pos_{nombre}"] = int(pos.sum())
+                if pos.any() and neg.any():
+                    m = pos | neg
+                    fila[f"pr_auc_{nombre}"] = float(average_precision_score(pos[m], sc[m]))
         if ev:
             fila["pr_auc"] = float(average_precision_score(y, sc))
             fila["roc_auc"] = float(roc_auc_score(y, sc))
@@ -266,7 +291,10 @@ def evaluar(esq, cond, arq, sem, split, umbr, fuente):
         M, L = puntuar_modelo(arq, esq, sem, split, fuente)
         clave = f"{cond}|{esq}|{sem}"
     u = umbr[clave]
-    df = metricas_bloques(M, L, u["umbral_f1"], u["umbral_recall90"])
+    T = tipos_b()[a:b] if esq == "B" else None
+    if T is not None and not np.array_equal(T > 0, L == 1):
+        raise SystemExit(f"{clave}: `tipos` no coincide con las etiquetas del Esquema B en {split}; revisar esquema_B_final.npz")
+    df = metricas_bloques(M, L, u["umbral_f1"], u["umbral_recall90"], T)
     df.insert(0, "semilla", 0 if cond == "G0" else sem)
     df.insert(0, "esquema", esq)
     df.insert(0, "condicion", cond)
@@ -277,7 +305,8 @@ def compilar(destino, nombre_split, ensayo=False):
     parciales = sorted((destino / "parciales").glob("*.csv"))
     d = pd.concat([pd.read_csv(p) for p in parciales], ignore_index=True)
     d.to_csv(destino / "por_bloque_semilla.csv", index=False)
-    agg = {c: "mean" for c in METRICAS}
+    agg = {c: "mean" for c in METRICAS + METRICAS_TIPO}
+    agg.update({c: "first" for c in NPOS_TIPO})
     agg.update(n_validos="first", n_positivos="first", evaluable="first")
     g = d.groupby(["condicion", "esquema", "sensor_idx"], as_index=False).agg(agg)
     base = g[["condicion", "esquema"]].copy()
@@ -293,6 +322,8 @@ def compilar(destino, nombre_split, ensayo=False):
         resumen[f"{cond}|{esq}"] = {"n_bloques_evaluables": int(len(ev)), "n_bloques": int(len(x)),
                                     "pr_auc_media_por_semilla": {int(k): float(v) for k, v in por_sem.items()},
                                     **{f"{c}_media": float(ev[c].mean()) for c in METRICAS},
+                                    **{f"{c}_media": (None if ev[c].notna().sum() == 0 else float(ev[c].mean())) for c in METRICAS_TIPO},
+                                    **{f"n_bloques_{c[7:]}": int(ev[c].notna().sum()) for c in METRICAS_TIPO},
                                     "pr_auc_de_media_de_semillas_sd": float(ev.pr_auc.std(ddof=1))}
     salida = {"ensayo": bool(ensayo), "nota": ("ENSAYO sobre el bloque del umbral: NO son resultados" if ensayo else "prueba final"),
               "condiciones": resumen}
