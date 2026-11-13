@@ -1,0 +1,217 @@
+{
+  "parametros": {
+    "referencia": "G0",
+    "conjunto": "prueba",
+    "delta": 0.0,
+    "alternativa": "greater",
+    "alfa": 0.05,
+    "B_bootstrap": 1000,
+    "semilla": 42
+  },
+  "A": {
+    "bloques_totales": 0,
+    "bloques_evaluables_comunes": 0,
+    "condiciones": [],
+    "error": "referencia G0 ausente o sin bloques evaluables comunes"
+  },
+  "B": {
+    "bloques_totales": 291,
+    "bloques_evaluables_comunes": 291,
+    "condiciones": [
+      "G0",
+      "G1-abl",
+      "G2-abl",
+      "G3-abl",
+      "G5-abl",
+      "G6-abl"
+    ],
+    "friedman": {
+      "aplicable": true,
+      "N": 291,
+      "k": 6,
+      "chi2": 1132.4825724104076,
+      "p": 1.2346675416057292e-242,
+      "W_kendall": 0.7783385377391118,
+      "rangos_promedio": {
+        "G0": 6.0,
+        "G1-abl": 3.759450171821306,
+        "G2-abl": 4.635738831615121,
+        "G3-abl": 2.910652920962199,
+        "G5-abl": 2.1649484536082473,
+        "G6-abl": 1.529209621993127
+      }
+    },
+    "vs_referencia": [
+      {
+        "condicion": "G1-abl",
+        "n_bloques": 291,
+        "dif_media": 0.5339842570089356,
+        "dif_mediana": 0.5521456664646376,
+        "ic95_dif_media": [
+          0.5219570611801752,
+          0.5453062001241753
+        ],
+        "p": 9.024448002967204e-50,
+        "prop_bloques_mejor": 1.0,
+        "p_holm": 4.512224001483602e-49,
+        "rechaza_H0_holm": true
+      },
+      {
+        "condicion": "G2-abl",
+        "n_bloques": 291,
+        "dif_media": 0.49801518536917816,
+        "dif_mediana": 0.5237331897932551,
+        "ic95_dif_media": [
+          0.4832753735321624,
+          0.5117406155370241
+        ],
+        "p": 9.024448002967204e-50,
+        "prop_bloques_mejor": 1.0,
+        "p_holm": 4.512224001483602e-49,
+        "rechaza_H0_holm": true
+      },
+      {
+        "condicion": "G3-abl",
+        "n_bloques": 291,
+        "dif_media": 0.5942098357673941,
+        "dif_mediana": 0.5959410028970914,
+        "ic95_dif_media": [
+          0.5845357872542202,
+          0.6029829120211796
+        ],
+        "p": 9.024448002967204e-50,
+        "prop_bloques_mejor": 1.0,
+        "p_holm": 4.512224001483602e-49,
+        "rechaza_H0_holm": true
+      },
+      {
+        "condicion": "G5-abl",
+        "n_bloques": 291,
+        "dif_media": 0.6025907859566875,
+        "dif_mediana": 0.6035404423982632,
+        "ic95_dif_media": [
+          0.5939679674407684,
+          0.611452880793138
+        ],
+        "p": 9.024448002967204e-50,
+        "prop_bloques_mejor": 1.0,
+        "p_holm": 4.512224001483602e-49,
+        "rechaza_H0_holm": true
+      },
+      {
+        "condicion": "G6-abl",
+        "n_bloques": 291,
+        "dif_media": 0.6099459790526877,
+        "dif_mediana": 0.6096192367199176,
+        "ic95_dif_media": [
+          0.6011630041589603,
+          0.619473220229019
+        ],
+        "p": 9.024448002967204e-50,
+        "prop_bloques_mejor": 1.0,
+        "p_holm": 4.512224001483602e-49,
+        "rechaza_H0_holm": true
+      }
+    ],
+    "nemenyi_exploratorio": {
+      "aplicable": true,
+      "distancia_critica": 0.44197987409623635,
+      "pares": [
+        {
+          "a": "G0",
+          "b": "G1-abl",
+          "dif_rangos": 2.240549828178694,
+          "p": 0.0
+        },
+        {
+          "a": "G0",
+          "b": "G2-abl",
+          "dif_rangos": 1.3642611683848793,
+          "p": 0.0
+        },
+        {
+          "a": "G0",
+          "b": "G3-abl",
+          "dif_rangos": 3.089347079037801,
+          "p": 0.0
+        },
+        {
+          "a": "G0",
+          "b": "G5-abl",
+          "dif_rangos": 3.8350515463917527,
+          "p": 0.0
+        },
+        {
+          "a": "G0",
+          "b": "G6-abl",
+          "dif_rangos": 4.470790378006873,
+          "p": 0.0
+        },
+        {
+          "a": "G1-abl",
+          "b": "G2-abl",
+          "dif_rangos": 0.8762886597938149,
+          "p": 2.399651348738985e-07
+        },
+        {
+          "a": "G1-abl",
+          "b": "G3-abl",
+          "dif_rangos": 0.8487972508591066,
+          "p": 6.618097746491358e-07
+        },
+        {
+          "a": "G1-abl",
+          "b": "G5-abl",
+          "dif_rangos": 1.5945017182130585,
+          "p": 0.0
+        },
+        {
+          "a": "G1-abl",
+          "b": "G6-abl",
+          "dif_rangos": 2.2302405498281788,
+          "p": 0.0
+        },
+        {
+          "a": "G2-abl",
+          "b": "G3-abl",
+          "dif_rangos": 1.7250859106529215,
+          "p": 0.0
+        },
+        {
+          "a": "G2-abl",
+          "b": "G5-abl",
+          "dif_rangos": 2.4707903780068734,
+          "p": 0.0
+        },
+        {
+          "a": "G2-abl",
+          "b": "G6-abl",
+          "dif_rangos": 3.1065292096219936,
+          "p": 0.0
+        },
+        {
+          "a": "G3-abl",
+          "b": "G5-abl",
+          "dif_rangos": 0.7457044673539519,
+          "p": 2.25105589469754e-05
+        },
+        {
+          "a": "G3-abl",
+          "b": "G6-abl",
+          "dif_rangos": 1.3814432989690721,
+          "p": 0.0
+        },
+        {
+          "a": "G5-abl",
+          "b": "G6-abl",
+          "dif_rangos": 0.6357388316151202,
+          "p": 0.0005919946450031466
+        }
+      ]
+    }
+  },
+  "H3_estabilidad": {
+    "aplicable": false,
+    "motivo": "0 condiciones y 0 bloques comunes"
+  }
+}

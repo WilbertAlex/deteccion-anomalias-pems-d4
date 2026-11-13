@@ -1,0 +1,11 @@
+
+Hash                                                             Path                                                                                                                                
+----                                                             ----                                                                                                                                
+9616247971CAA240282D8CD822BEC1FFD700D32FE0F616EAC6C5078E7A61A649 cnn1d_B_s42_abl.weights.h5       
+A5AAA95546E70BFB55ADDD36B2924986648D67221027644D9DF13AE71E58CA53 cnn_lstm_gru_B_s42_abl.weights.h5
+524CD2F0E41162FF3B6CC7DD8A00FA7744A2321437A76FC3E609A8C8E0ABB9E5 gru_B_s42_abl.weights.h5         
+7CEDFE3949EACD4CBEFF1E07199C5FCA16D8A780536CA4A0F7A248622C832A8D lstm_B_s42_abl.weights.h5        
+8F3C0BC1B0918ED9E567317564197451A7FA085CF351DAD128C15D656A331445 transformer_B_s42_abl.weights.h5 
+
+
+
