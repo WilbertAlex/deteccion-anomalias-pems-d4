@@ -54,6 +54,12 @@ def _fp_orig(p):
 
 
 def ffpr(x):
+    import re as _re
+    s = _ffpr_orig(x)
+    return _re.sub(r"\$10\\!\\times\\!10\^\{(-?\d+)\}\$", lambda m: "$1\\!\\times\\!10^{%d}$" % (int(m.group(1)) + 1), s)
+
+
+def _ffpr_orig(x):
     if x is None or (isinstance(x, float) and np.isnan(x)):
         return "--"
     if 0 < x < 1e-3:
@@ -183,6 +189,10 @@ def tabla_tipo_semilla(pm, ps):
 
 
 def tabla_ablacion(pm, ruta):
+    return ""
+
+
+def _tabla_ablacion_vieja(pm, ruta):
     ab = pd.read_csv(ruta)
     ab = ab[ab.evaluable == 1]
     base = pm[(pm.esquema == "B") & (pm.evaluable == 1)]
