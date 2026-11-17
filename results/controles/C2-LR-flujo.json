@@ -1,0 +1,7 @@
+{
+ "cond": "C2-LR-flujo",
+ "paso_train": 6,
+ "ventanas": 658824,
+ "segundos": 3.482887399964966,
+ "semilla": 42
+}

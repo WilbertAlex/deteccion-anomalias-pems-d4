@@ -1,0 +1,7 @@
+{
+ "cond": "C3-GBM",
+ "paso_train": 200,
+ "ventanas": 19497,
+ "segundos": 2.628169900039211,
+ "semilla": 42
+}

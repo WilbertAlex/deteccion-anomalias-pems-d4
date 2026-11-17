@@ -1,0 +1,171 @@
+{
+  "parametros": {
+    "referencia": "G0",
+    "conjunto": "prueba",
+    "delta": 0.0,
+    "alternativa": "greater",
+    "alfa": 0.05,
+    "B_bootstrap": 1000,
+    "semilla": 42
+  },
+  "A": {
+    "bloques_totales": 0,
+    "bloques_evaluables_comunes": 0,
+    "condiciones": [],
+    "error": "referencia G0 ausente o sin bloques evaluables comunes"
+  },
+  "B": {
+    "bloques_totales": 291,
+    "bloques_evaluables_comunes": 291,
+    "condiciones": [
+      "C1-LR",
+      "C2-LR-flujo",
+      "C3-GBM",
+      "C4-GBM-flujo",
+      "G0"
+    ],
+    "friedman": {
+      "aplicable": true,
+      "N": 291,
+      "k": 5,
+      "chi2": 867.5271477663237,
+      "p": 1.807700849170799e-186,
+      "W_kendall": 0.7452982369126492,
+      "rangos_promedio": {
+        "C1-LR": 1.993127147766323,
+        "C2-LR-flujo": 4.353951890034364,
+        "C3-GBM": 2.1821305841924397,
+        "C4-GBM-flujo": 1.852233676975945,
+        "G0": 4.618556701030927
+      }
+    },
+    "vs_referencia": [
+      {
+        "condicion": "C1-LR",
+        "n_bloques": 291,
+        "dif_media": 0.4750135232845464,
+        "dif_mediana": 0.5046826871430927,
+        "ic95_dif_media": [
+          0.45662414083212755,
+          0.49341239511013746
+        ],
+        "p": 1.2303302865135228e-49,
+        "prop_bloques_mejor": 0.993127147766323,
+        "p_holm": 3.6097792011868815e-49,
+        "rechaza_H0_holm": true
+      },
+      {
+        "condicion": "C2-LR-flujo",
+        "n_bloques": 291,
+        "dif_media": 0.042751270230481885,
+        "dif_mediana": 0.04418974047504609,
+        "ic95_dif_media": [
+          0.028797183998953223,
+          0.05517562054443543
+        ],
+        "p": 7.230293149250025e-09,
+        "prop_bloques_mejor": 0.6323024054982818,
+        "p_holm": 7.230293149250025e-09,
+        "rechaza_H0_holm": true
+      },
+      {
+        "condicion": "C3-GBM",
+        "n_bloques": 291,
+        "dif_media": 0.44233548302937015,
+        "dif_mediana": 0.4528979157716789,
+        "ic95_dif_media": [
+          0.42772357399751787,
+          0.4572019881917295
+        ],
+        "p": 9.308704350385252e-50,
+        "prop_bloques_mejor": 0.993127147766323,
+        "p_holm": 3.6097792011868815e-49,
+        "rechaza_H0_holm": true
+      },
+      {
+        "condicion": "C4-GBM-flujo",
+        "n_bloques": 291,
+        "dif_media": 0.48317816185557516,
+        "dif_mediana": 0.4939328975186675,
+        "ic95_dif_media": [
+          0.47002612810707545,
+          0.49627841335872647
+        ],
+        "p": 9.024448002967204e-50,
+        "prop_bloques_mejor": 1.0,
+        "p_holm": 3.6097792011868815e-49,
+        "rechaza_H0_holm": true
+      }
+    ],
+    "nemenyi_exploratorio": {
+      "aplicable": true,
+      "distancia_critica": 0.35755837286586145,
+      "pares": [
+        {
+          "a": "C1-LR",
+          "b": "C2-LR-flujo",
+          "dif_rangos": 2.360824742268041,
+          "p": 1.1102230246251565e-16
+        },
+        {
+          "a": "C1-LR",
+          "b": "C3-GBM",
+          "dif_rangos": 0.1890034364261166,
+          "p": 0.6004432190219557
+        },
+        {
+          "a": "C1-LR",
+          "b": "C4-GBM-flujo",
+          "dif_rangos": 0.14089347079037795,
+          "p": 0.8195492204888465
+        },
+        {
+          "a": "C1-LR",
+          "b": "G0",
+          "dif_rangos": 2.6254295532646044,
+          "p": 1.1102230246251565e-16
+        },
+        {
+          "a": "C2-LR-flujo",
+          "b": "C3-GBM",
+          "dif_rangos": 2.1718213058419242,
+          "p": 1.1102230246251565e-16
+        },
+        {
+          "a": "C2-LR-flujo",
+          "b": "C4-GBM-flujo",
+          "dif_rangos": 2.501718213058419,
+          "p": 1.1102230246251565e-16
+        },
+        {
+          "a": "C2-LR-flujo",
+          "b": "G0",
+          "dif_rangos": 0.2646048109965635,
+          "p": 0.2569063019056146
+        },
+        {
+          "a": "C3-GBM",
+          "b": "C4-GBM-flujo",
+          "dif_rangos": 0.32989690721649456,
+          "p": 0.08689298081182217
+        },
+        {
+          "a": "C3-GBM",
+          "b": "G0",
+          "dif_rangos": 2.4364261168384878,
+          "p": 1.1102230246251565e-16
+        },
+        {
+          "a": "C4-GBM-flujo",
+          "b": "G0",
+          "dif_rangos": 2.7663230240549823,
+          "p": 1.1102230246251565e-16
+        }
+      ]
+    }
+  },
+  "H3_estabilidad": {
+    "aplicable": false,
+    "motivo": "0 condiciones y 0 bloques comunes"
+  }
+}
